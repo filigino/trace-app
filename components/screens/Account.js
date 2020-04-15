@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { Card, CheckBox, Icon, Input } from 'react-native-elements'
+import { CheckBox, Input } from 'react-native-elements'
 import * as SecureStore from 'expo-secure-store'
 
 class Account extends Component {
@@ -67,7 +67,7 @@ class Account extends Component {
                     onPress={() => this.setState({ remember: !this.state.remember })}
                     containerStyle={styles.formCheckbox} />
                 <TouchableOpacity
-                    style={{padding: 5, margin: 5, backgroundColor: '#ea5404'}}
+                    style={{padding: 5, margin: 5, backgroundColor: '#6b52ae'}}
                     onPress={() => this.handleLogin()}
                 >
                     <Text style={{color: 'white'}}>Login</Text>

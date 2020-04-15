@@ -26,7 +26,7 @@ class Locations extends React.Component {
                         <Text>{item.city}, {item.province}</Text>
                         <Text>{item.postal_code}</Text>
                         <TouchableOpacity
-                            style={{padding: 5, margin: 5, backgroundColor: '#ea5404'}}
+                            style={{padding: 5, margin: 5, backgroundColor: '#6b52ae'}}
                             onPress={() => Linking.openURL(item.url)}
                         >
                             <Text style={{color: 'white'}}>MAP</Text>

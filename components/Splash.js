@@ -1,5 +1,5 @@
 import React from 'react'
-import {Image, View} from 'react-native'
+import {Image, View, Text} from 'react-native'
 
 class Splash extends React.Component {
     componentDidMount() {
@@ -8,10 +8,10 @@ class Splash extends React.Component {
 
     render() {
         return (
-            <View style={[this.props.styles.screen, {backgroundColor: '#ea5404'}]}>
+            <View style={[this.props.styles.screen, {backgroundColor: '#6b52ae'}]}>
                 <Image
                     source={require('../assets/logo.png')}
-                    style={this.props.styles.image}
+                    style={{height: 200, resizeMode: 'contain'}}
                 />
             </View>
         )

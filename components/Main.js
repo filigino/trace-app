@@ -1,5 +1,5 @@
 import React from 'react'
-import {Image, StyleSheet} from 'react-native'
+import {Image, StyleSheet, Text} from 'react-native'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import {NavigationContainer} from '@react-navigation/native'
 import {createStackNavigator} from '@react-navigation/stack'
@@ -21,13 +21,11 @@ const HomeStackScreen = () => {
         <HomeStack.Navigator
             screenOptions={{
                 headerStyle: {
-                    backgroundColor: '#ea5404'
+                    backgroundColor: '#6b52ae'
                 },
+                headerTintColor: 'white',
                 headerTitle: 
-                    <Image
-                        source={require('../assets/logo.png')}
-                        style={styles.image}
-                    />
+                    <Text>Contact</Text>
             }}
         >
             <HomeStack.Screen name='Home' component={Home}
@@ -44,14 +42,11 @@ const MenuStackScreen = () => {
         <MenuStack.Navigator
             screenOptions={{
                 headerStyle: {
-                    backgroundColor: '#ea5404'
+                    backgroundColor: '#6b52ae'
                 },
                 headerTintColor: 'white',
                 headerTitle: 
-                    <Image
-                        source={require('../assets/logo.png')}
-                        style={styles.image}
-                    />
+                    <Text>Contact</Text>
             }}
             initialRouteName='Menu'
         >
@@ -75,13 +70,11 @@ const LocationsStackScreen = () => {
         <LocationsStack.Navigator
             screenOptions={{
                 headerStyle: {
-                    backgroundColor: '#ea5404'
+                    backgroundColor: '#6b52ae'
                 },
+                headerTintColor: 'white',
                 headerTitle: 
-                    <Image
-                        source={require('../assets/logo.png')}
-                        style={styles.image}
-                    />
+                    <Text>Contact</Text>
             }}
         >
             <LocationsStack.Screen name='Locations' component={Locations}
@@ -98,13 +91,11 @@ const AccountStackScreen = () => {
         <AccountStack.Navigator
             screenOptions={{
                 headerStyle: {
-                    backgroundColor: '#ea5404'
+                    backgroundColor: '#6b52ae'
                 },
+                headerTintColor: 'white',
                 headerTitle: 
-                    <Image
-                        source={require('../assets/logo.png')}
-                        style={styles.image}
-                    />
+                    <Text>Contact</Text>
             }}
         >
             <AccountStack.Screen name='Account' component={Account}
@@ -178,7 +169,7 @@ class Main extends React.Component {
                             }
                         })}
                         tabBarOptions={{
-                            activeTintColor: '#ea5404',
+                            activeTintColor: '#6b52ae',
                             inactiveTintColor: 'gray'
                         }}
                         initialRouteName='Home'
@@ -202,11 +193,6 @@ const styles = StyleSheet.create({
     },
     screenText: {
         color: 'black'
-    },
-    image: {
-        width: 50,
-        height: 70,
-        resizeMode: 'contain'
     }
 })
 
