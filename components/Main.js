@@ -12,7 +12,7 @@ import Locations from './screens/Locations'
 import Menu from './screens/Menu'
 import Splash from './Splash'
 import {connect} from 'react-redux'
-import {fetchDrinks, fetchFood, fetchLocations} from '../redux/ActionCreators'
+// import {fetchDrinks, fetchFood, fetchLocations} from '../redux/ActionCreators'
 
 const HomeStack = createStackNavigator()
 
@@ -108,9 +108,9 @@ const AccountStackScreen = () => {
 const Tab = createBottomTabNavigator()
 
 const mapDispatchToProps = (dispatch) => ({
-        fetchDrinks: () => dispatch(fetchDrinks()),
-        fetchFood: () => dispatch(fetchFood()),
-        fetchLocations: () => dispatch(fetchLocations())
+        // fetchDrinks: () => dispatch(fetchDrinks()),
+        // fetchFood: () => dispatch(fetchFood()),
+        // fetchLocations: () => dispatch(fetchLocations())
 })
 
 class Main extends React.Component {
@@ -121,11 +121,11 @@ class Main extends React.Component {
         }
     }
 
-    componentDidMount() {
-        this.props.fetchDrinks()
-        this.props.fetchFood()
-        this.props.fetchLocations()
-    }
+    // componentDidMount() {
+    //     this.props.fetchDrinks()
+    //     this.props.fetchFood()
+    //     this.props.fetchLocations()
+    // }
 
     hideSplash() {
         this.setState({showSplash: false})
