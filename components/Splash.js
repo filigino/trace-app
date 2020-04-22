@@ -8,7 +8,7 @@ class Splash extends React.Component {
 
     render() {
         return (
-            <View style={[this.props.styles.screen, {backgroundColor: '#6b52ae'}]}>
+            <View style={[this.props.styles.screen, {backgroundColor: 'rebeccapurple'}]}>
                 <Image
                     source={require('../assets/logo.png')}
                     style={{height: 200, resizeMode: 'contain'}}

@@ -1,191 +1,126 @@
 import React from 'react'
-import {Image, StyleSheet, Text} from 'react-native'
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
+import {StyleSheet} from 'react-native'
 import {NavigationContainer} from '@react-navigation/native'
-import {createStackNavigator} from '@react-navigation/stack'
-import {FontAwesome, Foundation, Ionicons, MaterialCommunityIcons} from '@expo/vector-icons'
-import Account from './screens/Account'
-import Drinks from './screens/Menu/Drinks'
-import Food from './screens/Menu/Food'
-import Home from './screens/Home'
-import Locations from './screens/Locations'
-import Menu from './screens/Menu'
-import Splash from './Splash'
-import {connect} from 'react-redux'
-// import {fetchDrinks, fetchFood, fetchLocations} from '../redux/ActionCreators'
+import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack'
+import BirthDate from './authentication/signup/BirthDate'
+import Confirm from './authentication/signup/Confirm'
+import Ethnicity from './authentication/signup/Ethnicity'
+import Login from './authentication/Login'
+import Sex from './authentication/signup/Sex'
+import UserInfo from './authentication/signup/UserInfo'
 
-const HomeStack = createStackNavigator()
-
-const HomeStackScreen = () => {
-    return (
-        <HomeStack.Navigator
-            screenOptions={{
-                headerStyle: {
-                    backgroundColor: '#6b52ae'
-                },
-                headerTintColor: 'white',
-                headerTitle: 
-                    <Text>Contact</Text>
-            }}
-        >
-            <HomeStack.Screen name='Home' component={Home}
-                initialParams={{styles: styles}}
-            />
-        </HomeStack.Navigator>
-    )
-}
-
-const MenuStack = createStackNavigator()
-
-const MenuStackScreen = () => {
-    return (
-        <MenuStack.Navigator
-            screenOptions={{
-                headerStyle: {
-                    backgroundColor: '#6b52ae'
-                },
-                headerTintColor: 'white',
-                headerTitle: 
-                    <Text>Contact</Text>
-            }}
-            initialRouteName='Menu'
-        >
-            <MenuStack.Screen name='Menu' component={Menu}
-                initialParams={{styles: styles}}
-            />
-            <MenuStack.Screen name='Drinks' component={Drinks}
-                initialParams={{styles: styles}}
-            />
-            <MenuStack.Screen name='Food' component={Food}
-                initialParams={{styles: styles}}
-            />
-        </MenuStack.Navigator>
-    )
-}
-
-const LocationsStack = createStackNavigator()
-
-const LocationsStackScreen = () => {
-    return (
-        <LocationsStack.Navigator
-            screenOptions={{
-                headerStyle: {
-                    backgroundColor: '#6b52ae'
-                },
-                headerTintColor: 'white',
-                headerTitle: 
-                    <Text>Contact</Text>
-            }}
-        >
-            <LocationsStack.Screen name='Locations' component={Locations}
-                initialParams={{styles: styles}}
-            />
-        </LocationsStack.Navigator>
-    )
-}
-
-const AccountStack = createStackNavigator()
-
-const AccountStackScreen = () => {
-    return (
-        <AccountStack.Navigator
-            screenOptions={{
-                headerStyle: {
-                    backgroundColor: '#6b52ae'
-                },
-                headerTintColor: 'white',
-                headerTitle: 
-                    <Text>Contact</Text>
-            }}
-        >
-            <AccountStack.Screen name='Account' component={Account}
-                initialParams={{styles: styles}}
-            />
-        </AccountStack.Navigator>
-    )
-}
-
-const Tab = createBottomTabNavigator()
-
-const mapDispatchToProps = (dispatch) => ({
-        // fetchDrinks: () => dispatch(fetchDrinks()),
-        // fetchFood: () => dispatch(fetchFood()),
-        // fetchLocations: () => dispatch(fetchLocations())
-})
+const Stack = createStackNavigator()
 
 class Main extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            showSplash: false
-        }
-    }
-
-    // componentDidMount() {
-    //     this.props.fetchDrinks()
-    //     this.props.fetchFood()
-    //     this.props.fetchLocations()
-    // }
-
-    hideSplash() {
-        this.setState({showSplash: false})
+    handleLogin() {
+        return fetch('http://192.168.1.24:3000/users', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then((res) => {
+                if (res.headers.get('content-type') === 'text/plain') {
+                    return res.text()
+                } else if (res.headers.get('content-type').includes('application/json')) {
+                    return res.json()
+                }
+            })
+            .then((res) => console.log(res))
     }
 
     render() {
-        if (this.state.showSplash) {
-            return (
-                <Splash styles={styles} hideSplash={() => this.hideSplash()} />
-            )
-        } else {
-            return (
-                <NavigationContainer>
-                    <Tab.Navigator
-                        screenOptions={({route}) => ({
-                            // add 'focused' as argument if needed for switching icons when focused/not
-                            tabBarIcon: ({color, size}) => {
-                                let iconName
-
-                                if (route.name === 'Home') {
-                                    iconName = 'ios-information-circle'
-                                    return (
-                                        <Ionicons name={iconName} size={size} color={color} />
-                                    )
-                                } else if (route.name === 'Menu') {
-                                    iconName = 'food-fork-drink'
-                                    return (
-                                        <MaterialCommunityIcons name={iconName} size={size} color={color} />
-                                    )
-                                } else if (route.name === 'Locations') {
-                                    iconName = 'magnifying-glass'
-                                    return (
-                                        <Foundation name={iconName} size={size} color={color} />
-                                    )
-                                } else if (route.name === 'Account') {
-                                    iconName = 'user-circle-o'
-                                    return (
-                                        <FontAwesome name={iconName} size={size} color={color} />
-                                    )
-                                }
-                            }
-                        })}
-                        tabBarOptions={{
-                            activeTintColor: '#6b52ae',
-                            inactiveTintColor: 'gray'
+        return (
+            <NavigationContainer>
+                <Stack.Navigator
+                    initialRouteName='UserInfo'
+                    screenOptions={{
+                        headerStyle: {
+                            backgroundColor: 'rebeccapurple'
+                        },
+                        headerTintColor: 'white'
+                    }}
+                >
+                    <Stack.Screen name='BirthDate' component={BirthDate}
+                        initialParams={{styles: styles}}
+                        options={{
+                            title: '',
+                            gestureEnabled: false
                         }}
-                        initialRouteName='Home'
-                    >
-                        <Tab.Screen name='Home' component={HomeStackScreen} />
-                        <Tab.Screen name='Menu' component={MenuStackScreen} />
-                        <Tab.Screen name='Locations' component={LocationsStackScreen} />
-                        <Tab.Screen name='Account' component={AccountStackScreen} />
-                    </Tab.Navigator>
-                </NavigationContainer>
-            )
-        }
+                    />
+                    <Stack.Screen name='Confirm' component={Confirm}
+                        initialParams={{styles: styles}}
+                        options={({navigation}) => ({
+                            title: 'Confirm',
+                            gestureEnabled: false,
+                            headerBackTitle: '',
+                            headerLeft: () => (
+                                <HeaderBackButton
+                                    onPress={() => navigation.navigate('Ethnicity', {ethnicity: []})}
+                                    tintColor='white'
+                                />
+                            )
+                        })}
+                    />
+                    <Stack.Screen name='Ethnicity' component={Ethnicity}
+                        initialParams={{ethnicity: [], styles: styles}}
+                        options={{
+                            title: 'Profile',
+                            gestureEnabled: false,
+                            headerBackTitle: ''
+                        }}
+                    />
+                    <Stack.Screen name='Login' component={Login}
+                        initialParams={{styles: styles}}
+                    />
+                    <Stack.Screen name='Sex' component={Sex}
+                        initialParams={{styles: styles}}
+                        options={{
+                            title: 'Profile',
+                            gestureEnabled: false,
+                            headerBackTitle: ''
+                        }}
+                    />
+                    <Stack.Screen name='UserInfo' component={UserInfo}
+                        initialParams={{styles: styles}}
+                        options={{
+                            title: '',
+                            gestureEnabled: false,
+                            headerLeft: null
+                        }}
+                    />
+                </Stack.Navigator>
+            </NavigationContainer>
+        )
     }
 }
 
 const styles = StyleSheet.create({
+    checkButton: {
+        margin: 5,
+        paddingHorizontal: 5,
+        height: 40
+    },
+    container: {
+        flex: 1,
+        padding: 40,
+        backgroundColor: 'white'
+    },
+    nextButtonPosition: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end'
+    },
+    roundButton: {
+        borderWidth: 1,
+        borderColor: 'rgba(0,0,0,0.2)',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 70,
+        height: 70,
+        backgroundColor: 'rebeccapurple',
+        borderRadius: 35
+    },
     screen: {
         flex: 1,
         justifyContent: 'center',
@@ -193,7 +128,25 @@ const styles = StyleSheet.create({
     },
     screenText: {
         color: 'black'
+    },
+    textBox: {
+        margin: 5,
+        paddingHorizontal: 5,
+        height: 40,
+        borderBottomWidth: 2,
+        borderColor: 'lightgray'
+    },
+    textBoxButtonRightPosition: {
+        bottom: 15,
+        position: 'absolute',
+        right: 10
+    },
+    xorButton: {
+        flex: 1/2,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 70
     }
 })
 
-export default connect(null, mapDispatchToProps)(Main)
+export default Main
