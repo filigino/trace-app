@@ -96,6 +96,11 @@ class Main extends React.Component {
 }
 
 const styles = StyleSheet.create({
+    availableIconPosition: {
+        bottom: 15,
+        position: 'absolute',
+        right: 12
+    },
     checkButton: {
         margin: 5,
         paddingHorizontal: 5,
@@ -105,6 +110,11 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 40,
         backgroundColor: 'white'
+    },
+    hiddenIconPosition: {
+        bottom: 15,
+        position: 'absolute',
+        right: 10
     },
     nextButtonPosition: {
         flex: 1,
@@ -135,11 +145,6 @@ const styles = StyleSheet.create({
         height: 40,
         borderBottomWidth: 2,
         borderColor: 'lightgray'
-    },
-    textBoxButtonRightPosition: {
-        bottom: 15,
-        position: 'absolute',
-        right: 10
     },
     xorButton: {
         flex: 1/2,

@@ -15,13 +15,15 @@ export default class BirthDate extends React.Component {
         const {styles} = this.props.route.params
         return (
             <View style={styles.container}>
-                <DateTimePicker
-                    onChange={(event, date) => this.setState({birthDate: date},
-                        () => this.props.navigation.setParams({birthDate: this.state.birthDate.toISOString()}))}
-                    value={this.state.birthDate}
-                    maximumDate={Date.now()}
-                    minimumDate={new Date().setFullYear(new Date().getFullYear() - 150)}
-                />
+                <View style={{justifyContent: 'center'}}>
+                    <DateTimePicker
+                        onChange={(event, date) => this.setState({birthDate: date},
+                            () => this.props.navigation.setParams({birthDate: this.state.birthDate.toISOString()}))}
+                        value={this.state.birthDate}
+                        maximumDate={Date.now()}
+                        minimumDate={new Date().setFullYear(new Date().getFullYear() - 150)}
+                    />
+                </View>
                 <View style={styles.nextButtonPosition}>
                     <TouchableOpacity
                         style={styles.roundButton}
