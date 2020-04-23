@@ -1,11 +1,14 @@
 import React from 'react'
-import {Text, TextInput, TouchableOpacity, View} from 'react-native'
+import {TextInput, TouchableOpacity, View} from 'react-native'
 import {FontAwesome5} from '@expo/vector-icons'
+import {url} from '../../../url'
 
 export default class UserInfo extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            usernameAvailable: false,
+            emailAvailable: false,
             hidePassword: true
         }
     }
@@ -22,23 +25,46 @@ export default class UserInfo extends React.Component {
                     <TextInput
                         placeholder='Username'
                         onEndEditing={(input) => {
-                            this.props.navigation.setParams({username: input.nativeEvent.text})
+                            if (input.nativeEvent.text) {
+                                this.props.navigation.setParams({username: input.nativeEvent.text})
+                                fetch(url + 'users/username_availability', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                        username: input.nativeEvent.text
+                                    })
+                                })
+                                .then((res) => res.json())
+                                .then((res) => {
+                                    if (res.success) {
+                                        this.setState({usernameAvailable: true})
+                                    } else {
+                                        this.setState({usernameAvailable: false})
+                                    }
+                                })
+                                .catch((err) => {
+                                    console.error(err)
+                                })
+                            } else {
+                                this.setState({usernameAvailable: false})
+                            }
                         }}
                         autoCapitalize='none'
                         autoCorrect={false}
+                        autoFocus={true}
                         keyboardType='ascii-capable'
                         style={styles.textBox}
                     />
-                    <TouchableOpacity
-                        onPress={() => this.togglePasswordVisibility()}
-                        style={styles.textBoxButtonRightPosition}
-                    >
+                    {this.props.route.params.username && (
                         <FontAwesome5
-                            color={'gray'}
-                            name={this.state.hidePassword ? 'exclamation' : 'exclamation'}
+                            color={this.state.usernameAvailable ? 'green' : 'red'}
+                            name={this.state.usernameAvailable ? 'check-circle' : 'times-circle'}
                             size={25}
+                            style={styles.availableIconPosition}
                         />
-                    </TouchableOpacity>
+                    )}
                 </View>
                 <View>
                     <TextInput
@@ -52,7 +78,7 @@ export default class UserInfo extends React.Component {
                     />
                     <TouchableOpacity
                         onPress={() => this.togglePasswordVisibility()}
-                        style={styles.textBoxButtonRightPosition}
+                        style={styles.hiddenIconPosition}
                     >
                         <FontAwesome5
                             color={'gray'}
@@ -61,16 +87,52 @@ export default class UserInfo extends React.Component {
                         />
                     </TouchableOpacity>
                 </View>
-                <TextInput
-                    placeholder='Email'
-                    onEndEditing={(input) => {
-                        this.props.navigation.setParams({email: input.nativeEvent.text})
-                    }}
-                    autoCapitalize='none'
-                    autoCorrect={false}
-                    keyboardType='email-address'
-                    style={styles.textBox}
-                />
+                <View>
+                    <TextInput
+                        placeholder='Email'
+                        onEndEditing={(input) => {
+                            if (input.nativeEvent.text) {
+                                this.props.navigation.setParams({email: input.nativeEvent.text})
+                                if (input.nativeEvent.text.includes('@')) {
+                                    fetch(url + 'users/email_availability', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify({
+                                            email: input.nativeEvent.text
+                                        })
+                                    })
+                                    .then((res) => res.json())
+                                    .then((res) => {
+                                        if (res.success) {
+                                            this.setState({emailAvailable: true})
+                                        } else {
+                                            this.setState({emailAvailable: false})
+                                        }
+                                    })
+                                    .catch((err) => {
+                                        console.error(err)
+                                    })
+                                }
+                            } else {
+                                this.setState({emailAvailable: false})
+                            }
+                        }}
+                        autoCapitalize='none'
+                        autoCorrect={false}
+                        keyboardType='email-address'
+                        style={styles.textBox}
+                    />
+                    {this.props.route.params.email && (
+                        <FontAwesome5
+                            color={this.state.emailAvailable ? 'green' : 'red'}
+                            name={this.state.emailAvailable ? 'check-circle' : 'times-circle'}
+                            size={25}
+                            style={styles.availableIconPosition}
+                        />
+                    )}
+                </View>
                 <TextInput
                     placeholder='First name'
                     onEndEditing={(input) => {
@@ -94,23 +156,23 @@ export default class UserInfo extends React.Component {
                 <View style={styles.nextButtonPosition}>
                     <TouchableOpacity
                         style={[styles.roundButton, {backgroundColor: 
-                            this.props.route.params.username
+                            this.state.usernameAvailable
                             && this.props.route.params.password
-                            && this.props.route.params.email
+                            && this.state.emailAvailable
                             && this.props.route.params.firstName
                             && this.props.route.params.lastName ? '#624480': 'gray'
                         }]}
                         activeOpacity={
-                            this.props.route.params.username
+                            this.state.usernameAvailable
                             && this.props.route.params.password
-                            && this.props.route.params.email
+                            && this.state.emailAvailable
                             && this.props.route.params.firstName
                             && this.props.route.params.lastName ? 0.2 : 1
                         }
                         onPress={
-                            // this.props.route.params.username
+                            // this.state.usernameAvailable
                             // && this.props.route.params.password
-                            // && this.props.route.params.email
+                            // && this.state.emailAvailable
                             // && this.props.route.params.firstName
                             // && this.props.route.params.lastName ?
                                 () => this.props.navigation.push('BirthDate', this.props.route.params)
