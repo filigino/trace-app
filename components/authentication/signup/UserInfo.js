@@ -1,5 +1,5 @@
 import React from 'react'
-import {TextInput, TouchableOpacity, View} from 'react-native'
+import {Alert, TextInput, TouchableOpacity, View} from 'react-native'
 import {FontAwesome5} from '@expo/vector-icons'
 import {url} from '../../../url'
 
@@ -45,7 +45,10 @@ export default class UserInfo extends React.Component {
                                     }
                                 })
                                 .catch((err) => {
-                                    console.error(err)
+                                    Alert.alert(
+                                        'Could not connect to server',
+                                        'Please try again'
+                                    )
                                 })
                             } else {
                                 this.setState({usernameAvailable: false})
@@ -112,7 +115,10 @@ export default class UserInfo extends React.Component {
                                         }
                                     })
                                     .catch((err) => {
-                                        console.error(err)
+                                        Alert.alert(
+                                            'Could not connect to server',
+                                            'Please try again'
+                                        )
                                     })
                                 }
                             } else {
@@ -134,7 +140,7 @@ export default class UserInfo extends React.Component {
                     )}
                 </View>
                 <TextInput
-                    placeholder='First name'
+                    placeholder='First name (optional)'
                     onEndEditing={(input) => {
                         this.props.navigation.setParams({firstName: input.nativeEvent.text})
                     }}
@@ -144,7 +150,7 @@ export default class UserInfo extends React.Component {
                     style={styles.textBox}
                 />
                 <TextInput
-                    placeholder='Last name'
+                    placeholder='Last name (optional)'
                     onEndEditing={(input) => {
                         this.props.navigation.setParams({lastName: input.nativeEvent.text})
                     }}
@@ -158,26 +164,20 @@ export default class UserInfo extends React.Component {
                         style={[styles.roundButton, {backgroundColor: 
                             this.state.usernameAvailable
                             && this.props.route.params.password
-                            && this.state.emailAvailable
-                            && this.props.route.params.firstName
-                            && this.props.route.params.lastName ? '#624480': 'gray'
+                            && this.state.emailAvailable ? '#624480': 'gray'
                         }]}
                         activeOpacity={
                             this.state.usernameAvailable
                             && this.props.route.params.password
-                            && this.state.emailAvailable
-                            && this.props.route.params.firstName
-                            && this.props.route.params.lastName ? 0.2 : 1
+                            && this.state.emailAvailable ? 0.2 : 1
                         }
                         onPress={
-                            // this.state.usernameAvailable
-                            // && this.props.route.params.password
-                            // && this.state.emailAvailable
-                            // && this.props.route.params.firstName
-                            // && this.props.route.params.lastName ?
+                            this.state.usernameAvailable
+                            && this.props.route.params.password
+                            && this.state.emailAvailable ?
                                 () => this.props.navigation.push('BirthDate', this.props.route.params)
-                            // :
-                            //     () => {}
+                            :
+                                () => {}
                         }
                     >
                         <FontAwesome5 name={'chevron-right'} size={30} color='white' />
