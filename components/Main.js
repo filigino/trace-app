@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     hiddenIconPosition: {
         bottom: 15,
         position: 'absolute',
-        right: 10
+        right: 40
     },
     nextButtonPosition: {
         alignItems: 'flex-end',

@@ -3,16 +3,18 @@ import {ScrollView, Text, TouchableOpacity, View} from 'react-native'
 
 export default class Ethnicity extends React.Component {
     componentDidMount() {
-        this.props.navigation.setParams({ethnicity: []})
-        this.props.navigation.setParams({americanIndian: false})
-        this.props.navigation.setParams({black: false})
-        this.props.navigation.setParams({eastAsian: false})
-        this.props.navigation.setParams({hispanicLatino: false})
-        this.props.navigation.setParams({middleEastern: false})
-        this.props.navigation.setParams({pacificIslander: false})
-        this.props.navigation.setParams({southAsian: false})
-        this.props.navigation.setParams({white: false})
-        this.props.navigation.setParams({other: false})
+        this.props.navigation.setParams({
+            ethnicity: [],
+            americanIndian: false,
+            black: false,
+            eastAsian: false,
+            hispanicLatino: false,
+            middleEastern: false,
+            pacificIslander: false,
+            southAsian: false,
+            white: false,
+            other: false
+        })
     }
 
     render() {

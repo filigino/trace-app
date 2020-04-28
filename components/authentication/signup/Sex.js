@@ -40,7 +40,6 @@ export default class Sex extends React.Component {
         const {styles} = this.props.route.params
         return (
             <View style={styles.container}>
-                <Text>{this.props.route.params.birthDate}</Text>
                 <Text>Sex</Text>
                 <View style={{flexDirection: 'row'}}>
                     <TouchableOpacity

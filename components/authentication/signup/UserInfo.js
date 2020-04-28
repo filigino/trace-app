@@ -13,10 +13,14 @@ class UserInfo extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            usernameStarted: false,
+            passwordStarted: false,
+            emailStarted: false,
             usernameAvailable: false,
+            passwordValid: false,
             emailAvailable: false,
-            hidePassword: true,
-            password: ''
+            hidePassword: true
+            
         }
     }
 
@@ -24,7 +28,7 @@ class UserInfo extends React.Component {
         let color
         let opacity
         let active
-        if (this.state.usernameAvailable && this.state.emailAvailable && this.state.password) {
+        if (this.state.usernameAvailable && this.state.passwordValid && this.state.emailAvailable) {
             color = '#624480'
             opacity = 0.2
             active = true
@@ -48,8 +52,8 @@ class UserInfo extends React.Component {
                     <TextInput
                         placeholder='Username'
                         onChangeText={(text) => {
+                            this.setState({usernameStarted: true})
                             if (text && !text.includes(' ')) {
-                                this.props.navigation.setParams({username: text})
                                 fetch(url + 'users/username_availability', {
                                     method: 'POST',
                                     headers: {
@@ -62,6 +66,7 @@ class UserInfo extends React.Component {
                                 .then((res) => res.json())
                                 .then((res) => {
                                     if (res.success) {
+                                        this.props.navigation.setParams({username: text})
                                         this.setState({usernameAvailable: true})
                                     } else {
                                         this.setState({usernameAvailable: false})
@@ -79,7 +84,7 @@ class UserInfo extends React.Component {
                                 this.setState({usernameAvailable: false}, () => this.styleButton())
                             }
                         }}
-                        onSubmitEditing={(input) => {
+                        onEndEditing={(input) => {
                             const text = input.nativeEvent.text
                             if (!text) {
                                 this.setState({usernameAvailable: false}, () => this.styleButton())
@@ -92,7 +97,7 @@ class UserInfo extends React.Component {
                         maxLength={15}
                         style={styles.textBox}
                     />
-                    {this.props.route.params.username && (
+                    {this.state.usernameStarted && (
                         <FontAwesome5
                             color={this.state.usernameAvailable ? 'green' : 'red'}
                             name={this.state.usernameAvailable ? 'check-circle' : 'times-circle'}
@@ -103,19 +108,14 @@ class UserInfo extends React.Component {
                 </View>
                 <View>
                     <TextInput
-                        placeholder='Password'
-                        onEndEditing={(input) => {
-                            const text = input.nativeEvent.text
-                            if (!text.includes(' ') && text.length >= 8) {
-                                this.setState({password: text}, () => {
-                                    this.styleButton()
-                                    this.props.navigation.setParams({password: this.state.password})
-                                })
+                        placeholder='Password (min. 8 chars)'
+                        onChangeText={(text) => {
+                            this.setState({passwordStarted: true})
+                            if (text && !text.includes(' ') && text.length >= 8) {
+                                this.props.navigation.setParams({password: text})
+                                this.setState({passwordValid: true}, () => this.styleButton())
                             } else {
-                                this.setState({password: ''}, () => {
-                                    this.styleButton()
-                                    this.props.navigation.setParams({password: this.state.password})
-                                })
+                                this.setState({passwordValid: false}, () => this.styleButton())
                             }
                         }}
                         secureTextEntry={this.state.hidePassword}
@@ -132,13 +132,21 @@ class UserInfo extends React.Component {
                             size={25}
                         />
                     </TouchableOpacity>
+                    {this.state.passwordStarted && (
+                        <FontAwesome5
+                            color={this.state.passwordValid ? 'green' : 'red'}
+                            name={this.state.passwordValid ? 'check-circle' : 'times-circle'}
+                            size={25}
+                            style={styles.availableIconPosition}
+                        />
+                    )}
                 </View>
                 <View>
-                <TextInput
+                    <TextInput
                         placeholder='Email'
                         onChangeText={(text) => {
+                            this.setState({emailStarted: true})
                             if (text && text.includes('@') && text.includes('.') && !text.includes(' ')) {
-                                this.props.navigation.setParams({email: text})
                                 fetch(url + 'users/email_availability', {
                                     method: 'POST',
                                     headers: {
@@ -151,6 +159,7 @@ class UserInfo extends React.Component {
                                 .then((res) => res.json())
                                 .then((res) => {
                                     if (res.success) {
+                                        this.props.navigation.setParams({email: text})
                                         this.setState({emailAvailable: true})
                                     } else {
                                         this.setState({emailAvailable: false})
@@ -168,9 +177,9 @@ class UserInfo extends React.Component {
                                 this.setState({emailAvailable: false}, () => this.styleButton())
                             }
                         }}
-                        onSubmitEditing={(input) => {
+                        onEndEditing={(input) => {
                             const text = input.nativeEvent.text
-                            if (!text) {
+                            if (!text.includes('@') || !text.includes('.')) {
                                 this.setState({emailAvailable: false}, () => this.styleButton())
                             }
                         }}
@@ -179,7 +188,7 @@ class UserInfo extends React.Component {
                         keyboardType='email-address'
                         style={styles.textBox}
                     />
-                    {this.props.route.params.email && (
+                    {this.state.emailStarted && (
                         <FontAwesome5
                             color={this.state.emailAvailable ? 'green' : 'red'}
                             name={this.state.emailAvailable ? 'check-circle' : 'times-circle'}
