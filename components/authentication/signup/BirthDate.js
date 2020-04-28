@@ -1,7 +1,6 @@
 import React from 'react'
 import {Text, TouchableOpacity, View} from 'react-native'
 import DateTimePicker from '@react-native-community/datetimepicker'
-import {FontAwesome} from '@expo/vector-icons'
 
 export default class BirthDate extends React.Component {
     constructor(props) {
@@ -15,7 +14,8 @@ export default class BirthDate extends React.Component {
         const {styles} = this.props.route.params
         return (
             <View style={styles.container}>
-                <View style={{justifyContent: 'center'}}>
+                <Text style={{textAlign: 'center'}}>When were you born?</Text>
+                <View style={{flex: 3, justifyContent: 'center'}}>
                     <DateTimePicker
                         onChange={(event, date) => this.setState({birthDate: date},
                             () => this.props.navigation.setParams({birthDate: this.state.birthDate.toISOString()}))}
@@ -24,15 +24,15 @@ export default class BirthDate extends React.Component {
                         minimumDate={new Date().setFullYear(new Date().getFullYear() - 150)}
                     />
                 </View>
-                <View style={styles.nextButtonPosition}>
+                <View style={{alignItems: 'center'}}>
                     <TouchableOpacity
-                        style={styles.roundButton}
+                        style={styles.squaredButton}
                         underlayColor={'purple'}
                         onPress={() => {
                             this.props.navigation.push('Sex', this.props.route.params)
                         }}
                     >
-                        <FontAwesome name={'chevron-right'} size={30} color='white' />
+                        <Text style={{color: 'white'}}>Skip</Text>
                     </TouchableOpacity>
                 </View>
             </View>

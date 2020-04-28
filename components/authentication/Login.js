@@ -2,6 +2,13 @@ import React from 'react'
 import {Text, TextInput, TouchableHighlight, View} from 'react-native'
 import {CheckBox} from 'react-native-elements'
 import * as SecureStore from 'expo-secure-store'
+import {connect} from 'react-redux'
+import {styleButton, toggleButtonVisibility} from '../../redux/ActionCreators'
+
+const mapDispatchToProps = (dispatch) => ({
+    showButton: () => dispatch(toggleButtonVisibility(true)),
+    greyButton: () => dispatch(styleButton('gray', 1, false))
+})
 
 class Login extends React.Component {
     constructor(props) {
@@ -45,6 +52,23 @@ class Login extends React.Component {
         }
     }
 
+    // handleLogin() {
+    //     return fetch('http://192.168.1.24:3000/users', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         }
+    //     })
+    //         .then((res) => {
+    //             if (res.headers.get('content-type') === 'text/plain') {
+    //                 return res.text()
+    //             } else if (res.headers.get('content-type').includes('application/json')) {
+    //                 return res.json()
+    //             }
+    //         })
+    //         .then((res) => console.log(res))
+    // }
+
     render() {
         const {styles} = this.props.route.params
         return (
@@ -77,7 +101,11 @@ class Login extends React.Component {
                 <TouchableHighlight
                     style={{padding: 5, margin: 5, backgroundColor: '#6b52ae'}}
                     underlayColor={'purple'}
-                    onPress={() => this.props.navigation.push('UserInfo')}
+                    onPress={() => {
+                        this.props.greyButton()
+                        this.props.navigation.push('UserInfo')
+                        this.props.showButton()
+                    }}
                 >
                     <Text style={{color: 'white'}}>Sign up</Text>
                 </TouchableHighlight>
@@ -86,4 +114,4 @@ class Login extends React.Component {
     }
 }
 
-export default Login
+export default connect(null, mapDispatchToProps)(Login)

@@ -2,15 +2,38 @@ import React from 'react'
 import {Alert, TextInput, TouchableOpacity, View} from 'react-native'
 import {FontAwesome5} from '@expo/vector-icons'
 import {url} from '../../../url'
+import {connect} from 'react-redux'
+import {styleButton} from '../../../redux/ActionCreators'
 
-export default class UserInfo extends React.Component {
+const mapDispatchToProps = (dispatch) => ({
+    styleButton: (color, opacity, active) => dispatch(styleButton(color, opacity, active))
+})
+
+class UserInfo extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             usernameAvailable: false,
             emailAvailable: false,
-            hidePassword: true
+            hidePassword: true,
+            password: ''
         }
+    }
+
+    styleButton() {
+        let color
+        let opacity
+        let active
+        if (this.state.usernameAvailable && this.state.emailAvailable && this.state.password) {
+            color = '#624480'
+            opacity = 0.2
+            active = true
+        } else {
+            color = 'gray'
+            opacity = 1
+            active = false
+        }
+        this.props.styleButton(color, opacity, active)
     }
 
     togglePasswordVisibility() {
@@ -24,16 +47,16 @@ export default class UserInfo extends React.Component {
                 <View>
                     <TextInput
                         placeholder='Username'
-                        onEndEditing={(input) => {
-                            if (input.nativeEvent.text) {
-                                this.props.navigation.setParams({username: input.nativeEvent.text})
+                        onChangeText={(text) => {
+                            if (text) {
+                                this.props.navigation.setParams({username: text})
                                 fetch(url + 'users/username_availability', {
                                     method: 'POST',
                                     headers: {
                                         'Content-Type': 'application/json'
                                     },
                                     body: JSON.stringify({
-                                        username: input.nativeEvent.text
+                                        username: text
                                     })
                                 })
                                 .then((res) => res.json())
@@ -44,14 +67,22 @@ export default class UserInfo extends React.Component {
                                         this.setState({usernameAvailable: false})
                                     }
                                 })
+                                .then(() => this.styleButton())
                                 .catch((err) => {
                                     Alert.alert(
                                         'Could not connect to server',
-                                        'Please try again'
+                                        'Required to check username availability'
                                     )
+                                    console.log(err)
                                 })
                             } else {
-                                this.setState({usernameAvailable: false})
+                                this.setState({usernameAvailable: false}, () => this.styleButton())
+                            }
+                        }}
+                        onSubmitEditing={(input) => {
+                            const text = input.nativeEvent.text
+                            if (!text) {
+                                this.setState({usernameAvailable: false}, () => this.styleButton())
                             }
                         }}
                         autoCapitalize='none'
@@ -73,7 +104,10 @@ export default class UserInfo extends React.Component {
                     <TextInput
                         placeholder='Password'
                         onEndEditing={(input) => {
-                            this.props.navigation.setParams({password: input.nativeEvent.text})
+                            this.setState({password: input.nativeEvent.text}, () => {
+                                this.styleButton()
+                                this.props.navigation.setParams({password: this.state.password})
+                            })
                         }}
                         secureTextEntry={this.state.hidePassword}
                         style={styles.textBox}
@@ -91,38 +125,44 @@ export default class UserInfo extends React.Component {
                     </TouchableOpacity>
                 </View>
                 <View>
-                    <TextInput
+                <TextInput
                         placeholder='Email'
-                        onEndEditing={(input) => {
-                            if (input.nativeEvent.text) {
-                                this.props.navigation.setParams({email: input.nativeEvent.text})
-                                if (input.nativeEvent.text.includes('@')) {
-                                    fetch(url + 'users/email_availability', {
-                                        method: 'POST',
-                                        headers: {
-                                            'Content-Type': 'application/json'
-                                        },
-                                        body: JSON.stringify({
-                                            email: input.nativeEvent.text
-                                        })
+                        onChangeText={(text) => {
+                            if (text) {
+                                this.props.navigation.setParams({email: text})
+                                fetch(url + 'users/email_availability', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                        email: text
                                     })
-                                    .then((res) => res.json())
-                                    .then((res) => {
-                                        if (res.success) {
-                                            this.setState({emailAvailable: true})
-                                        } else {
-                                            this.setState({emailAvailable: false})
-                                        }
-                                    })
-                                    .catch((err) => {
-                                        Alert.alert(
-                                            'Could not connect to server',
-                                            'Please try again'
-                                        )
-                                    })
-                                }
+                                })
+                                .then((res) => res.json())
+                                .then((res) => {
+                                    if (res.success) {
+                                        this.setState({emailAvailable: true})
+                                    } else {
+                                        this.setState({emailAvailable: false})
+                                    }
+                                })
+                                .then(() => this.styleButton())
+                                .catch((err) => {
+                                    Alert.alert(
+                                        'Could not connect to server',
+                                        'Required to check email availability'
+                                    )
+                                    console.log(err)
+                                })
                             } else {
-                                this.setState({emailAvailable: false})
+                                this.setState({emailAvailable: false}, () => this.styleButton())
+                            }
+                        }}
+                        onSubmitEditing={(input) => {
+                            const text = input.nativeEvent.text
+                            if (!text) {
+                                this.setState({emailAvailable: false}, () => this.styleButton())
                             }
                         }}
                         autoCapitalize='none'
@@ -159,31 +199,9 @@ export default class UserInfo extends React.Component {
                     keyboardType='ascii-capable'
                     style={styles.textBox}
                 />
-                <View style={styles.nextButtonPosition}>
-                    <TouchableOpacity
-                        style={[styles.roundButton, {backgroundColor: 
-                            this.state.usernameAvailable
-                            && this.props.route.params.password
-                            && this.state.emailAvailable ? '#624480': 'gray'
-                        }]}
-                        activeOpacity={
-                            this.state.usernameAvailable
-                            && this.props.route.params.password
-                            && this.state.emailAvailable ? 0.2 : 1
-                        }
-                        onPress={
-                            this.state.usernameAvailable
-                            && this.props.route.params.password
-                            && this.state.emailAvailable ?
-                                () => this.props.navigation.push('BirthDate', this.props.route.params)
-                            :
-                                () => {}
-                        }
-                    >
-                        <FontAwesome5 name={'chevron-right'} size={30} color='white' />
-                    </TouchableOpacity>
-                </View>
             </View>
         )
     }
 }
+
+export default connect(null, mapDispatchToProps)(UserInfo)

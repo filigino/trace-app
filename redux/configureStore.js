@@ -3,6 +3,7 @@ import thunk from 'redux-thunk'
 import food from './reducers/food'
 import drinks from './reducers/drinks'
 import locations from './reducers/locations'
+import nextButton from './reducers/nextButton'
 import {persistCombineReducers, persistStore} from 'redux-persist'
 import {AsyncStorage} from 'react-native'
 
@@ -17,7 +18,8 @@ const configureStore = () => {
         persistCombineReducers(config, {
             food,
             drinks,
-            locations
+            locations,
+            nextButton
         }),
         applyMiddleware(thunk)
     )

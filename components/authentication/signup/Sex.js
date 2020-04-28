@@ -1,6 +1,5 @@
 import React from 'react'
-import {Text, TouchableHighlight, TouchableOpacity, View} from 'react-native'
-import {FontAwesome} from '@expo/vector-icons'
+import {Text, TouchableOpacity, View} from 'react-native'
 
 export default class Sex extends React.Component {
     constructor(props) {
@@ -56,15 +55,6 @@ export default class Sex extends React.Component {
                     >
                         <Text>M</Text>
                     </TouchableOpacity>
-                </View>
-                <View style={styles.nextButtonPosition}>
-                    <TouchableHighlight
-                        style={styles.roundButton}
-                        underlayColor={'purple'}
-                        onPress={() => this.props.navigation.push('Ethnicity', this.props.route.params)}
-                    >
-                        <FontAwesome name={'chevron-right'} size={30} color='white' />
-                    </TouchableHighlight>
                 </View>
             </View>
         )

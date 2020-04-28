@@ -1,4 +1,16 @@
-import {baseUrl} from '../baseUrl'
+import {url} from '../url'
+
+export const toggleButtonVisibility = (visible) => ({
+    type: 'TOGGLE_BUTTON_VISIBILITY',
+    visible
+})
+
+export const styleButton = (color, opacity, active) => ({
+    type: 'STYLE_BUTTON',
+    color,
+    opacity,
+    active
+})
 
 // export const fetchLocations = () => (dispatch) => {
 //     return firestore.collection('locations').get()
