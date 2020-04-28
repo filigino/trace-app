@@ -48,7 +48,7 @@ class UserInfo extends React.Component {
                     <TextInput
                         placeholder='Username'
                         onChangeText={(text) => {
-                            if (text) {
+                            if (text && !text.includes(' ')) {
                                 this.props.navigation.setParams({username: text})
                                 fetch(url + 'users/username_availability', {
                                     method: 'POST',
@@ -89,6 +89,7 @@ class UserInfo extends React.Component {
                         autoCorrect={false}
                         autoFocus={true}
                         keyboardType='ascii-capable'
+                        maxLength={15}
                         style={styles.textBox}
                     />
                     {this.props.route.params.username && (
@@ -104,10 +105,18 @@ class UserInfo extends React.Component {
                     <TextInput
                         placeholder='Password'
                         onEndEditing={(input) => {
-                            this.setState({password: input.nativeEvent.text}, () => {
-                                this.styleButton()
-                                this.props.navigation.setParams({password: this.state.password})
-                            })
+                            const text = input.nativeEvent.text
+                            if (!text.includes(' ') && text.length >= 8) {
+                                this.setState({password: text}, () => {
+                                    this.styleButton()
+                                    this.props.navigation.setParams({password: this.state.password})
+                                })
+                            } else {
+                                this.setState({password: ''}, () => {
+                                    this.styleButton()
+                                    this.props.navigation.setParams({password: this.state.password})
+                                })
+                            }
                         }}
                         secureTextEntry={this.state.hidePassword}
                         style={styles.textBox}
@@ -128,7 +137,7 @@ class UserInfo extends React.Component {
                 <TextInput
                         placeholder='Email'
                         onChangeText={(text) => {
-                            if (text) {
+                            if (text && text.includes('@') && text.includes('.') && !text.includes(' ')) {
                                 this.props.navigation.setParams({email: text})
                                 fetch(url + 'users/email_availability', {
                                     method: 'POST',
@@ -182,7 +191,7 @@ class UserInfo extends React.Component {
                 <TextInput
                     placeholder='First name (optional)'
                     onEndEditing={(input) => {
-                        this.props.navigation.setParams({firstName: input.nativeEvent.text})
+                        this.props.navigation.setParams({firstName: input.nativeEvent.text.trim()})
                     }}
                     autoCapitalize='words'
                     autoCorrect={false}
@@ -192,7 +201,7 @@ class UserInfo extends React.Component {
                 <TextInput
                     placeholder='Last name (optional)'
                     onEndEditing={(input) => {
-                        this.props.navigation.setParams({lastName: input.nativeEvent.text})
+                        this.props.navigation.setParams({lastName: input.nativeEvent.text.trim()})
                     }}
                     autoCapitalize='words'
                     autoCorrect={false}
