@@ -82,23 +82,21 @@ class Main extends React.Component {
                     <Stack.Navigator
                         initialRouteName='Login'
                         screenOptions={{
+                            gestureEnabled: false,
+                            headerBackTitle: '',
                             headerStyle: {
                                 backgroundColor: 'rebeccapurple'
                             },
-                            headerTintColor: 'white'
+                            headerTintColor: 'white',
+                            title: ''
                         }}
                     >
                         <Stack.Screen name='BirthDate' component={BirthDate}
                             initialParams={{styles: styles}}
-                            options={{
-                                gestureEnabled: false,
-                                title: ''
-                            }}
                         />
                         <Stack.Screen name='Confirm' component={Confirm}
                             initialParams={{styles: styles}}
                             options={({navigation}) => ({
-                                gestureEnabled: false,
                                 headerLeft: () => (
                                     <HeaderBackButton
                                         onPress={() => navigation.navigate('Ethnicity', {ethnicity: []})}
@@ -110,29 +108,16 @@ class Main extends React.Component {
                         />
                         <Stack.Screen name='Ethnicity' component={Ethnicity}
                             initialParams={{styles: styles}}
-                            options={{
-                                gestureEnabled: false,
-                                title: ''
-                            }}
                         />
                         <Stack.Screen name='Login' component={Login}
                             initialParams={{styles: styles}}
-                            options={{
-                                title: 'Login'
-                            }}
                         />
                         <Stack.Screen name='Sex' component={Sex}
                             initialParams={{styles: styles}}
-                            options={{
-                                gestureEnabled: false,
-                                title: ''
-                            }}
                         />
                         <Stack.Screen name='UserInfo' component={UserInfo}
                             initialParams={{styles: styles}}
                             options={({navigation}) => ({
-                                gestureEnabled: false,
-                                headerBackTitle: '',
                                 headerLeft: () => (
                                     <HeaderBackButton
                                         onPress={() => {
@@ -141,8 +126,7 @@ class Main extends React.Component {
                                         }}
                                         tintColor='white'
                                     />
-                                ),
-                                title: ''
+                                )
                             })}
                         />
                     </Stack.Navigator>
