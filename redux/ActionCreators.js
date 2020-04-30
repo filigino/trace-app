@@ -1,15 +1,27 @@
 import {url} from '../url'
 
-export const toggleButtonVisibility = (visible) => ({
+export const showButton = () => ({
     type: 'TOGGLE_BUTTON_VISIBILITY',
-    visible
+    visible: true
 })
 
-export const styleButton = (color, opacity, active) => ({
+export const hideButton = () => ({
+    type: 'TOGGLE_BUTTON_VISIBILITY',
+    visible: false
+})
+
+export const activateButton = () => ({
     type: 'STYLE_BUTTON',
-    color,
-    opacity,
-    active
+    color: '#624480',
+    opacity: 0.2,
+    active: true
+})
+
+export const deactivateButton = () => ({
+    type: 'STYLE_BUTTON',
+    color: 'gray',
+    opacity: 1,
+    active: false
 })
 
 // export const fetchLocations = () => (dispatch) => {

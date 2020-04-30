@@ -1,16 +1,9 @@
 import React from 'react'
-import {Text, TextInput, TouchableHighlight, View} from 'react-native'
+import {Text, TextInput, TouchableOpacity, View} from 'react-native'
 import {CheckBox} from 'react-native-elements'
 import * as SecureStore from 'expo-secure-store'
-import {connect} from 'react-redux'
-import {styleButton, toggleButtonVisibility} from '../../redux/ActionCreators'
 
-const mapDispatchToProps = (dispatch) => ({
-    showButton: () => dispatch(toggleButtonVisibility(true)),
-    greyButton: () => dispatch(styleButton('gray', 1, false))
-})
-
-class Login extends React.Component {
+export default class Login extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -91,27 +84,21 @@ class Login extends React.Component {
                     checked={this.state.remember}
                     onPress={() => this.setState({ remember: !this.state.remember })}
                     containerStyle={styles.formCheckbox} />
-                <TouchableHighlight
-                    style={{padding: 5, margin: 5, backgroundColor: '#6b52ae'}}
-                    underlayColor={'purple'}
+                <TouchableOpacity
+                    style={styles.squaredButton}
                     onPress={() => this.handleLogin()}
                 >
                     <Text style={{color: 'white'}}>Login</Text>
-                </TouchableHighlight>
-                <TouchableHighlight
-                    style={{padding: 5, margin: 5, backgroundColor: '#6b52ae'}}
-                    underlayColor={'purple'}
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.squaredButton}
                     onPress={() => {
-                        this.props.greyButton()
                         this.props.navigation.push('UserInfo')
-                        this.props.showButton()
                     }}
                 >
                     <Text style={{color: 'white'}}>Sign up</Text>
-                </TouchableHighlight>
+                </TouchableOpacity>
             </View>
         )
     }
 }
-
-export default connect(null, mapDispatchToProps)(Login)

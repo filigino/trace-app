@@ -10,8 +10,9 @@ import Ethnicity from './authentication/signup/Ethnicity'
 import Login from './authentication/Login'
 import Sex from './authentication/signup/Sex'
 import UserInfo from './authentication/signup/UserInfo'
+import {url} from '../url'
 import {connect} from 'react-redux'
-import {toggleButtonVisibility} from '../redux/ActionCreators'
+import {activateButton, hideButton} from '../redux/ActionCreators'
 
 const Stack = createStackNavigator()
 
@@ -20,7 +21,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    hideButton: () => dispatch(toggleButtonVisibility(false))
+    activateButton: () => dispatch(activateButton()),
+    hideButton: () => dispatch(hideButton())
 })
 
 class Main extends React.Component {
@@ -42,7 +44,10 @@ class Main extends React.Component {
         } else if (currentScreenName === 'BirthDate') {
             RootNavigation.push('Sex', params)
         } else if (currentScreenName === 'Sex') {
-            RootNavigation.push('Ethnicity', params)
+            this.props.nextButton.active ?
+                RootNavigation.push('Ethnicity', params)
+            :
+                {}
         } else if (currentScreenName === 'Ethnicity') {
             if (params.americanIndian) {
                 params.ethnicity.push('American Indian')
@@ -71,7 +76,43 @@ class Main extends React.Component {
             if (params.other) {
                 params.ethnicity.push('Other')
             }
-            RootNavigation.push('Confirm', params)
+            this.props.nextButton.active ?
+                RootNavigation.push('Confirm', params)
+            :
+                {}
+        } else if (currentScreenName === 'Confirm') {
+            const {username} = params
+            const {password} = params
+            const {email} = params
+            const {firstName} = params
+            const {lastName} = params
+            const {birthDate} = params
+            const {sex} = params
+            const {ethnicity} = params
+            fetch(url + 'users/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username,
+                    password,
+                    email,
+                    firstName,
+                    lastName,
+                    birthDate,
+                    sex,
+                    ethnicity
+                })
+            })
+            .then((res) => {
+                if (res.headers.get('content-type') === 'text/plain') {
+                    return res.text()
+                } else if (res.headers.get('content-type').includes('application/json')) {
+                    return res.json()
+                }
+            })
+            .then((res) => console.log(res))
         }
     }
 
@@ -108,12 +149,34 @@ class Main extends React.Component {
                         />
                         <Stack.Screen name='Ethnicity' component={Ethnicity}
                             initialParams={{styles: styles}}
+                            options={({navigation}) => ({
+                                headerLeft: () => (
+                                    <HeaderBackButton
+                                        onPress={() => {
+                                            this.props.activateButton()
+                                            navigation.navigate('Sex')
+                                        }}
+                                        tintColor='white'
+                                    />
+                                )
+                            })}
                         />
                         <Stack.Screen name='Login' component={Login}
                             initialParams={{styles: styles}}
                         />
                         <Stack.Screen name='Sex' component={Sex}
                             initialParams={{styles: styles}}
+                            options={({navigation}) => ({
+                                headerLeft: () => (
+                                    <HeaderBackButton
+                                        onPress={() => {
+                                            this.props.activateButton()
+                                            navigation.navigate('BirthDate')
+                                        }}
+                                        tintColor='white'
+                                    />
+                                )
+                            })}
                         />
                         <Stack.Screen name='UserInfo' component={UserInfo}
                             initialParams={{styles: styles}}
@@ -154,24 +217,39 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: 12
     },
-    checkButton: {
-        height: 40,
-        margin: 5,
-        paddingHorizontal: 5
+    buttonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center'
     },
     container: {
         backgroundColor: 'white',
         flex: 1,
         padding: 40
     },
+    ethnicityButton: {
+        alignItems: 'center',
+        backgroundColor: '#624480',
+        borderColor: 'rgba(0,0,0,0.2)',
+        borderRadius: 15,
+        borderWidth: 1,
+        height: 50,
+        justifyContent: 'center',
+        margin: 5,
+        paddingHorizontal: 10
+    },
+    heading: {
+        fontSize: 20,
+        textAlign: 'center'
+    },
     hiddenIconPosition: {
         bottom: 15,
         position: 'absolute',
-        right: 40
+        right: 45
     },
     nextButtonPosition: {
         alignItems: 'flex-end',
-        margin: 40
+        marginBottom: 40,
+        marginRight: 40
     },
     roundButton: {
         alignItems: 'center',
@@ -188,7 +266,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center'
     },
-    screenText: {
+    screenText: { // ??
         color: 'black'
     },
     squaredButton: {
@@ -197,21 +275,23 @@ const styles = StyleSheet.create({
         borderColor: 'rgba(0,0,0,0.2)',
         borderRadius: 15,
         borderWidth: 1,
-        height: 50,
+        height: 44,
         justifyContent: 'center',
-        width: 100
+        margin: 5,
+        paddingHorizontal: 10
     },
     textBox: {
         borderBottomWidth: 2,
         borderColor: 'lightgray',
-        height: 40,
+        height: 44,
         margin: 5,
-        paddingHorizontal: 5,
+        paddingHorizontal: 5
     },
     xorButton: {
         alignItems: 'center',
         flex: 1/2,
         height: 70,
+        margin: 5,
         justifyContent: 'center'
     }
 })
