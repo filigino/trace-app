@@ -70,13 +70,13 @@ export default class Login extends React.Component {
                     placeholder='Username'
                     onChangeText={(username) => this.setState({username})}
                     value={this.state.username}
-                    style={styles.textBox}
+                    style={styles.textbox}
                 />
                 <TextInput
                     placeholder='Password'
                     onChangeText={(password) => this.setState({password})}
                     value={this.state.password}
-                    style={styles.textBox}
+                    style={styles.textbox}
                 />
                 <CheckBox
                     title='Remember Me'
@@ -93,7 +93,7 @@ export default class Login extends React.Component {
                 <TouchableOpacity
                     style={styles.squaredButton}
                     onPress={() => {
-                        this.props.navigation.push('UserInfo')
+                        this.props.navigation.jumpTo('UserInfo')
                     }}
                 >
                     <Text style={{color: 'white'}}>Sign up</Text>

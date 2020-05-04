@@ -94,7 +94,7 @@ class UserInfo extends React.Component {
                             autoFocus={true}
                             keyboardType='ascii-capable'
                             maxLength={15}
-                            style={styles.textBox}
+                            style={styles.textbox}
                         />
                         {this.state.usernameStarted && (
                             <FontAwesome5
@@ -118,7 +118,7 @@ class UserInfo extends React.Component {
                                 }
                             }}
                             secureTextEntry={this.state.hidePassword}
-                            style={styles.textBox}
+                            style={styles.textbox}
                             textContentType='password'
                         />
                         <TouchableOpacity
@@ -185,7 +185,7 @@ class UserInfo extends React.Component {
                             autoCapitalize='none'
                             autoCorrect={false}
                             keyboardType='email-address'
-                            style={styles.textBox}
+                            style={styles.textbox}
                         />
                         {this.state.emailStarted && (
                             <FontAwesome5
@@ -204,7 +204,7 @@ class UserInfo extends React.Component {
                         autoCapitalize='words'
                         autoCorrect={false}
                         keyboardType='ascii-capable'
-                        style={styles.textBox}
+                        style={styles.textbox}
                     />
                     <TextInput
                         placeholder='Last name (optional)'
@@ -214,7 +214,7 @@ class UserInfo extends React.Component {
                         autoCapitalize='words'
                         autoCorrect={false}
                         keyboardType='ascii-capable'
-                        style={styles.textBox}
+                        style={styles.textbox}
                     />
                 </ScrollView>
             </View>
