@@ -88,7 +88,7 @@ export default class Login extends React.Component {
                     style={styles.squaredButton}
                     onPress={() => this.handleLogin()}
                 >
-                    <Text style={{color: 'white'}}>Login</Text>
+                    <Text style={{color: 'white'}}>Log in</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.squaredButton}

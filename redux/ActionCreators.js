@@ -24,6 +24,11 @@ export const deactivateButton = () => ({
     active: false
 })
 
+export const setToken = (token) => ({
+    type: 'SET_TOKEN',
+    token
+})
+
 // export const fetchLocations = () => (dispatch) => {
 //     return firestore.collection('locations').get()
 //         .then(snapshot => {

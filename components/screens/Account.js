@@ -70,7 +70,7 @@ class Account extends Component {
                     style={{padding: 5, margin: 5, backgroundColor: '#6b52ae'}}
                     onPress={() => this.handleLogin()}
                 >
-                    <Text style={{color: 'white'}}>Login</Text>
+                    <Text style={{color: 'white'}}>Log in</Text>
                 </TouchableOpacity>
             </View>
         )
