@@ -1,14 +1,13 @@
 import React from 'react'
-import {TouchableOpacity, View} from 'react-native'
-import {FontAwesome5} from '@expo/vector-icons'
 import {NavigationContainer} from '@react-navigation/native'
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs'
 import * as SecureStore from 'expo-secure-store'
-import * as RootNavigation from './RootNavigation'
+import * as RootNavigation from '../RootNavigation'
 import BirthDate from './authentication/signup/BirthDate'
 import Congrats from './authentication/signup/Congrats'
 import Ethnicity from './authentication/signup/Ethnicity'
 import Login from './authentication/Login'
+import NextButton from './authentication/NextButton'
 import Sex from './authentication/signup/Sex'
 import UserInfo from './authentication/signup/UserInfo'
 import {styles} from '../styles'
@@ -28,6 +27,13 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 class Main extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            token: ''
+        }
+    }
+
     componentDidMount() {
         this.props.hideButton()
     }
@@ -39,51 +45,73 @@ class Main extends React.Component {
         const params = currentScreen.params
 
         if (currentScreenName === 'UserInfo' && this.props.nextButton.active) {
-            RootNavigation.jumpTo('BirthDate', params)
-            // const {username} = params
-            // const {password} = params
-            // const {email} = params
-            // const {firstName} = params
-            // const {lastName} = params
+            const {username} = params
+            const {password} = params
+            const {email} = params
+            const {firstName} = params
+            const {lastName} = params
 
-            // fetch(url + 'users/signup', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json'
-            //     },
-            //     body: JSON.stringify({
-            //         username,
-            //         password,
-            //         email,
-            //         firstName,
-            //         lastName
-            //     })
-            // })
-            // .then((res) => {
-            //     if (res.headers.get('content-type').includes('application/json')) {
-            //         return res.json()
-            //     } else if (res.headers.get('content-type') === 'text/plain') {
-            //         return res.text()
-            //     }
-            // })
-            // .then((res) => {
-            //     if (res.success) {
-            //         SecureStore.setItemAsync(
-            //             'token',
-            //             JSON.stringify({ username: this.state.username, password: this.state.password })
-            //         )
-            //             .catch((error) => console.log('Could not save user info', error))
-            //     }
-            // })
-            // .then(RootNavigation.jumpTo('BirthDate'))
-            // .catch((err) => {
-            //     console.log(err)
-            // })
+            fetch(url + 'users/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username,
+                    password,
+                    email,
+                    firstName,
+                    lastName
+                })
+            })
+            .then((res) => {
+                if (res.headers.get('content-type').includes('application/json')) {
+                    return res.json()
+                } else if (res.headers.get('content-type') === 'text/plain') {
+                    return res.text()
+                }
+            })
+            .then((res) => {
+                if (res.success) {
+                    this.setState({token: res.token}, () => RootNavigation.jumpTo('BirthDate'))
+                    SecureStore.setItemAsync('token', res.token)
+                        .catch((error) => console.log('Could not save token', error))
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
         } else if (currentScreenName === 'BirthDate') {
-            RootNavigation.jumpTo('Sex', params)
+            const {birthDate} = params
+
+            fetch(url + 'users', {
+                method: 'PUT',
+                headers: {
+                    'Authorization': 'Bearer ' + this.state.token,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    birthDate
+                })
+            })
+            .then((res) => {
+                if (res.headers.get('content-type').includes('application/json')) {
+                    return res.json()
+                } else if (res.headers.get('content-type') === 'text/plain') {
+                    return res.text()
+                }
+            })
+            .then((res) => {
+                if (res.success) {
+                    RootNavigation.jumpTo('Sex')
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
         } else if (currentScreenName === 'Sex') {
             this.props.nextButton.active ?
-                RootNavigation.jumpTo('Ethnicity', params)
+                RootNavigation.jumpTo('Ethnicity')
             :
                 {}
         } else if (currentScreenName === 'Ethnicity') {
@@ -115,13 +143,10 @@ class Main extends React.Component {
                 params.ethnicity.push('Other')
             }
             this.props.nextButton.active ?
-                RootNavigation.jumpTo('Congrats', params)
+                RootNavigation.jumpTo('Congrats')
             :
                 {}
         } else if (currentScreenName === 'Congrats') {
-            const {birthDate} = params
-            const {sex} = params
-            const {ethnicity} = params
         }
     }
 
@@ -130,9 +155,10 @@ class Main extends React.Component {
             <>
                 <NavigationContainer ref={RootNavigation.navigationRef}>
                     <Tab.Navigator
+                        backBehavior='order'
                         initialRouteName='Login'
                         lazy={true}
-                        // swipeEnabled={false}
+                        swipeEnabled={false}
                         tabBarPosition={null}
                     >
                         <Tab.Screen name='Login' component={Login}
@@ -155,18 +181,7 @@ class Main extends React.Component {
                         />
                     </Tab.Navigator>
                 </NavigationContainer>
-                <View style={[
-                    styles.nextButtonPosition,
-                    {opacity: this.props.nextButton.visible ? 1 : 0}
-                ]}>
-                    <TouchableOpacity
-                        onPress={() => this.nextSignupScreen()}
-                        activeOpacity={this.props.nextButton.opacity}
-                        style={[styles.roundButton, {backgroundColor: this.props.nextButton.color}]}
-                    >
-                        <FontAwesome5 name={'chevron-right'} size={30} color='white' />
-                    </TouchableOpacity>
-                </View>
+                <NextButton onPress={() => this.nextSignupScreen()} styles={styles} />
             </>
         )
     }
