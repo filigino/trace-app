@@ -1,11 +1,6 @@
 import {StyleSheet} from 'react-native'
 
 export const styles = StyleSheet.create({
-    availableIconPosition: {
-        bottom: 15,
-        position: 'absolute',
-        right: 12
-    },
     buttonContainer: {
         flexDirection: 'row',
         justifyContent: 'center'
@@ -34,11 +29,6 @@ export const styles = StyleSheet.create({
         fontSize: 20,
         textAlign: 'center'
     },
-    hiddenIconPosition: {
-        bottom: 15,
-        position: 'absolute',
-        right: 45
-    },
     nextButtonPosition: {
         alignItems: 'flex-end',
         marginBottom: 40,
@@ -54,13 +44,11 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         width: 70
     },
-    screen: {
+    splash: {
         alignItems: 'center',
+        backgroundColor: 'rebeccapurple',
         flex: 1,
         justifyContent: 'center'
-    },
-    screenText: { // ??
-        color: 'black'
     },
     squaredButton: {
         alignItems: 'center',
@@ -79,6 +67,16 @@ export const styles = StyleSheet.create({
         height: 44,
         margin: 5,
         paddingHorizontal: 5
+    },
+    textboxIconPositionA: {
+        bottom: 15,
+        position: 'absolute',
+        right: 12
+    },
+    textboxIconPositionB: {
+        bottom: 15,
+        position: 'absolute',
+        right: 45
     },
     xorButton: {
         alignItems: 'center',

@@ -1,8 +1,8 @@
 import React from 'react'
-import {Text, TouchableOpacity, View} from 'react-native'
-import {Foundation} from '@expo/vector-icons'
 import {connect} from 'react-redux'
 import {activateButton, deactivateButton} from '../../../redux/ActionCreators'
+import {Text, TouchableOpacity, View} from 'react-native'
+import {Foundation} from '@expo/vector-icons'
 
 const mapDispatchToProps = (dispatch) => ({
     activateButton: () => dispatch(activateButton()),

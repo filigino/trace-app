@@ -1,21 +1,29 @@
 import React from 'react'
-import {Image, View, Text} from 'react-native'
+import {connect} from 'react-redux'
+import {checkToken} from '../redux/ActionCreators'
+import {StatusBar, View} from 'react-native'
+import {Ionicons} from '@expo/vector-icons'
+
+const mapDispatchToProps = (dispatch) => ({
+    checkToken: () => dispatch(checkToken())
+})
 
 class Splash extends React.Component {
     componentDidMount() {
-        setTimeout(this.props.hideSplash, 2000)
+        this.props.checkToken()
     }
 
     render() {
         return (
-            <View style={[this.props.styles.screen, {backgroundColor: 'rebeccapurple'}]}>
-                <Image
-                    source={require('../assets/logo.png')}
-                    style={{height: 200, resizeMode: 'contain'}}
+            <View style={this.props.styles.splash}>
+                <StatusBar barStyle='dark-content'/>
+                <Ionicons
+                    name={'md-contacts'}
+                    size={200}
                 />
             </View>
         )
     }
 }
 
-export default Splash
+export default connect(null, mapDispatchToProps)(Splash)

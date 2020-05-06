@@ -1,7 +1,7 @@
 import React from 'react'
-import {ScrollView, Text, TouchableOpacity, View} from 'react-native'
 import {connect} from 'react-redux'
 import {activateButton, deactivateButton} from '../../../redux/ActionCreators'
+import {ScrollView, Text, TouchableOpacity, View} from 'react-native'
 
 const mapDispatchToProps = (dispatch) => ({
     activateButton: () => dispatch(activateButton()),

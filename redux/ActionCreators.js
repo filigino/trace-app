@@ -1,4 +1,91 @@
+import * as SecureStore from 'expo-secure-store'
+import {Alert} from 'react-native'
 import {url} from '../url'
+
+export const checkToken = () => (dispatch) => {
+    SecureStore.getItemAsync('token')
+    .then((token) => {
+        if (token) {
+            fetch(url + 'users', {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            })
+            .then((res) => {
+                if (res.headers.get('content-type').includes('application/json')) {
+                    return res.json()
+                } else if (res.headers.get('content-type') === 'text/plain') {
+                    return res.text()
+                }
+            })
+            .then((res) => {
+                if (res.username) {
+                    dispatch(restoreToken(token))
+                } else {
+                    SecureStore.deleteItemAsync('token')
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        }
+    })
+    .then(() => dispatch(load()))
+}
+
+export const logIn = (username, password, rememberMe) => (dispatch) => {
+    fetch(url + 'users/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({username, password})
+    })
+    .then((res) => {
+        if (res.headers.get('content-type').includes('application/json')) {
+            return res.json()
+        } else if (res.headers.get('content-type') === 'text/plain') {
+            return res.text()
+        }
+    })
+    .then((res) => {
+        if (res.success) {
+            dispatch(restoreToken(res.token))
+            SecureStore.setItemAsync('token', res.token)
+            if (rememberMe) {
+                SecureStore.setItemAsync('userLogin', JSON.stringify({username, password}))
+            } else {
+                SecureStore.deleteItemAsync('userLogin')
+            }
+        } else {
+            Alert.alert(
+                'Error',
+                'Incorrect username/password'
+            )
+        }
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+}
+
+export const logOut = () => (dispatch) => {
+    dispatch(destroyToken())
+    SecureStore.deleteItemAsync('token')
+}
+
+export const restoreToken = (token) => ({
+    type: 'RESTORE_TOKEN',
+    token
+})
+
+export const load = () => ({
+    type: 'LOAD'
+})
+
+export const destroyToken = () => ({
+    type: 'DESTROY_TOKEN'
+})
 
 export const showButton = () => ({
     type: 'TOGGLE_BUTTON_VISIBILITY',
@@ -22,11 +109,6 @@ export const deactivateButton = () => ({
     color: 'gray',
     opacity: 1,
     active: false
-})
-
-export const setToken = (token) => ({
-    type: 'SET_TOKEN',
-    token
 })
 
 // export const fetchLocations = () => (dispatch) => {

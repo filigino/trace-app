@@ -1,19 +1,18 @@
 import {applyMiddleware, createStore} from 'redux'
+import {persistCombineReducers, persistStore} from 'redux-persist'
 import thunk from 'redux-thunk'
+import {AsyncStorage} from 'react-native'
 import auth from './reducers/auth'
 import drinks from './reducers/drinks'
 import food from './reducers/food'
 import locations from './reducers/locations'
-import nextButton from './reducers/nextButton'
-import {persistCombineReducers, persistStore} from 'redux-persist'
-import {AsyncStorage} from 'react-native'
+import signUpNextButton from './reducers/signUpNextButton'
 
 const configureStore = () => {
     const persistConfig = {
         key: 'root',
         storage: AsyncStorage,
-        blacklist: ['auth', 'nextButton'],
-        debug: true
+        blacklist: ['auth', 'signUpNextButton']
     }
 
     const store = createStore(
@@ -22,7 +21,7 @@ const configureStore = () => {
             drinks,
             food,
             locations,
-            nextButton
+            signUpNextButton
         }),
         applyMiddleware(thunk)
     )

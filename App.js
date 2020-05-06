@@ -1,8 +1,8 @@
 import React from 'react'
-import Main from './components/Main'
 import {Provider} from 'react-redux'
-import configureStore from './redux/configureStore'
 import {PersistGate} from 'redux-persist/es/integration/react'
+import configureStore from './redux/configureStore'
+import Main from './components/Main'
 
 const {persistor, store} = configureStore()
 

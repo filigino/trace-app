@@ -1,7 +1,13 @@
 import React, { Component } from 'react'
+import {connect} from 'react-redux'
+import {logOut} from '../../redux/ActionCreators'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { CheckBox, Input } from 'react-native-elements'
 import * as SecureStore from 'expo-secure-store'
+
+const mapDispatchToProps = (dispatch) => ({
+    logOut: () => dispatch(logOut())
+})
 
 class Account extends Component {
     constructor(props) {
@@ -16,18 +22,18 @@ class Account extends Component {
     componentDidMount() {
         // Returns promise
         SecureStore.getItemAsync('user_info')
-            .then((userdata) => {
-                // JSON objects stored in store...must convert to and from
-                // JSON when accessing
-                let userinfo = JSON.parse(userdata)
-                if (userinfo) {
-                    this.setState({username: userinfo.username})
-                    this.setState({password: userinfo.password})
-                    // Their info was previously remembered so keep
-                    // remembering it
-                    this.setState({remember: true})
-                }
-            })
+        .then((userdata) => {
+            // JSON objects stored in store...must convert to and from
+            // JSON when accessing
+            let userinfo = JSON.parse(userdata)
+            if (userinfo) {
+                this.setState({username: userinfo.username})
+                this.setState({password: userinfo.password})
+                // Their info was previously remembered so keep
+                // remembering it
+                this.setState({remember: true})
+            }
+        })
     }
 
     handleLogin() {
@@ -70,7 +76,13 @@ class Account extends Component {
                     style={{padding: 5, margin: 5, backgroundColor: '#6b52ae'}}
                     onPress={() => this.handleLogin()}
                 >
-                    <Text style={{color: 'white'}}>Log in</Text>
+                    <Text style={{color: 'white'}}>Log In</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={{padding: 5, margin: 5, backgroundColor: '#6b52ae'}}
+                    onPress={() => this.props.logOut()}
+                >
+                    <Text style={{color: 'white'}}>Log Out</Text>
                 </TouchableOpacity>
             </View>
         )
@@ -94,4 +106,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Account
+export default connect(null, mapDispatchToProps)(Account)

@@ -1,9 +1,9 @@
 import React from 'react'
+import {connect} from 'react-redux'
+import {activateButton, deactivateButton, showButton} from '../../../redux/ActionCreators'
 import {Alert, ScrollView, TextInput, TouchableOpacity, View} from 'react-native'
 import {FontAwesome5} from '@expo/vector-icons'
 import {url} from '../../../url'
-import {connect} from 'react-redux'
-import {activateButton, deactivateButton, showButton} from '../../../redux/ActionCreators'
 
 const mapDispatchToProps = (dispatch) => ({
     activateButton: () => dispatch(activateButton()),
@@ -30,8 +30,86 @@ class UserInfo extends React.Component {
         this.props.showButton()    
     }
 
+    checkUsernameAvailability(text) {
+        this.setState({usernameStarted: true})
+        if (text && !text.includes(' ')) {
+            fetch(url + 'users/username_availability', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: text
+                })
+            })
+            .then((res) => res.json())
+            .then((res) => {
+                if (res.success) {
+                    this.setState({usernameAvailable: true})
+                    this.props.navigation.setParams({username: text})
+                } else {
+                    this.setState({usernameAvailable: false})
+                }
+            })
+            .then(() => this.styleButton())
+            .catch((err) => {
+                Alert.alert(
+                    'Could not connect to server',
+                    'Required to check username availability'
+                )
+                console.log(err)
+            })
+        } else {
+            this.setState({usernameAvailable: false}, () => this.styleButton())
+        }
+    }
+
+    checkEmailAvailability(text) {
+        this.setState({emailStarted: true})
+        if (text && text.includes('@') && text.includes('.') && !text.includes(' ')) {
+            fetch(url + 'users/email_availability', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: text
+                })
+            })
+            .then((res) => res.json())
+            .then((res) => {
+                if (res.success) {
+                    this.setState({emailAvailable: true})
+                    this.props.navigation.setParams({email: text})
+                } else {
+                    this.setState({emailAvailable: false})
+                }
+            })
+            .then(() => this.styleButton())
+            .catch((err) => {
+                Alert.alert(
+                    'Could not connect to server',
+                    'Required to check email availability'
+                )
+                console.log(err)
+            })
+        } else {
+            this.setState({emailAvailable: false}, () => this.styleButton())
+        }
+    }
+
     togglePasswordVisibility() {
         this.setState({hidePassword: !this.state.hidePassword})
+    }
+
+    validatePassword(text) {
+        this.setState({passwordStarted: true})
+        if (text && !text.includes(' ') && text.length >= 8) {
+            this.setState({passwordValid: true}, () => this.styleButton())
+            this.props.navigation.setParams({password: text})
+        } else {
+            this.setState({passwordValid: false}, () => this.styleButton())
+        }
     }
 
     styleButton() {
@@ -50,39 +128,7 @@ class UserInfo extends React.Component {
                     <View>
                         <TextInput
                             placeholder='Username'
-                            onChangeText={(text) => {
-                                this.setState({usernameStarted: true})
-                                if (text && !text.includes(' ')) {
-                                    fetch(url + 'users/username_availability', {
-                                        method: 'POST',
-                                        headers: {
-                                            'Content-Type': 'application/json'
-                                        },
-                                        body: JSON.stringify({
-                                            username: text
-                                        })
-                                    })
-                                    .then((res) => res.json())
-                                    .then((res) => {
-                                        if (res.success) {
-                                            this.setState({usernameAvailable: true})
-                                            this.props.navigation.setParams({username: text})
-                                        } else {
-                                            this.setState({usernameAvailable: false})
-                                        }
-                                    })
-                                    .then(() => this.styleButton())
-                                    .catch((err) => {
-                                        Alert.alert(
-                                            'Could not connect to server',
-                                            'Required to check username availability'
-                                        )
-                                        console.log(err)
-                                    })
-                                } else {
-                                    this.setState({usernameAvailable: false}, () => this.styleButton())
-                                }
-                            }}
+                            onChangeText={(text) => this.checkUsernameAvailability(text)}
                             onEndEditing={(input) => {
                                 const text = input.nativeEvent.text
                                 if (!text) {
@@ -101,29 +147,21 @@ class UserInfo extends React.Component {
                                 color={this.state.usernameAvailable ? 'green' : 'red'}
                                 name={this.state.usernameAvailable ? 'check-circle' : 'times-circle'}
                                 size={25}
-                                style={styles.availableIconPosition}
+                                style={styles.textboxIconPositionA}
                             />
                         )}
                     </View>
                     <View>
                         <TextInput
                             placeholder='Password (min. 8 chars)'
-                            onChangeText={(text) => {
-                                this.setState({passwordStarted: true})
-                                if (text && !text.includes(' ') && text.length >= 8) {
-                                    this.setState({passwordValid: true}, () => this.styleButton())
-                                    this.props.navigation.setParams({password: text})
-                                } else {
-                                    this.setState({passwordValid: false}, () => this.styleButton())
-                                }
-                            }}
+                            onChangeText={(text) => this.validatePassword(text)}
                             secureTextEntry={this.state.hidePassword}
                             style={styles.textbox}
                             textContentType='password'
                         />
                         <TouchableOpacity
                             onPress={() => this.togglePasswordVisibility()}
-                            style={styles.hiddenIconPosition}
+                            style={styles.textboxIconPositionB}
                         >
                             <FontAwesome5
                                 color={'gray'}
@@ -136,46 +174,14 @@ class UserInfo extends React.Component {
                                 color={this.state.passwordValid ? 'green' : 'red'}
                                 name={this.state.passwordValid ? 'check-circle' : 'times-circle'}
                                 size={25}
-                                style={styles.availableIconPosition}
+                                style={styles.textboxIconPositionA}
                             />
                         )}
                     </View>
                     <View>
                         <TextInput
                             placeholder='Email'
-                            onChangeText={(text) => {
-                                this.setState({emailStarted: true})
-                                if (text && text.includes('@') && text.includes('.') && !text.includes(' ')) {
-                                    fetch(url + 'users/email_availability', {
-                                        method: 'POST',
-                                        headers: {
-                                            'Content-Type': 'application/json'
-                                        },
-                                        body: JSON.stringify({
-                                            email: text
-                                        })
-                                    })
-                                    .then((res) => res.json())
-                                    .then((res) => {
-                                        if (res.success) {
-                                            this.setState({emailAvailable: true})
-                                            this.props.navigation.setParams({email: text})
-                                        } else {
-                                            this.setState({emailAvailable: false})
-                                        }
-                                    })
-                                    .then(() => this.styleButton())
-                                    .catch((err) => {
-                                        Alert.alert(
-                                            'Could not connect to server',
-                                            'Required to check email availability'
-                                        )
-                                        console.log(err)
-                                    })
-                                } else {
-                                    this.setState({emailAvailable: false}, () => this.styleButton())
-                                }
-                            }}
+                            onChangeText={(text) => this.checkEmailAvailability(text)}
                             onEndEditing={(input) => {
                                 const text = input.nativeEvent.text
                                 if (!text.includes('@') || !text.includes('.')) {
@@ -192,7 +198,7 @@ class UserInfo extends React.Component {
                                 color={this.state.emailAvailable ? 'green' : 'red'}
                                 name={this.state.emailAvailable ? 'check-circle' : 'times-circle'}
                                 size={25}
-                                style={styles.availableIconPosition}
+                                style={styles.textboxIconPositionA}
                             />
                         )}
                     </View>
