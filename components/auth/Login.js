@@ -48,56 +48,60 @@ class Login extends React.Component {
     render() {
         const {styles} = this.props.route.params
         return (
-            <View style={[styles.container, {justifyContent: 'center'}]}>
-                <TextInput
-                    placeholder='Username'
-                    autoCapitalize='none'
-                    autoCorrect={false}
-                    keyboardType='ascii-capable'
-                    maxLength={15}
-                    onChangeText={(username) => this.setState({username})}
-                    style={styles.textbox}
-                    value={this.state.username}
-                />
+            <View style={[styles.container, {justifyContent: 'space-around'}]}>
                 <View>
                     <TextInput
-                        placeholder='Password'
-                        onChangeText={(password) => this.setState({password})}
-                        secureTextEntry={this.state.hidePassword}
+                        placeholder='Username'
+                        autoCapitalize='none'
+                        autoCorrect={false}
+                        autoFocus={true}
+                        keyboardType='ascii-capable'
+                        maxLength={15}
+                        onChangeText={(username) => this.setState({username})}
                         style={styles.textbox}
-                        textContentType='password'
-                        value={this.state.password}
+                        value={this.state.username}
+                    />
+                    <View>
+                        <TextInput
+                            placeholder='Password'
+                            onChangeText={(password) => this.setState({password})}
+                            secureTextEntry={this.state.hidePassword}
+                            style={styles.textbox}
+                            textContentType='password'
+                            value={this.state.password}
+                        />
+                        <TouchableOpacity
+                            onPress={() => this.togglePasswordVisibility()}
+                            style={styles.textboxIconPositionA}
+                        >
+                            <FontAwesome5
+                                color={'gray'}
+                                name={this.state.hidePassword ? 'eye-slash' : 'eye'}
+                                size={25}
+                            />
+                        </TouchableOpacity>
+                    </View>
+                    <CheckBox
+                        title='Remember Me'
+                        onPress={() => this.setState({rememberMe: !this.state.rememberMe})}
+                        center
+                        checked={this.state.rememberMe}
+                        containerStyle={styles.formCheckbox}
                     />
                     <TouchableOpacity
-                        onPress={() => this.togglePasswordVisibility()}
-                        style={styles.textboxIconPositionA}
+                        onPress={() => this.handleLogin()}
+                        style={styles.squaredButton}
                     >
-                        <FontAwesome5
-                            color={'gray'}
-                            name={this.state.hidePassword ? 'eye-slash' : 'eye'}
-                            size={25}
-                        />
+                        <Text style={{color: 'white'}}>Log In</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => this.props.navigation.jumpTo('UserInfo')}
+                        style={styles.squaredButton}
+                    >
+                        <Text style={{color: 'white'}}>Sign Up</Text>
                     </TouchableOpacity>
                 </View>
-                <CheckBox
-                    title='Remember Me'
-                    onPress={() => this.setState({rememberMe: !this.state.rememberMe})}
-                    center
-                    checked={this.state.rememberMe}
-                    containerStyle={styles.formCheckbox}
-                />
-                <TouchableOpacity
-                    onPress={() => this.handleLogin()}
-                    style={styles.squaredButton}
-                >
-                    <Text style={{color: 'white'}}>Log In</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={() => this.props.navigation.jumpTo('UserInfo')}
-                    style={styles.squaredButton}
-                >
-                    <Text style={{color: 'white'}}>Sign Up</Text>
-                </TouchableOpacity>
+                <View></View>
             </View>
         )
     }

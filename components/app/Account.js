@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {logOut} from '../../redux/ActionCreators'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { CheckBox, Input } from 'react-native-elements'
+import {Text, TouchableOpacity, View} from 'react-native'
+import {CheckBox, Input} from 'react-native-elements'
 import * as SecureStore from 'expo-secure-store'
 
 const mapDispatchToProps = (dispatch) => ({
@@ -52,6 +52,7 @@ class Account extends Component {
     }
 
     render() {
+        const {styles} = this.props.route.params
         return (
             <View style={styles.container}>
                 <Input
@@ -88,22 +89,5 @@ class Account extends Component {
         )
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        justifyContent: 'center',
-        margin: 20
-    },
-    formInput: {
-        marginVertical: 20
-    },
-    formCheckbox: {
-        margin: 40,
-        backgroundColor: null
-    },
-    formButton: {
-        margin: 60
-    }
-})
 
 export default connect(null, mapDispatchToProps)(Account)

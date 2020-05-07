@@ -28,12 +28,12 @@ const HomeStackScreen = () => {
         <HomeStack.Navigator
             screenOptions={{
                 headerStyle: {
-                    backgroundColor: '#6b52ae'
+                    backgroundColor: 'rebeccapurple'
                 },
                 headerTintColor: 'white',
                 headerTitle: 
-                    <Ionicons
-                        name={'md-contacts'}
+                    <MaterialCommunityIcons
+                        name={'draw'}
                         size={30}
                     />
             }}
@@ -52,11 +52,14 @@ const MenuStackScreen = () => {
         <MenuStack.Navigator
             screenOptions={{
                 headerStyle: {
-                    backgroundColor: '#6b52ae'
+                    backgroundColor: 'rebeccapurple'
                 },
                 headerTintColor: 'white',
                 headerTitle: 
-                    <Text>Contact</Text>
+                    <MaterialCommunityIcons
+                        name={'draw'}
+                        size={30}
+                    />
             }}
             initialRouteName='Menu'
         >
@@ -80,11 +83,14 @@ const LocationsStackScreen = () => {
         <LocationsStack.Navigator
             screenOptions={{
                 headerStyle: {
-                    backgroundColor: '#6b52ae'
+                    backgroundColor: 'rebeccapurple'
                 },
                 headerTintColor: 'white',
                 headerTitle: 
-                    <Text>Contact</Text>
+                    <MaterialCommunityIcons
+                        name={'draw'}
+                        size={30}
+                    />
             }}
         >
             <LocationsStack.Screen name='Locations' component={Locations}
@@ -101,11 +107,14 @@ const AccountStackScreen = () => {
         <AccountStack.Navigator
             screenOptions={{
                 headerStyle: {
-                    backgroundColor: '#6b52ae'
+                    backgroundColor: 'rebeccapurple'
                 },
                 headerTintColor: 'white',
                 headerTitle: 
-                    <Text>Contact</Text>
+                    <MaterialCommunityIcons
+                        name={'draw'}
+                        size={30}
+                    />
             }}
         >
             <AccountStack.Screen name='Account' component={Account}

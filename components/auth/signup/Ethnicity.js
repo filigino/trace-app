@@ -33,7 +33,11 @@ class Ethnicity extends React.Component {
     onToggleAmericanIndian() {
         this.setState({americanIndian: !this.state.americanIndian}, () => {
             this.styleButton()
-            this.props.navigation.setParams({americanIndian: this.state.americanIndian})
+            if (this.state.americanIndian) {
+                this.props.route.params.ethnicity.push('American Indian')
+            } else {
+                this.props.navigation.setParams({ethnicity: this.props.route.params.ethnicity.filter((ethnicity) => ethnicity !== 'American Indian')})
+            }
         })
         this.deactivateSkip()
     }
@@ -41,7 +45,11 @@ class Ethnicity extends React.Component {
     onToggleBlack() {
         this.setState({black: !this.state.black}, () => {
             this.styleButton()
-            this.props.navigation.setParams({black: this.state.black})
+            if (this.state.black) {
+                this.props.route.params.ethnicity.push('Black/African Descent')
+            } else {
+                this.props.navigation.setParams({ethnicity: this.props.route.params.ethnicity.filter((ethnicity) => ethnicity !== 'Black/African Descent')})
+            }
         })
         this.deactivateSkip()
     }
@@ -49,7 +57,11 @@ class Ethnicity extends React.Component {
     onToggleEastAsian() {
         this.setState({eastAsian: !this.state.eastAsian}, () => {
             this.styleButton()
-            this.props.navigation.setParams({eastAsian: this.state.eastAsian})
+            if (this.state.eastAsian) {
+                this.props.route.params.ethnicity.push('East Asian')
+            } else {
+                this.props.navigation.setParams({ethnicity: this.props.route.params.ethnicity.filter((ethnicity) => ethnicity !== 'East Asian')})
+            }
         })
         this.deactivateSkip()
     }
@@ -57,7 +69,11 @@ class Ethnicity extends React.Component {
     onToggleHispanicLatino() {
         this.setState({hispanicLatino: !this.state.hispanicLatino}, () => {
             this.styleButton()
-            this.props.navigation.setParams({hispanicLatino: this.state.hispanicLatino})
+            if (this.state.hispanicLatino) {
+                this.props.route.params.ethnicity.push('Hispanic/Latino')
+            } else {
+                this.props.navigation.setParams({ethnicity: this.props.route.params.ethnicity.filter((ethnicity) => ethnicity !== 'Hispanic/Latino')})
+            }
         })
         this.deactivateSkip()
     }
@@ -65,7 +81,11 @@ class Ethnicity extends React.Component {
     onToggleMiddleEastern() {
         this.setState({middleEastern: !this.state.middleEastern}, () => {
             this.styleButton()
-            this.props.navigation.setParams({middleEastern: this.state.middleEastern})
+            if (this.state.middleEastern) {
+                this.props.route.params.ethnicity.push('Middle Eastern')
+            } else {
+                this.props.navigation.setParams({ethnicity: this.props.route.params.ethnicity.filter((ethnicity) => ethnicity !== 'Middle Eastern')})
+            }
         })
         this.deactivateSkip()
     }
@@ -73,7 +93,11 @@ class Ethnicity extends React.Component {
     onTogglePacificIslander() {
         this.setState({pacificIslander: !this.state.pacificIslander}, () => {
             this.styleButton()
-            this.props.navigation.setParams({pacificIslander: this.state.pacificIslander})
+            if (this.state.pacificIslander) {
+                this.props.route.params.ethnicity.push('Pacific Islander')
+            } else {
+                this.props.navigation.setParams({ethnicity: this.props.route.params.ethnicity.filter((ethnicity) => ethnicity !== 'Pacific Islander')})
+            }
         })
         this.deactivateSkip()
     }
@@ -81,7 +105,11 @@ class Ethnicity extends React.Component {
     onToggleSouthAsian() {
         this.setState({southAsian: !this.state.southAsian}, () => {
             this.styleButton()
-            this.props.navigation.setParams({southAsian: this.state.southAsian})
+            if (this.state.southAsian) {
+                this.props.route.params.ethnicity.push('South Asian')
+            } else {
+                this.props.navigation.setParams({ethnicity: this.props.route.params.ethnicity.filter((ethnicity) => ethnicity !== 'South Asian')})
+            }
         })
         this.deactivateSkip()
     }
@@ -89,7 +117,11 @@ class Ethnicity extends React.Component {
     onToggleWhite() {
         this.setState({white: !this.state.white}, () => {
             this.styleButton()
-            this.props.navigation.setParams({white: this.state.white})
+            if (this.state.white) {
+                this.props.route.params.ethnicity.push('White/Caucasian')
+            } else {
+                this.props.navigation.setParams({ethnicity: this.props.route.params.ethnicity.filter((ethnicity) => ethnicity !== 'White/Caucasian')})
+            }
         })
         this.deactivateSkip()
     }
@@ -97,7 +129,11 @@ class Ethnicity extends React.Component {
     onToggleOther() {
         this.setState({other: !this.state.other}, () => {
             this.styleButton()
-            this.props.navigation.setParams({other: this.state.other})
+            if (this.state.other) {
+                this.props.route.params.ethnicity.push('Other')
+            } else {
+                this.props.navigation.setParams({ethnicity: this.props.route.params.ethnicity.filter((ethnicity) => ethnicity !== 'Other')})
+            }
         })
         this.deactivateSkip()
     }
@@ -120,15 +156,7 @@ class Ethnicity extends React.Component {
                 this.setState({southAsian: false})
                 this.setState({white: false})
                 this.setState({other: false})
-                this.props.navigation.setParams({americanIndian: false})
-                this.props.navigation.setParams({black: false})
-                this.props.navigation.setParams({eastAsian: false})
-                this.props.navigation.setParams({hispanicLatino: false})
-                this.props.navigation.setParams({middleEastern: false})
-                this.props.navigation.setParams({pacificIslander: false})
-                this.props.navigation.setParams({southAsian: false})
-                this.props.navigation.setParams({white: false})
-                this.props.navigation.setParams({other: false})
+                this.props.navigation.setParams({ethnicity: []})
             }
             this.styleButton()
         })
@@ -245,7 +273,7 @@ class Ethnicity extends React.Component {
                             <Text style={{color: 'white'}}>Other</Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+                    <View style={{flexDirection: 'row'}}>
                         <TouchableOpacity
                             onPress={() => this.onToggleSkip()}
                             style={[

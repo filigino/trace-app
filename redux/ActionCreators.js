@@ -30,7 +30,7 @@ export const checkToken = () => (dispatch) => {
             })
         }
     })
-    .then(() => dispatch(load()))
+    .then(() => dispatch(hideSplash()))
 }
 
 export const logIn = (username, password, rememberMe) => (dispatch) => {
@@ -79,12 +79,26 @@ export const restoreToken = (token) => ({
     token
 })
 
-export const load = () => ({
-    type: 'LOAD'
-})
-
 export const destroyToken = () => ({
     type: 'DESTROY_TOKEN'
+})
+
+export const hideSplash = () => ({
+    type: 'HIDE_SPLASH'
+})
+
+export const activateButton = () => ({
+    type: 'STYLE_BUTTON',
+    color: '#624480',
+    activeOpacity: 0.2,
+    active: true
+})
+
+export const deactivateButton = () => ({
+    type: 'STYLE_BUTTON',
+    color: 'gray',
+    activeOpacity: 1,
+    active: false
 })
 
 export const showButton = () => ({
@@ -95,20 +109,6 @@ export const showButton = () => ({
 export const hideButton = () => ({
     type: 'TOGGLE_BUTTON_VISIBILITY',
     visible: false
-})
-
-export const activateButton = () => ({
-    type: 'STYLE_BUTTON',
-    color: '#624480',
-    opacity: 0.2,
-    active: true
-})
-
-export const deactivateButton = () => ({
-    type: 'STYLE_BUTTON',
-    color: 'gray',
-    opacity: 1,
-    active: false
 })
 
 // export const fetchLocations = () => (dispatch) => {

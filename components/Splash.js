@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {checkToken} from '../redux/ActionCreators'
 import {StatusBar, View} from 'react-native'
-import {Ionicons} from '@expo/vector-icons'
+import {MaterialCommunityIcons} from '@expo/vector-icons'
 
 const mapDispatchToProps = (dispatch) => ({
     checkToken: () => dispatch(checkToken())
@@ -14,11 +14,12 @@ class Splash extends React.Component {
     }
 
     render() {
+        const {styles} = this.props
         return (
-            <View style={this.props.styles.splash}>
+            <View style={styles.splash}>
                 <StatusBar barStyle='dark-content'/>
-                <Ionicons
-                    name={'md-contacts'}
+                <MaterialCommunityIcons
+                    name={'draw'}
                     size={200}
                 />
             </View>

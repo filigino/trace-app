@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {styles} from '../styles'
 import Splash from './Splash'
 import Auth from './auth/Auth'
-import Trace from './screens/Trace'
+import Trace from './app/Trace'
 
 const mapStateToProps = (state) => ({
     auth: state.auth

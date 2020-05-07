@@ -5,25 +5,11 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center'
     },
-    confirmTextbox: {
-        margin: 5
-    },
     container: {
         backgroundColor: 'white',
         flex: 1,
         padding: 40,
         paddingTop: 80
-    },
-    ethnicityButton: {
-        alignItems: 'center',
-        backgroundColor: '#624480',
-        borderColor: 'rgba(0,0,0,0.2)',
-        borderRadius: 15,
-        borderWidth: 1,
-        height: 50,
-        justifyContent: 'center',
-        margin: 5,
-        paddingHorizontal: 10
     },
     heading: {
         fontSize: 20,
@@ -77,12 +63,5 @@ export const styles = StyleSheet.create({
         bottom: 15,
         position: 'absolute',
         right: 45
-    },
-    xorButton: {
-        alignItems: 'center',
-        flex: 1/2,
-        height: 70,
-        margin: 5,
-        justifyContent: 'center'
     }
 })

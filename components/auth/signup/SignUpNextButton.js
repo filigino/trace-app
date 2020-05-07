@@ -53,6 +53,7 @@ const SignUpNextButton = (props) => {
                 if (res.success) {
                     RootNavigation.jumpTo('BirthDate')
                     SecureStore.setItemAsync('token', res.token)
+                    SecureStore.deleteItemAsync('userLogin')
                 }
             })
             .catch((err) => {
@@ -117,35 +118,7 @@ const SignUpNextButton = (props) => {
                     .catch((err) => {
                         console.log(err)
                     })
-                } else if (currentScreenName === 'Ethnicity' && props.signUpNextButton.active) {
-                    if (params.americanIndian) {
-                        params.ethnicity.push('American Indian')
-                    }
-                    if (params.black) {
-                        params.ethnicity.push('Black/African Descent')
-                    }
-                    if (params.eastAsian) {
-                        params.ethnicity.push('East Asian')
-                    }
-                    if (params.hispanicLatino) {
-                        params.ethnicity.push('Hispanic/Latino')
-                    }
-                    if (params.middleEastern) {
-                        params.ethnicity.push('Middle Eastern')
-                    }
-                    if (params.pacificIslander) {
-                        params.ethnicity.push('Pacific Islander')
-                    }
-                    if (params.southAsian) {
-                        params.ethnicity.push('South Asian')
-                    }
-                    if (params.white) {
-                        params.ethnicity.push('White/Caucasian')
-                    }
-                    if (params.other) {
-                        params.ethnicity.push('Other')
-                    }
-    
+                } else if (currentScreenName === 'Ethnicity' && props.signUpNextButton.active) {    
                     const {ethnicity} = params
                     fetch(url + 'users', {
                         method: 'PUT',
