@@ -184,7 +184,7 @@ class Ethnicity extends React.Component {
     render() {
         const {styles} = this.props.route.params
         return (
-            <View style={styles.container}>
+            <View style={styles.containerAuth}>
                 <Text style={styles.heading}>What is your ethnicity?</Text>
                 <ScrollView style={{top: 5}}>
                     <View style={[{

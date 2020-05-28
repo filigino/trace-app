@@ -5,7 +5,12 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center'
     },
-    container: {
+    containerApp: {
+        backgroundColor: 'white',
+        flex: 1,
+        padding: 40
+    },
+    containerAuth: {
         backgroundColor: 'white',
         flex: 1,
         padding: 40,

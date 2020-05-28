@@ -32,7 +32,7 @@ class Sex extends React.Component {
     render() {
         const {styles} = this.props.route.params
         return (
-            <View style={styles.container}>
+            <View style={styles.containerAuth}>
                 <Text style={styles.heading}>What is your sex?</Text>
                 <View style={{flex: 1, justifyContent: 'center'}}>
                     <View style={[{

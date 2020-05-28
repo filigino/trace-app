@@ -6,17 +6,6 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "expo": "^37.0.0",
-    "expo-splash-screen": "^0.2.3",
-    "expo-updates": "~0.2.0",
-    "react": "~16.9.0",
-    "react-dom": "16.9.0",
-    "react-native": "~0.61.5",
-    "react-native-gesture-handler": "~1.6.0",
-    "react-native-reanimated": "~1.7.0",
-    "react-native-screens": "~2.2.0",
-    "react-native-unimodules": "~0.9.0",
-    "react-native-web": "^0.11.7",
     "@expo/vector-icons": "^10.0.0",
     "@react-native-community/datetimepicker": "2.2.2",
     "@react-native-community/masked-view": "0.1.6",
@@ -24,11 +13,23 @@
     "@react-navigation/material-top-tabs": "^5.1.14",
     "@react-navigation/native": "^5.1.0",
     "@react-navigation/stack": "^5.2.1",
+    "expo": "^37.0.0",
     "expo-secure-store": "~8.1.0",
+    "expo-splash-screen": "^0.2.3",
+    "expo-updates": "~0.2.0",
+    "react": "~16.9.0",
+    "react-dom": "16.9.0",
+    "react-native": "~0.61.5",
+    "react-native-contact-tracing": "tzachari/react-native-contact-tracing",
     "react-native-elements": "^1.2.7",
+    "react-native-gesture-handler": "~1.6.0",
     "react-native-navigation": "^6.3.0",
+    "react-native-reanimated": "~1.7.0",
     "react-native-safe-area-context": "0.7.3",
+    "react-native-screens": "~2.2.0",
     "react-native-tab-view": "^2.14.0",
+    "react-native-unimodules": "~0.9.0",
+    "react-native-web": "^0.11.7",
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
@@ -38,9 +39,9 @@
   "devDependencies": {
     "@babel/core": "^7.0.0",
     "babel-jest": "~25.2.6",
+    "babel-preset-expo": "^8.1.0",
     "jest": "~25.2.6",
-    "react-test-renderer": "~16.9.0",
-    "babel-preset-expo": "^8.1.0"
+    "react-test-renderer": "~16.9.0"
   },
   "private": true
 }

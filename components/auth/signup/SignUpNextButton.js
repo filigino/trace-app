@@ -64,7 +64,7 @@ const SignUpNextButton = (props) => {
             .then((token) => {
                 if (currentScreenName === 'BirthDate') {
                     const {birthDate} = params
-    
+
                     fetch(url + 'users', {
                         method: 'PUT',
                         headers: {
@@ -92,7 +92,7 @@ const SignUpNextButton = (props) => {
                     })
                 } else if (currentScreenName === 'Sex' && props.signUpNextButton.active) {
                     const {sex} = params
-    
+
                     fetch(url + 'users', {
                         method: 'PUT',
                         headers: {
@@ -118,7 +118,7 @@ const SignUpNextButton = (props) => {
                     .catch((err) => {
                         console.log(err)
                     })
-                } else if (currentScreenName === 'Ethnicity' && props.signUpNextButton.active) {    
+                } else if (currentScreenName === 'Ethnicity' && props.signUpNextButton.active) {
                     const {ethnicity} = params
                     fetch(url + 'users', {
                         method: 'PUT',
@@ -159,7 +159,7 @@ const SignUpNextButton = (props) => {
         ]}>
             <TouchableOpacity
                 onPress={() => nextSignupScreen()}
-                activeOpacity={props.signUpNextButton.opacity}
+                activeOpacity={props.signUpNextButton.activeOpacity}
                 style={[props.styles.roundButton, {backgroundColor: props.signUpNextButton.color}]}
             >
                 <FontAwesome5 name={'chevron-right'} size={30} color='white' />

@@ -1,25 +1,47 @@
 import React from 'react'
-import {Text, TouchableOpacity, View} from 'react-native'
+import {connect} from 'react-redux'
+import {Linking} from 'expo'
+import {FlatList, Text, TouchableOpacity, View} from 'react-native'
+
+const mapStateToProps = (state) => ({
+    uuids: state.uuids
+})
 
 const Menu = (props) => {
-    const {navigation} = props
-    const {styles} = props.route.params
+    const {myIDs} = props.uuids
+    const {otherIDs} = props.uuids
+
+    // Note curly braces around 'item' to indicate it's a JS object
+    const renderID = ({item}) => {
+        return (
+            <View style={{alignItems: 'center'}}>
+                <Text
+                    style={{marginTop: 10, marginBottom: 10, fontSize: 20,
+                    fontWeight: 'bold'}}
+                >
+                    {item.id}
+                </Text>
+                <Text>{item.timestamp}</Text>
+            </View>
+        )
+    }
+
     return (
-        <View style={{flex: 2, alignItems: 'stretch'}}>
-            <TouchableOpacity
-                style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#ffd4a3'}}
-                onPress={() => navigation.navigate('Drinks')}
-            >
-                <Text style={{fontSize: 30}}>Drinks</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#f39158'}}
-                onPress={() => navigation.navigate('Food')}
-            >
-                <Text style={{fontSize: 30}}>Food</Text>
-            </TouchableOpacity>
+        <View style={{backgroundColor: 'white'}}>
+            <Text>My IDs</Text>
+            <FlatList
+                data={myIDs}
+                renderItem={renderID}
+                keyExtractor={(item) => item.id}
+            />
+            <Text>Other IDs</Text>
+            <FlatList
+                data={otherIDs}
+                renderItem={renderID}
+                keyExtractor={(item) => item.id}
+            />
         </View>
     )
 }
 
-export default Menu
+export default connect(mapStateToProps)(Menu)

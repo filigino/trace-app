@@ -10,15 +10,15 @@ const mapStateToProps = (state) => ({
 })
 
 const Main = (props) => {
-    if (props.auth.isLoading) {
-        return <Splash styles={styles} />
-    } else {
-        if (props.auth.token === null) {
-            return <Auth styles={styles} />
-        } else {
+    // if (props.auth.isLoading) {
+    //     return <Splash styles={styles} />
+    // } else {
+    //     if (props.auth.token === null) {
+    //         return <Auth styles={styles} />
+    //     } else {
             return <Trace styles={styles} />
-        }
-    }
+    //     }
+    // }
 }
 
 export default connect(mapStateToProps)(Main)

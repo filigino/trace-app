@@ -28,7 +28,7 @@ export default class BirthDate extends React.Component {
     render() {
         const {styles} = this.props.route.params
         return (
-            <View style={styles.container}>
+            <View style={styles.containerAuth}>
                 <Text style={styles.heading}>When were you born?</Text>
                 <View style={{flex: 1, justifyContent: 'center'}}>
                     <DateTimePicker

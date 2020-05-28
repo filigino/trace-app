@@ -1,13 +1,30 @@
 import React from 'react'
-import {Text, View} from 'react-native'
+import {connect} from 'react-redux'
+import {Text, TouchableOpacity, View} from 'react-native'
+import {clearAllIDs} from '../../redux/ActionCreators'
 
-const Home = (props) => {
-    const {styles} = props.route.params
-    return (
-        <View style={{justifyContent: 'space-around', flexDirection: 'column'}}>
-            <Text>Hello?</Text>
-        </View>
-    )
+const mapDispatchToProps = (dispatch) => ({
+    clearAllIDs: () => dispatch(clearAllIDs())
+})
+
+class Home extends React.Component {
+    render() {
+        const {styles} = this.props.route.params
+        return (
+            <View style={styles.containerAuth}>
+                <View style={{flex: 1, alignItems: 'center'}}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            this.props.clearAllIDs()
+                        }}
+                        style={styles.squaredButton}
+                    >
+                        <Text style={{color: 'white'}}>Clear All</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        )
+    }
 }
 
-export default Home
+export default connect(null, mapDispatchToProps)(Home)

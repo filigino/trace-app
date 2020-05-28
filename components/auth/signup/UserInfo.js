@@ -119,7 +119,7 @@ class UserInfo extends React.Component {
     render() {
         const {styles} = this.props.route.params
         return (
-            <View style={styles.container}>
+            <View style={styles.containerAuth}>
                 <View>
                     <TextInput
                         placeholder='Username'

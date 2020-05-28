@@ -1,4 +1,4 @@
-platform :ios, '10.0'
+platform :ios, '13.0'
 
 require_relative '../node_modules/react-native-unimodules/cocoapods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
@@ -35,6 +35,7 @@ target 'Trace' do
   pod 'DoubleConversion', :podspec => "#{rnPrefix}/third-party-podspecs/DoubleConversion.podspec"
   pod 'glog', :podspec => "#{rnPrefix}/third-party-podspecs/glog.podspec"
   pod 'Folly', :podspec => "#{rnPrefix}/third-party-podspecs/Folly.podspec"
+  pod "TCNClient", :git => 'https://github.com/TCNCoalition/tcn-client-ios.git', :commit => '4d1aedb'
 
   # Other native modules
 
