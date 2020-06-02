@@ -2,51 +2,54 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {Alert, Switch, Text, TouchableOpacity, View} from 'react-native'
 import {url} from '../../url'
-import {clearOldIDs} from '../../redux/ActionCreators'
+import {clearOldIDs, setSelfReportStatus} from '../../redux/ActionCreators'
 
 const mapStateToProps = (state) => ({
-    myIDs: state.uuids.myIDs
+    IDs: state.IDs.myIDs,
+    selfReported: state.settings.selfReported
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    clearOldIDs: () => dispatch(clearOldIDs())
+    clearOldIDs: () => dispatch(clearOldIDs()),
+    setSelfReportStatus: (status) => dispatch(setSelfReportStatus(status))
 })
 
 class SelfReport extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            isEnabled: false
+            selfReportingIsEnabled: false
         }
     }
 
     confirmAlert() {
-        if (this.state.isEnabled) {
+        if (this.state.selfReportingIsEnabled) {
             Alert.alert(
                 'Confirm',
                 'I confirm I have tested positive for COVID-19 and would like to notify my Public Health Authority.\n\n(This cannot be undone)',
                 [{
                     text: 'Cancel',
-                    onPress: () => this.setState({isEnabled: false}),
+                    onPress: () => this.setState({selfReportingIsEnabled: false}),
                     style: 'cancel',
                 }, {
                     text: 'Confirm',
-                    onPress: () => this.selfReport()
+                    onPress: () => this.selfReport(),
+                    style: 'destructive'
                 }]
             )
         }
     }
 
     selfReport() {
-        const {myIDs} = this.props
+        const {IDs} = this.props
         this.props.clearOldIDs()
-        fetch(url + 'infected', {
-            method: 'PUT',
+        fetch(url + 'infections', {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                myIDs
+                IDs
             })
         })
         .then((res) => {
@@ -58,10 +61,13 @@ class SelfReport extends React.Component {
         })
         .then((res) => {
             if (res.success) {
-                Alert.alert('Success')
+                Alert.alert('Success', 'Please self-isolate until further notice.')
+                this.props.setSelfReportStatus(true)
+                this.setState({selfReportingIsEnabled: false})
             }
         })
         .catch((err) => {
+            Alert.alert('Error', 'Please try again shortly')
             console.log(err)
         })
     }
@@ -72,17 +78,17 @@ class SelfReport extends React.Component {
             <View style={styles.containerApp}>
                 <View style={{flex: 1, justifyContent: 'space-evenly'}}>
                     <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                        <Text>Enable self reporting</Text>
+                        <Text>Enable self-reporting</Text>
                         <Switch
-                            onValueChange={() => this.setState({isEnabled: !this.state.isEnabled})}
-                            value={this.state.isEnabled}
+                            value={this.state.selfReportingIsEnabled}
+                            disabled={this.props.selfReported}
+                            onValueChange={() => this.setState({selfReportingIsEnabled: !this.state.selfReportingIsEnabled})}
                         />
                     </View>
                     <TouchableOpacity
                         onPress={() => this.confirmAlert()}
-                        activeOpacity={this.state.isEnabled ? 0.2 : 1}
-                        color={this.state.isEnabled ? '#624480' : 'gray'}
-                        style={[styles.squaredButton, {backgroundColor: this.state.isEnabled ? '#624480' : 'gray'}]}
+                        activeOpacity={this.state.selfReportingIsEnabled ? 0.2 : 1}
+                        style={[styles.squaredButton, {backgroundColor: this.state.selfReportingIsEnabled ? '#624480' : 'gray'}]}
                     >
                         <Text style={{color: 'white'}}>I have COVID-19</Text>
                     </TouchableOpacity>

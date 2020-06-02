@@ -1,6 +1,5 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {checkToken} from '../redux/ActionCreators'
 import {StatusBar, View} from 'react-native'
 import {MaterialCommunityIcons} from '@expo/vector-icons'
 

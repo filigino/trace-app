@@ -1,11 +1,11 @@
-export const logMyID = (id) => ({
+export const logMyID = (ID) => ({
     type: 'LOG_MY_ID',
-    id
+    ID
 })
 
-export const logOtherID = (id) => ({
+export const logOtherID = (ID) => ({
     type: 'LOG_OTHER_ID',
-    id
+    ID
 })
 
 export const clearOldIDs = () => ({
@@ -15,4 +15,14 @@ export const clearOldIDs = () => ({
 // debug
 export const clearAllIDs = () => ({
     type: 'CLEAR_ALL_IDS'
+})
+
+export const setTracingStatus = (status) => ({
+    type: 'SET_TRACING_STATUS',
+    status
+})
+
+export const setSelfReportStatus = (status) => ({
+    type: 'SET_SELF-REPORT_STATUS',
+    status
 })
