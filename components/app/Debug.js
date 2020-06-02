@@ -33,7 +33,7 @@ const Debug = (props) => {
         <View style={{backgroundColor: 'white'}}>
             <TouchableOpacity
                 onPress={() => {
-                    console.log(props.state.IDs.myIDs)
+                    console.log(props.state)
                 }}
                 style={styles.squaredButton}
             >
@@ -41,7 +41,7 @@ const Debug = (props) => {
             </TouchableOpacity>
             <TouchableOpacity
                 onPress={() => {
-                    props.setSelfReportStatus('false')
+                    props.setSelfReportStatus(false)
                 }}
                 style={styles.squaredButton}
             >

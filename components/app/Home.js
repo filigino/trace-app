@@ -17,6 +17,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 class Home extends React.Component {
     componentDidMount() {
+        this.props.clearOldIDs()
         const eventEmitter = new NativeEventEmitter(NativeModules.ContactTracing)
         this.advertiseListener = eventEmitter.addListener('Advertise', (id) => {
             this.props.logMyID(id)
@@ -31,16 +32,6 @@ class Home extends React.Component {
         this.discoveryListener.remove()
     }
 
-    startTracing() {
-        ContactTracing.start()
-        this.props.setTracingStatus(true)
-    }
-
-    stopTracing() {
-        ContactTracing.stop()
-        this.props.setTracingStatus('false')
-    }
-
     render() {
         const {styles} = this.props.route.params
         return (
@@ -51,11 +42,12 @@ class Home extends React.Component {
                         <Switch
                             value={this.props.tracingIsEnabled}
                             onValueChange={() => {
-                                if (!this.props.tracingIsEnabled) {
-                                    this.startTracing()
+                                if (this.props.tracingIsEnabled) {
+                                    ContactTracing.stop()
                                 } else {
-                                    this.stopTracing()
+                                    ContactTracing.start()
                                 }
+                                this.props.setTracingStatus(!this.props.tracingIsEnabled)
                             }}
                         />
                     </View>
@@ -65,4 +57,4 @@ class Home extends React.Component {
     }
 }
 
-export default connect(null, mapDispatchToProps)(Home)
+export default connect(mapStateToProps, mapDispatchToProps)(Home)

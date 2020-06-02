@@ -18,7 +18,7 @@ class SelfReport extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            selfReportingIsEnabled: false
+            selfReportingIsEnabled: this.props.selfReported
         }
     }
 
