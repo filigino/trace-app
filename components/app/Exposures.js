@@ -11,7 +11,7 @@ class Exposures extends React.Component {
     render() {
         const {styles} = this.props.route.params
         return (
-            <View style={styles.containerAuth}>
+            <View style={styles.container}>
                 <View style={{flex: 1, alignItems: 'center'}}>
                     <TouchableOpacity
                         onPress={() => {

@@ -18,7 +18,7 @@ class SelfReport extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            selfReportingIsEnabled: this.props.selfReported
+            selfReportingIsEnabled: false
         }
     }
 
@@ -75,7 +75,7 @@ class SelfReport extends React.Component {
     render() {
         const {styles} = this.props.route.params
         return (
-            <View style={styles.containerApp}>
+            <View style={styles.container}>
                 <View style={{flex: 1, justifyContent: 'space-evenly'}}>
                     <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                         <Text>Enable self-reporting</Text>

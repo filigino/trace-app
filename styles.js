@@ -5,16 +5,10 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center'
     },
-    containerApp: {
+    container: {
         backgroundColor: 'white',
         flex: 1,
         padding: 40
-    },
-    containerAuth: {
-        backgroundColor: 'white',
-        flex: 1,
-        padding: 40,
-        paddingTop: 80
     },
     heading: {
         fontSize: 20,
