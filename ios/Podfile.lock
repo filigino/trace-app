@@ -1,6 +1,10 @@
 PODS:
   - boost-for-react-native (1.63.0)
   - DoubleConversion (1.1.6)
+  - EXAV (8.1.0):
+    - UMCore
+    - UMFileSystemInterface
+    - UMPermissionsInterface
   - EXConstants (9.0.0):
     - UMConstantsInterface
     - UMCore
@@ -296,6 +300,7 @@ PODS:
 
 DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
+  - EXAV (from `../node_modules/expo-av/ios`)
   - EXConstants (from `../node_modules/expo-constants/ios`)
   - EXErrorRecovery (from `../node_modules/expo-error-recovery/ios`)
   - EXFileSystem (from `../node_modules/expo-file-system/ios`)
@@ -367,6 +372,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
+  EXAV:
+    :path: "../node_modules/expo-av/ios"
   EXConstants:
     :path: "../node_modules/expo-constants/ios"
   EXErrorRecovery:
@@ -497,6 +504,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
+  EXAV: 2edd9cd30fe98d04b55325303c7ff01db02d1d0f
   EXConstants: 5304709b1bea70a4828f48ba4c7fc3ec3b2d9b17
   EXErrorRecovery: 8f4c21ab2f51bf75defe4536f841a37de59b0661
   EXFileSystem: cf4232ba7c62dc49b78c2d36005f97b6fddf0b01

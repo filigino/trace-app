@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import ContactTracing from 'react-native-contact-tracing'
+import {Audio} from 'expo-av'
 import {NativeEventEmitter, NativeModules, Switch, Text, View} from 'react-native'
 import {logMyID, logOtherID, clearOldIDs, setTracingStatus} from '../../redux/ActionCreators'
 
@@ -17,6 +18,10 @@ const mapDispatchToProps = (dispatch) => ({
 
 class Home extends React.Component {
     componentDidMount() {
+        const soundObject = new Audio.Sound()
+        soundObject.loadAsync(require('../../assets/sounds/CORONAVIRUS.mp3'))
+        .then(() => soundObject.playAsync())
+
         this.props.clearOldIDs()
         const eventEmitter = new NativeEventEmitter(NativeModules.ContactTracing)
         this.advertiseListener = eventEmitter.addListener('Advertise', (ID) => {

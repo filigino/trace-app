@@ -1,4 +1,4 @@
-const buffer = 1209600000 // 14 days
+const buffer = 1209600000 // 14 days in milliseconds
 
 const IDs = (state = {myIDs: [], otherIDs: []}, action) => {
     switch (action.type) {
