@@ -38,12 +38,12 @@ class Home extends React.Component {
 
     startTracing() {
         ContactTracing.start()
-        .catch((err) => console.log('Starting error: ' + err))
+        .catch((err) => console.log(err))
     }
 
     stopTracing() {
         ContactTracing.stop()
-        .catch((err) => console.log('Stopping error: ' + err))
+        .catch((err) => console.log(err))
     }
 
     render() {
@@ -65,6 +65,7 @@ class Home extends React.Component {
                                     }
                                     this.props.setTracingStatus(!this.props.tracingIsEnabled)
                                 })
+                                .catch((err) => console.log(err))
                             }}
                         />
                     </View>

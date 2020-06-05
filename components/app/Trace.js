@@ -130,7 +130,7 @@ class Trace extends React.Component {
         .catch((err) => console.log(err))
 
         BackgroundFetch.configure({
-            minimumFetchInterval: 1440 // 1 day in minutes
+            minimumFetchInterval: 360 // 6 hours in minutes
         }, async (taskId) => {
             fetch(url + 'infections', {
                 method: 'GET'
@@ -147,16 +147,10 @@ class Trace extends React.Component {
                     }
                 }
             })
-            .catch((err) => {
-                console.log(err)
-            })
+            .catch((err) => console.log(err))
 
-            console.log("[js] Received background-fetch event: ", taskId)
-            // Required: Signal completion of your task to native code
-            // If you fail to do this, the OS can terminate your app
-            // or assign battery-blame for consuming too much background-time
             BackgroundFetch.finish(taskId)
-        }, (error) => {
+        }, (err) => {
             console.log("[js] RNBackgroundFetch failed to start")
         })
     }
