@@ -1,10 +1,20 @@
-export const logMyID = (ID) => ({
-    type: 'LOG_MY_ID',
+export const addExposure = (ID, timestamp) => ({
+    type: 'ADD_EXPOSURE',
+    ID,
+    timestamp
+})
+
+export const clearExposures = () => ({
+    type: 'CLEAR_EXPOSURES'
+})
+
+export const addMyID = (ID) => ({
+    type: 'ADD_MY_ID',
     ID
 })
 
-export const logOtherID = (ID) => ({
-    type: 'LOG_OTHER_ID',
+export const addOtherID = (ID) => ({
+    type: 'ADD_OTHER_ID',
     ID
 })
 

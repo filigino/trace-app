@@ -2,6 +2,7 @@ import {applyMiddleware, createStore} from 'redux'
 import {persistCombineReducers, persistStore} from 'redux-persist'
 import thunk from 'redux-thunk'
 import {AsyncStorage} from 'react-native'
+import exposures from './reducers/exposures'
 import IDs from './reducers/IDs'
 import settings from './reducers/settings'
 
@@ -13,6 +14,7 @@ const configureStore = () => {
 
     const store = createStore(
         persistCombineReducers(persistConfig, {
+            exposures,
             IDs,
             settings
         }),

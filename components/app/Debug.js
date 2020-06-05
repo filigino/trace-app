@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {FlatList, Text, TouchableOpacity, View} from 'react-native'
-import {clearOldIDs, clearAllIDs, setSelfReportStatus} from '../../redux/ActionCreators'
+import {clearExposures, clearOldIDs, clearAllIDs, setSelfReportStatus} from '../../redux/ActionCreators'
 
 const mapStateToProps = (state) => ({
     state,
@@ -9,6 +9,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+    clearExposures: () => dispatch(clearExposures()),
     clearOldIDs: () => dispatch(clearOldIDs()),
     clearAllIDs: () => dispatch(clearAllIDs()),
     setSelfReportStatus: (status) => dispatch(setSelfReportStatus(status))
@@ -33,7 +34,7 @@ const Debug = (props) => {
         <View style={{backgroundColor: 'white'}}>
             <TouchableOpacity
                 onPress={() => {
-                    console.log(props.state)
+                    console.log(props.state.exposures.exposures)
                 }}
                 style={styles.squaredButton}
             >
@@ -62,6 +63,14 @@ const Debug = (props) => {
                 style={styles.squaredButton}
             >
                 <Text style={{color: 'white'}}>Clear All</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => {
+                    props.clearExposures()
+                }}
+                style={styles.squaredButton}
+            >
+                <Text style={{color: 'white'}}>Clear Exposures</Text>
             </TouchableOpacity>
             <Text>My IDs</Text>
             <FlatList

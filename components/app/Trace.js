@@ -1,6 +1,8 @@
 import React from 'react'
-import {Text} from 'react-native'
-import {StatusBar} from 'react-native'
+import {connect} from 'react-redux'
+import BackgroundFetch from 'react-native-background-fetch'
+import {Audio} from 'expo-av'
+import {StatusBar, Text} from 'react-native'
 import {MaterialCommunityIcons} from '@expo/vector-icons'
 import {NavigationContainer} from '@react-navigation/native'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
@@ -10,6 +12,8 @@ import Exposures from './Exposures'
 import Home from './Home'
 import SelfReport from './SelfReport'
 import Debug from './Debug'
+import {url} from '../../url'
+import {addExposure} from '../../redux/ActionCreators'
 
 const HomeStack = createStackNavigator()
 
@@ -18,7 +22,7 @@ const HomeStackScreen = () => {
         <HomeStack.Navigator
             screenOptions={{
                 headerStyle: {
-                    backgroundColor: 'rebeccapurple'
+                    backgroundColor: 'dodgerblue'
                 },
                 headerTintColor: 'white',
                 headerTitle:
@@ -109,7 +113,53 @@ const DebugStackScreen = () => {
 
 const Tab = createBottomTabNavigator()
 
-export default class Trace extends React.Component {
+const mapStateToProps = (state) => ({
+    otherIDs: state.IDs.otherIDs
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    addExposure: (ID, timestamp) => dispatch(addExposure(ID, timestamp))
+})
+
+class Trace extends React.Component {
+    componentDidMount() {
+        const soundObject = new Audio.Sound()
+        soundObject.loadAsync(require('../../assets/sounds/CORONAVIRUS.mp3'))
+        .then(() => soundObject.playAsync())
+        .catch((err) => console.log(err))
+
+        BackgroundFetch.configure({
+            minimumFetchInterval: 1440 // 1 day in minutes
+        }, async (taskId) => {
+            fetch(url + 'infections', {
+                method: 'GET'
+            })
+            .then((res) => res.json())
+            .then((infections) => {
+                for (const infection of infections) {
+                    const infectedID = infection.ID
+                    for (const otherID of this.props.otherIDs) {
+                        if (otherID.ID === infectedID) {
+                            this.props.addExposure(otherID.ID, otherID.timestamp)
+                            break
+                        }
+                    }
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+
+            console.log("[js] Received background-fetch event: ", taskId)
+            // Required: Signal completion of your task to native code
+            // If you fail to do this, the OS can terminate your app
+            // or assign battery-blame for consuming too much background-time
+            BackgroundFetch.finish(taskId)
+        }, (error) => {
+            console.log("[js] RNBackgroundFetch failed to start")
+        })
+    }
+
     render() {
         return (
             <>
@@ -150,3 +200,5 @@ export default class Trace extends React.Component {
         )
     }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Trace)

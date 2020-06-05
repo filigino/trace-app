@@ -1,30 +1,33 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {Text, TouchableOpacity, View} from 'react-native'
-import {clearAllIDs} from '../../redux/ActionCreators'
+import {FlatList, Text, View} from 'react-native'
 
-const mapDispatchToProps = (dispatch) => ({
-    clearAllIDs: () => dispatch(clearAllIDs())
+const mapStateToProps = (state) => ({
+    exposures: state.exposures.exposures
 })
 
-class Exposures extends React.Component {
-    render() {
-        const {styles} = this.props.route.params
+const Exposures = (props) => {
+    const renderExposure = ({item}) => {
+        const date = new Date(item.timestamp)
         return (
-            <View style={styles.container}>
-                <View style={{flex: 1, alignItems: 'center'}}>
-                    <TouchableOpacity
-                        onPress={() => {
-                            this.props.clearAllIDs()
-                        }}
-                        style={styles.squaredButton}
-                    >
-                        <Text style={{color: 'white'}}>Clear All</Text>
-                    </TouchableOpacity>
-                </View>
+            <View style={{alignItems: 'center'}}>
+                <Text>{date.toLocaleString('default', {month: 'long'})} {date.getDate()}, {date.getFullYear()}</Text>
             </View>
         )
     }
+
+    const {styles} = props.route.params
+    return (
+        <View style={styles.container}>
+            <View style={{flex: 1, alignItems: 'center'}}>
+                <FlatList
+                    data={props.exposures}
+                    renderItem={renderExposure}
+                    keyExtractor={(item) => item.ID}
+                />
+            </View>
+        </View>
+    )
 }
 
-export default connect(null, mapDispatchToProps)(Exposures)
+export default connect(mapStateToProps)(Exposures)

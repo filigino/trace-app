@@ -5,7 +5,7 @@ import {url} from '../../url'
 import {clearOldIDs, setSelfReportStatus} from '../../redux/ActionCreators'
 
 const mapStateToProps = (state) => ({
-    IDs: state.IDs.myIDs,
+    myIDs: state.IDs.myIDs,
     selfReported: state.settings.selfReported
 })
 
@@ -41,7 +41,7 @@ class SelfReport extends React.Component {
     }
 
     selfReport() {
-        const {IDs} = this.props
+        const IDs = this.props.myIDs
         this.props.clearOldIDs()
         fetch(url + 'infections', {
             method: 'POST',

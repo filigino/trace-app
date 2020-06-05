@@ -268,6 +268,8 @@ PODS:
     - React
     - React-RCTImage
     - React-RCTText
+  - RNBackgroundFetch (3.0.6):
+    - React
   - RNCMaskedView (0.1.6):
     - React
   - RNDateTimePicker (2.2.2):
@@ -344,6 +346,7 @@ DEPENDENCIES:
   - ReactCommon/jscallinvoker (from `../node_modules/react-native/ReactCommon`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - ReactNativeNavigation (from `../node_modules/react-native-navigation`)
+  - RNBackgroundFetch (from `../node_modules/react-native-background-fetch`)
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
@@ -454,6 +457,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   ReactNativeNavigation:
     :path: "../node_modules/react-native-navigation"
+  RNBackgroundFetch:
+    :path: "../node_modules/react-native-background-fetch"
   RNCMaskedView:
     :path: "../node_modules/@react-native-community/masked-view"
   RNDateTimePicker:
@@ -545,6 +550,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: a49a1f42bf8f5acf1c3e297097517c6b3af377ad
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
   ReactNativeNavigation: 591e44266ee7047948ac18e47a8f283e657be5a8
+  RNBackgroundFetch: 9adf01bb51658fc205a3dc8802cf38dd7cd9be09
   RNCMaskedView: a88953beefbd347a29072d9eba90e42945fe291e
   RNDateTimePicker: 65eadfa62b069b415a6ac1d20a81cacfa26cb37a
   RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
@@ -568,4 +574,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 1b96e60e880b1f39f7aa43b5392e291d24316d77
 
-COCOAPODS: 1.9.2
+COCOAPODS: 1.9.3
