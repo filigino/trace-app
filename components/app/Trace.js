@@ -125,6 +125,7 @@ class Trace extends React.Component {
     componentDidMount() {
         const soundObject = new Audio.Sound()
         soundObject.loadAsync(require('../../assets/sounds/CORONAVIRUS.mp3'))
+        .then(() => soundObject.setVolumeAsync(0.2))
         .then(() => soundObject.playAsync())
         .catch((err) => console.log(err))
 
