@@ -8,6 +8,11 @@ export const clearExposures = () => ({
     type: 'CLEAR_EXPOSURES'
 })
 
+export const updateLastCheckTime = (time) => ({
+    type: 'UPDATE_LAST_CHECK_TIME',
+    time
+})
+
 export const addMyID = (ID) => ({
     type: 'ADD_MY_ID',
     ID
@@ -15,6 +20,11 @@ export const addMyID = (ID) => ({
 
 export const addOtherID = (ID) => ({
     type: 'ADD_OTHER_ID',
+    ID
+})
+
+export const deleteOtherID = (ID) => ({
+    type: 'DELETE_OTHER_ID',
     ID
 })
 

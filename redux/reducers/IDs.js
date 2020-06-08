@@ -6,6 +6,8 @@ const IDs = (state = {myIDs: [], otherIDs: []}, action) => {
             return {...state, myIDs: [...state.myIDs, {ID: action.ID, timestamp: Date.now()}]}
         case 'ADD_OTHER_ID':
             return {...state, otherIDs: [...state.otherIDs, {ID: action.ID, timestamp: Date.now()}]}
+        case 'DELETE_OTHER_ID':
+            return {...state, otherIDs: state.otherIDs.filter(ID => (ID.ID !== action.ID))}
         case 'CLEAR_OLD_IDS':
             const now = Date.now()
             return {

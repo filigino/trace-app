@@ -13,7 +13,7 @@ import Home from './Home'
 import SelfReport from './SelfReport'
 import Debug from './Debug'
 import {url} from '../../url'
-import {addExposure} from '../../redux/ActionCreators'
+import {deleteOtherID, addExposure, updateLastCheckTime} from '../../redux/ActionCreators'
 
 const HomeStack = createStackNavigator()
 
@@ -118,7 +118,9 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    addExposure: (ID, timestamp) => dispatch(addExposure(ID, timestamp))
+    deleteOtherID: (ID) => dispatch(deleteOtherID(ID)),
+    addExposure: (ID, timestamp) => dispatch(addExposure(ID, timestamp)),
+    updateLastCheckTime: (time) => dispatch(updateLastCheckTime(time))
 })
 
 class Trace extends React.Component {
@@ -129,30 +131,39 @@ class Trace extends React.Component {
         .then(() => soundObject.playAsync())
         .catch((err) => console.log(err))
 
+        this.checkExposure()
+
         BackgroundFetch.configure({
-            minimumFetchInterval: 360 // 6 hours in minutes
+            minimumFetchInterval: 15
+            // minimumFetchInterval: 360 // 6 hours in minutes
         }, async (taskId) => {
-            fetch(url + 'infections', {
-                method: 'GET'
-            })
-            .then((res) => res.json())
-            .then((infections) => {
-                for (const infection of infections) {
-                    const infectedID = infection.ID
-                    for (const otherID of this.props.otherIDs) {
-                        if (otherID.ID === infectedID) {
-                            this.props.addExposure(otherID.ID, otherID.timestamp)
-                            break
-                        }
-                    }
-                }
-            })
-            .catch((err) => console.log(err))
+            this.checkExposure()
 
             BackgroundFetch.finish(taskId)
         }, (err) => {
             console.log('[js] RNBackgroundFetch failed to start')
         })
+    }
+
+    checkExposure() {
+        fetch(url + 'infections', {
+            method: 'GET'
+        })
+        .then((res) => res.json())
+        .then((infections) => {
+            for (const infection of infections) {
+                const infectedID = infection.ID
+                for (const otherID of this.props.otherIDs) {
+                    if (otherID.ID === infectedID) {
+                        this.props.addExposure(otherID.ID, otherID.timestamp)
+                        this.props.deleteOtherID(otherID.ID)
+                        break
+                    }
+                }
+            }
+            this.props.updateLastCheckTime(Date.now())
+        })
+        .catch((err) => console.log(err))
     }
 
     render() {

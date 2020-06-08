@@ -1,9 +1,11 @@
-const exposures = (state = {exposures: []}, action) => {
+const exposures = (state = {exposures: [], lastCheckTime: null}, action) => {
     switch (action.type) {
         case 'ADD_EXPOSURE':
-            return {exposures: [...state.exposures, {ID: action.ID, timestamp: action.timestamp}]}
-        case 'CLEAR_EXPOSURES':
-            return {exposures: []}
+            return {...state, exposures: [...state.exposures, {ID: action.ID, timestamp: action.timestamp}]}
+        case 'CLEAR_EXPOSURES': // debug
+            return {...state, exposures: []}
+        case 'UPDATE_LAST_CHECK_TIME':
+            return {...state, lastCheckTime: action.time}
         default:
             return state
     }
