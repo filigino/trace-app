@@ -6,10 +6,6 @@ export const styles = StyleSheet.create({
         flex: 1,
         padding: 40
     },
-    heading: {
-        fontSize: 20,
-        textAlign: 'center'
-    },
     squaredButton: {
         alignItems: 'center',
         backgroundColor: '#624480',

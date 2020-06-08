@@ -53,28 +53,33 @@ class Home extends React.Component {
         return (
             <View style={styles.container}>
                 <View style={{flex: 1, justifyContent: 'space-evenly'}}>
-                    <View style={{flex: 1/2, justifyContent: 'center', alignItems: 'center'}}>
+                    <View style={{
+                        flex: 1/2, justifyContent: 'center', alignItems: 'center',
+                        marginLeft: this.props.tracingIsEnabled ? 50 : 0
+                    }}>
                         <MaterialCommunityIcons name={icon} size={150} color={'black'} onPress={() => console.log('WHOA')}/>
                     </View>
-                    <View style={{flex: 1/2, justifyContent: 'space-evenly', alignItems: 'center'}}>
-                        <Text style={styles.heading}>
+                    <View style={{flex: 1/2, justifyContent: 'space-evenly'}}>
+                        <Text style={{fontSize: 20, marginLeft: 20}}>
                             {this.props.tracingIsEnabled ? 'Contact tracing is ON' : 'Contact tracing is OFF'}
                         </Text>
-                        <Switch
-                            value={this.props.tracingIsEnabled}
-                            onValueChange={() => {
-                                ContactTracing.isEnabled()
-                                .then((isEnabled) => {
-                                    if (isEnabled) {
-                                        this.stopTracing()
-                                    } else {
-                                        this.startTracing()
-                                    }
-                                    this.props.setTracingStatus(!this.props.tracingIsEnabled)
-                                })
-                                .catch((err) => console.log(err))
-                            }}
-                        />
+                        <View style={{alignSelf: 'center'}}>
+                            <Switch
+                                value={this.props.tracingIsEnabled}
+                                onValueChange={() => {
+                                    ContactTracing.isEnabled()
+                                    .then((isEnabled) => {
+                                        if (isEnabled) {
+                                            this.stopTracing()
+                                        } else {
+                                            this.startTracing()
+                                        }
+                                        this.props.setTracingStatus(!this.props.tracingIsEnabled)
+                                    })
+                                    .catch((err) => console.log(err))
+                                }}
+                            />
+                        </View>
                     </View>
                 </View>
             </View>
