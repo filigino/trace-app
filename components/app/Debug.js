@@ -32,7 +32,7 @@ const Debug = (props) => {
     }
 
     return (
-        <View style={{backgroundColor: 'white'}}>
+        <View style={styles.container}>
             <TouchableOpacity
                 onPress={() => {
                     console.log(props.state.exposures.exposures)

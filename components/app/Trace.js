@@ -15,102 +15,6 @@ import Debug from './Debug'
 import {url} from '../../url'
 import {deleteOtherID, addExposure, updateLastCheckTime} from '../../redux/ActionCreators'
 
-const HomeStack = createStackNavigator()
-
-const HomeStackScreen = () => {
-    return (
-        <HomeStack.Navigator
-            screenOptions={{
-                headerStyle: {
-                    backgroundColor: 'dodgerblue'
-                },
-                headerTintColor: 'white',
-                headerTitle:
-                    <MaterialCommunityIcons
-                        name={'draw'}
-                        size={30}
-                    />
-            }}
-        >
-            <HomeStack.Screen name='Home' component={Home}
-                initialParams={{styles: styles}}
-            />
-        </HomeStack.Navigator>
-    )
-}
-
-const ExposuresStack = createStackNavigator()
-
-const ExposuresStackScreen = () => {
-    return (
-        <ExposuresStack.Navigator
-            screenOptions={{
-                headerStyle: {
-                    backgroundColor: 'rebeccapurple'
-                },
-                headerTintColor: 'white',
-                headerTitle:
-                    <MaterialCommunityIcons
-                        name={'draw'}
-                        size={30}
-                    />
-            }}
-        >
-            <ExposuresStack.Screen name='Exposures' component={Exposures}
-                initialParams={{styles: styles}}
-            />
-        </ExposuresStack.Navigator>
-    )
-}
-
-const SelfReportStack = createStackNavigator()
-
-const SelfReportStackScreen = () => {
-    return (
-        <SelfReportStack.Navigator
-            screenOptions={{
-                headerStyle: {
-                    backgroundColor: 'rebeccapurple'
-                },
-                headerTintColor: 'white',
-                headerTitle:
-                    <MaterialCommunityIcons
-                        name={'draw'}
-                        size={30}
-                    />
-            }}
-        >
-            <SelfReportStack.Screen name='Self-Report' component={SelfReport}
-                initialParams={{styles: styles}}
-            />
-        </SelfReportStack.Navigator>
-    )
-}
-
-const DebugStack = createStackNavigator()
-
-const DebugStackScreen = () => {
-    return (
-        <DebugStack.Navigator
-            screenOptions={{
-                headerStyle: {
-                    backgroundColor: 'rebeccapurple'
-                },
-                headerTintColor: 'white',
-                headerTitle:
-                    <MaterialCommunityIcons
-                        name={'draw'}
-                        size={30}
-                    />
-            }}
-        >
-            <DebugStack.Screen name='Debug' component={Debug}
-                initialParams={{styles: styles}}
-            />
-        </DebugStack.Navigator>
-    )
-}
-
 const Tab = createBottomTabNavigator()
 
 const mapStateToProps = (state) => ({
@@ -169,7 +73,7 @@ class Trace extends React.Component {
     render() {
         return (
             <>
-                <StatusBar barStyle='light-content'/>
+                <StatusBar barStyle='dark-content'/>
                 <NavigationContainer>
                     <Tab.Navigator
                         screenOptions={({route}) => ({
@@ -190,16 +94,12 @@ class Trace extends React.Component {
                                 }
                             }
                         })}
-                        tabBarOptions={{
-                            activeTintColor: '#6b52ae',
-                            inactiveTintColor: 'gray'
-                        }}
                         initialRouteName='Home'
                     >
-                        <Tab.Screen name='Home' component={HomeStackScreen} />
-                        <Tab.Screen name='Exposures' component={ExposuresStackScreen} />
-                        <Tab.Screen name='Self-Report' component={SelfReportStackScreen} />
-                        <Tab.Screen name='Debug' component={DebugStackScreen} />
+                        <Tab.Screen name='Home' component={Home} initialParams={{styles: styles}}/>
+                        <Tab.Screen name='Exposures' component={Exposures} initialParams={{styles: styles}}/>
+                        <Tab.Screen name='Self-Report' component={SelfReport} initialParams={{styles: styles}}/>
+                        {/*<Tab.Screen name='Debug' component={Debug} initialParams={{styles: styles}}/>*/}
                     </Tab.Navigator>
                 </NavigationContainer>
             </>
