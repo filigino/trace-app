@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {FlatList, Text, TouchableOpacity, View} from 'react-native'
-import {clearExposures, clearOldIDs, clearAllIDs, setSelfReportStatus} from '../../redux/ActionCreators'
+import {addExposure, clearExposures, clearOldIDs, clearAllIDs, setSelfReportStatus} from '../../redux/ActionCreators'
 
 const mapStateToProps = (state) => ({
     state,
@@ -9,6 +9,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+    addExposure: () => dispatch(addExposure('1234', Date.now())),
     clearExposures: () => dispatch(clearExposures()),
     clearOldIDs: () => dispatch(clearOldIDs()),
     clearAllIDs: () => dispatch(clearAllIDs()),
@@ -63,6 +64,14 @@ const Debug = (props) => {
                 style={styles.squaredButton}
             >
                 <Text style={{color: 'white'}}>Clear All</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => {
+                    props.addExposure()
+                }}
+                style={styles.squaredButton}
+            >
+                <Text style={{color: 'white'}}>Add Exposure</Text>
             </TouchableOpacity>
             <TouchableOpacity
                 onPress={() => {

@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import ContactTracing from 'react-native-contact-tracing'
 import {NativeEventEmitter, NativeModules, Switch, Text, View} from 'react-native'
+import {MaterialCommunityIcons} from '@expo/vector-icons'
 import {addMyID, addOtherID, clearOldIDs, setTracingStatus} from '../../redux/ActionCreators'
 
 const mapStateToProps = (state) => ({
@@ -47,12 +48,18 @@ class Home extends React.Component {
     }
 
     render() {
+        let icon = this.props.tracingIsEnabled ? 'cellphone-wireless' : 'cellphone-off'
         const {styles} = this.props.route.params
         return (
             <View style={styles.container}>
-                <View style={{flex: 1, justifyContent: 'center'}}>
-                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                        <Text>Enable contact tracing</Text>
+                <View style={{flex: 1, justifyContent: 'space-evenly'}}>
+                    <View style={{flex: 1/2, justifyContent: 'center', alignItems: 'center'}}>
+                        <MaterialCommunityIcons name={icon} size={150} color={'black'} onPress={() => console.log('WHOA')}/>
+                    </View>
+                    <View style={{flex: 1/2, justifyContent: 'space-evenly', alignItems: 'center'}}>
+                        <Text style={styles.heading}>
+                            {this.props.tracingIsEnabled ? 'Contact tracing is ON' : 'Contact tracing is OFF'}
+                        </Text>
                         <Switch
                             value={this.props.tracingIsEnabled}
                             onValueChange={() => {

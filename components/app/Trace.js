@@ -151,7 +151,7 @@ class Trace extends React.Component {
 
             BackgroundFetch.finish(taskId)
         }, (err) => {
-            console.log("[js] RNBackgroundFetch failed to start")
+            console.log('[js] RNBackgroundFetch failed to start')
         })
     }
 
@@ -166,15 +166,15 @@ class Trace extends React.Component {
                             tabBarIcon: ({color, size}) => {
                                 if (route.name ==='Home') {
                                     return (
-                                        <MaterialCommunityIcons name={'home'} size={size} color={color} />
+                                        <MaterialCommunityIcons name={'home'} color={color} size={size} />
                                     )
                                 } else if (route.name === 'Exposures') {
                                     return (
-                                        <MaterialCommunityIcons name={'format-list-bulleted'} size={size} color={color} />
+                                        <MaterialCommunityIcons name={'format-list-bulleted'} color={color} size={size} />
                                     )
                                 } else if (route.name === 'Self-Report') {
                                     return (
-                                        <MaterialCommunityIcons name={'comment-alert'} size={size} color={color} />
+                                        <MaterialCommunityIcons name={'comment-alert'} color={color} size={size} />
                                     )
                                 }
                             }
