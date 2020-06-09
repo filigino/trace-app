@@ -88,7 +88,7 @@ class SelfReport extends React.Component {
                     <TouchableOpacity
                         onPress={() => this.confirmAlert()}
                         activeOpacity={this.state.selfReportingIsEnabled ? 0.2 : 1}
-                        style={[styles.squaredButton, {backgroundColor: this.state.selfReportingIsEnabled ? '#624480' : 'gray'}]}
+                        style={[styles.squaredButton, {backgroundColor: this.state.selfReportingIsEnabled ? '#ff381e' : 'gray'}]}
                     >
                         <Text style={{color: 'white'}}>I have COVID-19</Text>
                     </TouchableOpacity>

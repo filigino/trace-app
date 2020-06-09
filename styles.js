@@ -8,7 +8,6 @@ export const styles = StyleSheet.create({
     },
     squaredButton: {
         alignItems: 'center',
-        backgroundColor: '#624480',
         borderColor: 'rgba(0,0,0,0.2)',
         borderRadius: 15,
         borderWidth: 1,
