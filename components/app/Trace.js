@@ -1,30 +1,20 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import BackgroundFetch from 'react-native-background-fetch'
 import {Audio} from 'expo-av'
-import {StatusBar, Text} from 'react-native'
+import {StatusBar} from 'react-native'
 import {MaterialCommunityIcons} from '@expo/vector-icons'
 import {NavigationContainer} from '@react-navigation/native'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
-import {createStackNavigator} from '@react-navigation/stack'
-import {styles} from '../../styles'
 import Exposures from './Exposures'
 import Home from './Home'
 import SelfReport from './SelfReport'
-import Debug from './Debug'
-import {url} from '../../url'
-import {deleteOtherID, addExposure, updateLastCheckTime} from '../../redux/ActionCreators'
+import Debug from './Debug' // debug
+import {styles} from '../../styles'
 
 const Tab = createBottomTabNavigator()
 
 const mapStateToProps = (state) => ({
-    otherIDs: state.IDs.otherIDs
-})
-
-const mapDispatchToProps = (dispatch) => ({
-    deleteOtherID: (ID) => dispatch(deleteOtherID(ID)),
-    addExposure: (ID, timestamp) => dispatch(addExposure(ID, timestamp)),
-    updateLastCheckTime: (time) => dispatch(updateLastCheckTime(time))
+    initialRouteName: state.launch.initialRouteName
 })
 
 class Trace extends React.Component {
@@ -35,40 +25,39 @@ class Trace extends React.Component {
         .then(() => soundObject.playAsync())
         .catch((err) => console.log(err))
 
-        this.checkExposure()
-
-        BackgroundFetch.configure({
-            minimumFetchInterval: 15
-            // minimumFetchInterval: 360 // 6 hours in minutes
-        }, async (taskId) => {
-            this.checkExposure()
-
-            BackgroundFetch.finish(taskId)
-        }, (err) => {
-            console.log('[js] RNBackgroundFetch failed to start')
-        })
+        // PushNotificationIOS.requestPermissions()
+        // PushNotificationIOS.getApplicationIconBadgeNumber((badgeNum) => {
+        //     PushNotificationIOS.setApplicationIconBadgeNumber(badgeNum + 1)
+        // })
     }
 
-    checkExposure() {
-        fetch(url + 'infections', {
-            method: 'GET'
-        })
-        .then((res) => res.json())
-        .then((infections) => {
-            for (const infection of infections) {
-                const infectedID = infection.ID
-                for (const otherID of this.props.otherIDs) {
-                    if (otherID.ID === infectedID) {
-                        this.props.addExposure(otherID.ID, otherID.timestamp)
-                        this.props.deleteOtherID(otherID.ID)
-                        break
-                    }
-                }
-            }
-            this.props.updateLastCheckTime(Date.now())
-        })
-        .catch((err) => console.log(err))
-    }
+    // async obtainNotificationPermission() {
+    //     let permission = await Permissions.getAsync(Permissions.USER_FACING_NOTIFICATIONS)
+    //     if (permission.status !== 'granted') {
+    //         permission = await Permissions.askAsync(Permissions.USER_FACING_NOTIFICATIONS)
+    //         if (permission.status !== 'granted') {
+    //             Alert.alert('Permission not granted to show notifications')
+    //         }
+    //     }
+    //     return permission
+    // }
+    //
+    // async presentLocalNotification(date) {
+    //     console.log('NOTIF')
+    //     await this.obtainNotificationPermission()
+    //     Notifications.presentLocalNotificationAsync({
+    //         title: 'Your Reservation',
+    //         body: 'Reservation for '+ date + ' requested',
+    //         ios: {
+    //             sound: true
+    //         },
+    //         android: {
+    //             sound: true,
+    //             vibrate: true,
+    //             color: '#512DA8'
+    //         }
+    //     })
+    // }
 
     render() {
         return (
@@ -77,7 +66,6 @@ class Trace extends React.Component {
                 <NavigationContainer>
                     <Tab.Navigator
                         screenOptions={({route}) => ({
-                            // add 'focused' as argument if needed for switching icons when focused/not
                             tabBarIcon: ({color, size}) => {
                                 if (route.name ==='Home') {
                                     return (
@@ -94,12 +82,12 @@ class Trace extends React.Component {
                                 }
                             }
                         })}
-                        initialRouteName='Home'
+                        initialRouteName={this.props.initialRouteName}
                     >
-                        <Tab.Screen name='Home' component={Home} initialParams={{styles: styles}}/>
-                        <Tab.Screen name='Exposures' component={Exposures} initialParams={{styles: styles}}/>
-                        <Tab.Screen name='Self-Report' component={SelfReport} initialParams={{styles: styles}}/>
-                        {/*<Tab.Screen name='Debug' component={Debug} initialParams={{styles: styles}}/>*/}
+                        <Tab.Screen name='Home' component={Home} initialParams={{styles: styles}} />
+                        <Tab.Screen name='Exposures' component={Exposures} initialParams={{styles: styles}} />
+                        <Tab.Screen name='Self-Report' component={SelfReport} initialParams={{styles: styles}} />
+                        <Tab.Screen name='Debug' component={Debug} initialParams={{styles: styles}} />
                     </Tab.Navigator>
                 </NavigationContainer>
             </>
@@ -107,4 +95,4 @@ class Trace extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Trace)
+export default connect(mapStateToProps)(Trace)

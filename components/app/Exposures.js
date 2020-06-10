@@ -1,31 +1,37 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import PushNotificationIOS from '@react-native-community/push-notification-ios'
 import {FlatList, Text, View} from 'react-native'
 
 const mapStateToProps = (state) => ({
     exposures: state.exposures
 })
 
-const Exposures = (props) => {
-    const renderExposure = ({item}) => {
+class Exposures extends React.Component {
+    constructor(props) {
+        super(props)
+        PushNotificationIOS.setApplicationIconBadgeNumber(0)
+    }
+
+    renderExposure({item}) {
         const date = new Date(item.timestamp)
         return (
             <View style={{alignItems: 'center'}}>
-                <Text>{formatDate(date)}</Text>
+                <Text>{this.formatDate(date)}</Text>
             </View>
         )
     }
 
-    const formatLastCheckTime = (lastCheckTime) => {
+    formatLastCheckTime(lastCheckTime) {
         const today = new Date()
 
-        const date = (lastCheckTime.toDateString() !== today.toDateString()) ? 'Today' : formatDate(lastCheckTime)
-        const time = formatTime(lastCheckTime)
+        const date = (lastCheckTime.toDateString() !== today.toDateString()) ? 'Today' : this.formatDate(lastCheckTime)
+        const time = this.formatTime(lastCheckTime)
 
         return date + ' at ' + time
     }
 
-    const formatDate = (dateObj) => {
+    formatDate(dateObj) {
         const month = dateObj.toLocaleString('default', {month: 'long'})
         const date = dateObj.getDate()
         const year = dateObj.getFullYear()
@@ -33,7 +39,7 @@ const Exposures = (props) => {
         return month + ' ' + date + ', ' + year
     }
 
-    const formatTime = (dateObj) => {
+    formatTime(dateObj) {
         let pm = false
         let hrs = dateObj.getHours()
         if (hrs > 11) {
@@ -48,22 +54,24 @@ const Exposures = (props) => {
         return hrs + ':' + mins + (pm ? ' PM' : ' AM')
     }
 
-    const {exposures} = props.exposures
-    const lastCheckTime = formatLastCheckTime(new Date(props.exposures.lastCheckTime))
-    const {styles} = props.route.params
-    return (
-        <View style={styles.container}>
-            <View style={{flex: 1, alignItems: 'center'}}>
-                <Text>Exposures last checked:</Text>
-                <Text>{lastCheckTime}</Text>
-                <FlatList
-                    data={exposures}
-                    renderItem={renderExposure}
-                    keyExtractor={(item) => item.ID}
-                />
+    render() {
+        const {exposures} = this.props.exposures
+        const lastCheckTime = this.formatLastCheckTime(new Date(this.props.exposures.lastCheckTime))
+        const {styles} = this.props.route.params
+        return (
+            <View style={styles.container}>
+                <View style={{flex: 1, alignItems: 'center'}}>
+                    <Text>Exposures last checked:</Text>
+                    <Text>{lastCheckTime}</Text>
+                    <FlatList
+                        data={exposures}
+                        renderItem={(item) => this.renderExposure(item)}
+                        keyExtractor={(item) => item.id}
+                    />
+                </View>
             </View>
-        </View>
-    )
+        )
+    }
 }
 
 export default connect(mapStateToProps)(Exposures)

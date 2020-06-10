@@ -1,6 +1,6 @@
-export const addExposure = (ID, timestamp) => ({
+export const addExposure = (id, timestamp) => ({
     type: 'ADD_EXPOSURE',
-    ID,
+    id,
     timestamp
 })
 
@@ -13,27 +13,35 @@ export const updateLastCheckTime = (time) => ({
     time
 })
 
-export const addMyID = (ID) => ({
+export const hideSplash = () => ({
+    type: 'HIDE_SPLASH'
+})
+
+export const launchExposures = () => ({
+    type: 'LAUNCH_EXPOSURES'
+})
+
+export const addMyId = (id) => ({
     type: 'ADD_MY_ID',
-    ID
+    id
 })
 
-export const addOtherID = (ID) => ({
+export const addOtherId = (id) => ({
     type: 'ADD_OTHER_ID',
-    ID
+    id
 })
 
-export const deleteOtherID = (ID) => ({
+export const deleteOtherId = (id) => ({
     type: 'DELETE_OTHER_ID',
-    ID
+    id
 })
 
-export const clearOldIDs = () => ({
+export const clearOldIds = () => ({
     type: 'CLEAR_OLD_IDS'
 })
 
 // debug
-export const clearAllIDs = () => ({
+export const clearAllIds = () => ({
     type: 'CLEAR_ALL_IDS'
 })
 

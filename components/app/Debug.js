@@ -1,31 +1,32 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {FlatList, Text, TouchableOpacity, View} from 'react-native'
-import {addExposure, clearExposures, clearOldIDs, clearAllIDs, setSelfReportStatus} from '../../redux/ActionCreators'
+import {addExposure, clearExposures, clearOldIds, clearAllIds, setSelfReportStatus} from '../../redux/ActionCreators'
+import PushNotificationIOS from '@react-native-community/push-notification-ios'
 
 const mapStateToProps = (state) => ({
     state,
-    IDs: state.IDs
+    ids: state.ids
 })
 
 const mapDispatchToProps = (dispatch) => ({
     addExposure: () => dispatch(addExposure('1234', Date.now())),
     clearExposures: () => dispatch(clearExposures()),
-    clearOldIDs: () => dispatch(clearOldIDs()),
-    clearAllIDs: () => dispatch(clearAllIDs()),
+    clearOldIds: () => dispatch(clearOldIds()),
+    clearAllIds: () => dispatch(clearAllIds()),
     setSelfReportStatus: (status) => dispatch(setSelfReportStatus(status))
 })
 
 const Debug = (props) => {
-    const {myIDs} = props.IDs
-    const {otherIDs} = props.IDs
+    const {myIds} = props.ids
+    const {otherIds} = props.ids
     const {styles} = props.route.params
 
     // Note curly braces around 'item' to indicate it's a JS object
-    const renderID = ({item}) => {
+    const renderId = ({item}) => {
         return (
             <View style={{alignItems: 'center'}}>
-                <Text>{item.ID}</Text>
+                <Text>{item.id}</Text>
                 <Text>{new Date(item.timestamp).toString()}</Text>
             </View>
         )
@@ -35,63 +36,23 @@ const Debug = (props) => {
         <View style={styles.container}>
             <TouchableOpacity
                 onPress={() => {
-                    console.log(props.state.exposures.exposures)
-                }}
-                style={styles.squaredButton}
-            >
-                <Text style={{color: 'white'}}>Print State to Console</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                onPress={() => {
-                    props.setSelfReportStatus(false)
-                }}
-                style={styles.squaredButton}
-            >
-                <Text style={{color: 'white'}}>Reset Self-Report Status</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                onPress={() => {
-                    props.clearOldIDs()
-                }}
-                style={styles.squaredButton}
-            >
-                <Text style={{color: 'white'}}>Clear Old</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                onPress={() => {
-                    props.clearAllIDs()
-                }}
-                style={styles.squaredButton}
-            >
-                <Text style={{color: 'white'}}>Clear All</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                onPress={() => {
                     props.addExposure()
                 }}
                 style={styles.squaredButton}
             >
-                <Text style={{color: 'white'}}>Add Exposure</Text>
+                <Text style={{color: 'white'}}>Add exposure</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-                onPress={() => {
-                    props.clearExposures()
-                }}
-                style={styles.squaredButton}
-            >
-                <Text style={{color: 'white'}}>Clear Exposures</Text>
-            </TouchableOpacity>
-            <Text>My IDs</Text>
+            <Text>My Ids</Text>
             <FlatList
-                data={myIDs}
-                renderItem={renderID}
-                keyExtractor={(item) => item.ID}
+                data={myIds}
+                renderItem={renderId}
+                keyExtractor={(item) => item.id}
             />
             <Text>Other IDs</Text>
             <FlatList
-                data={otherIDs}
-                renderItem={renderID}
-                keyExtractor={(item) => item.ID}
+                data={otherIds}
+                renderItem={renderId}
+                keyExtractor={(item) => item.id}
             />
         </View>
     )

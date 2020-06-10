@@ -3,28 +3,26 @@ import {connect} from 'react-redux'
 import ContactTracing from 'react-native-contact-tracing'
 import {NativeEventEmitter, NativeModules, Switch, Text, View} from 'react-native'
 import {MaterialCommunityIcons} from '@expo/vector-icons'
-import {addMyID, addOtherID, clearOldIDs, setTracingStatus} from '../../redux/ActionCreators'
+import {addMyId, addOtherId, setTracingStatus} from '../../redux/ActionCreators'
 
 const mapStateToProps = (state) => ({
     tracingIsEnabled: state.settings.tracingIsEnabled
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    addMyID: (ID) => dispatch(addMyID(ID)),
-    addOtherID: (ID) => dispatch(addOtherID(ID)),
-    clearOldIDs: () => dispatch(clearOldIDs()),
+    addMyId: (id) => dispatch(addMyId(id)),
+    addOtherId: (id) => dispatch(addOtherId(id)),
     setTracingStatus: (status) => dispatch(setTracingStatus(status))
 })
 
 class Home extends React.Component {
     componentDidMount() {
-        this.props.clearOldIDs()
         const eventEmitter = new NativeEventEmitter(NativeModules.ContactTracing)
-        this.advertiseListener = eventEmitter.addListener('Advertise', (ID) => {
-            this.props.addMyID(ID)
+        this.advertiseListener = eventEmitter.addListener('Advertise', (id) => {
+            this.props.addMyId(id)
         })
-        this.discoveryListener = eventEmitter.addListener('Discovery', (ID) => {
-            this.props.addOtherID(ID)
+        this.discoveryListener = eventEmitter.addListener('Discovery', (id) => {
+            this.props.addOtherId(id)
         })
         if (this.props.tracingIsEnabled) {
             this.startTracing()

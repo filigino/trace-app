@@ -2,15 +2,15 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {Alert, Switch, Text, TouchableOpacity, View} from 'react-native'
 import {url} from '../../url'
-import {clearOldIDs, setSelfReportStatus} from '../../redux/ActionCreators'
+import {clearOldIds, setSelfReportStatus} from '../../redux/ActionCreators'
 
 const mapStateToProps = (state) => ({
-    myIDs: state.IDs.myIDs,
+    myIds: state.ids.myIds,
     selfReported: state.settings.selfReported
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    clearOldIDs: () => dispatch(clearOldIDs()),
+    clearOldIds: () => dispatch(clearOldIds()),
     setSelfReportStatus: (status) => dispatch(setSelfReportStatus(status))
 })
 
@@ -41,15 +41,15 @@ class SelfReport extends React.Component {
     }
 
     selfReport() {
-        const IDs = this.props.myIDs
-        this.props.clearOldIDs()
+        const ids = this.props.myIds
+        this.props.clearOldIds()
         fetch(url + 'infections', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                IDs
+                ids
             })
         })
         .then((res) => {
