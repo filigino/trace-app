@@ -36,12 +36,14 @@ const Exposures = (props) => {
     const formatTime = (dateObj) => {
         let pm = false
         let hrs = dateObj.getHours()
-        if (hrs % 12 > 0) {
+        if (hrs > 11) {
             hrs = hrs % 12
             pm = true
         }
+        if (hrs === 0) hrs = 12
 
-        const mins = dateObj.getMinutes()
+        let mins = dateObj.getMinutes()
+        if (mins < 10) mins = '0' + mins
 
         return hrs + ':' + mins + (pm ? ' PM' : ' AM')
     }
