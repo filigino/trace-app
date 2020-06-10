@@ -26,5 +26,21 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         margin: 5,
         paddingHorizontal: 10
+    },
+    tabBadge: {
+        alignItems: 'center',
+        backgroundColor: 'red',
+        borderRadius: 11,
+        height: 22,
+        justifyContent: 'center',
+        position: 'absolute',
+        right: 5,
+        top: 2,
+        width: 22
+    },
+    tabBadgeText: {
+         color: 'white',
+         fontSize: 10,
+         fontWeight: 'bold' 
     }
 })

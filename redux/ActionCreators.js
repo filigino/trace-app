@@ -1,3 +1,17 @@
+import PushNotificationIOS from '@react-native-community/push-notification-ios'
+
+export const logExposure = (id, timestamp) => (dispatch) => {
+    PushNotificationIOS.getApplicationIconBadgeNumber((badgeNum) => {
+        PushNotificationIOS.setApplicationIconBadgeNumber(badgeNum + 1)
+    })
+    dispatch(addExposure(id, timestamp))
+}
+
+export const clearBadges = () => (dispatch) => {
+    PushNotificationIOS.setApplicationIconBadgeNumber(0)
+    dispatch(resetBadge())
+}
+
 export const addExposure = (id, timestamp) => ({
     type: 'ADD_EXPOSURE',
     id,
@@ -11,6 +25,10 @@ export const clearExposures = () => ({
 export const updateLastCheckTime = (time) => ({
     type: 'UPDATE_LAST_CHECK_TIME',
     time
+})
+
+export const resetBadge = () => ({
+    type: 'RESET_BADGE'
 })
 
 export const hideSplash = () => ({

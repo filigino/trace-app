@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {FlatList, Text, TouchableOpacity, View} from 'react-native'
-import {addExposure, clearExposures, clearOldIds, clearAllIds, setSelfReportStatus} from '../../redux/ActionCreators'
+import {clearExposures, clearOldIds, clearAllIds, logExposure, setSelfReportStatus} from '../../redux/ActionCreators'
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
 
 const mapStateToProps = (state) => ({
@@ -10,10 +10,10 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    addExposure: () => dispatch(addExposure('1234', Date.now())),
     clearExposures: () => dispatch(clearExposures()),
     clearOldIds: () => dispatch(clearOldIds()),
     clearAllIds: () => dispatch(clearAllIds()),
+    logExposure: () => dispatch(logExposure(Date.now(), Date.now())),
     setSelfReportStatus: (status) => dispatch(setSelfReportStatus(status))
 })
 
@@ -36,11 +36,19 @@ const Debug = (props) => {
         <View style={styles.container}>
             <TouchableOpacity
                 onPress={() => {
-                    props.addExposure()
+                    props.logExposure()
                 }}
                 style={styles.squaredButton}
             >
                 <Text style={{color: 'white'}}>Add exposure</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => {
+                    props.clearExposures()
+                }}
+                style={styles.squaredButton}
+            >
+                <Text style={{color: 'white'}}>Clear exposures</Text>
             </TouchableOpacity>
             <Text>My Ids</Text>
             <FlatList

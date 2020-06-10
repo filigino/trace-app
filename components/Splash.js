@@ -6,7 +6,7 @@ import PushNotificationIOS from '@react-native-community/push-notification-ios'
 import {Image, StatusBar, View} from 'react-native'
 import {url} from '../url'
 import {
-    addExposure, clearOldIds, deleteOtherId, hideSplash, launchExposures,
+    clearOldIds, deleteOtherId, hideSplash, launchExposures, logExposure,
     updateLastCheckTime
 } from '../redux/ActionCreators'
 
@@ -15,11 +15,11 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    addExposure: (id, timestamp) => dispatch(addExposure(id, timestamp)),
     clearOldIds: () => dispatch(clearOldIds()),
     deleteOtherId: (id) => dispatch(deleteOtherId(id)),
     hideSplash: () => dispatch(hideSplash()),
     launchExposures: () => dispatch(launchExposures()),
+    logExposure: (id, timestamp) => dispatch(logExposure(id, timestamp)),
     updateLastCheckTime: (time) => dispatch(updateLastCheckTime(time))
 })
 
@@ -35,9 +35,8 @@ class Splash extends React.Component {
             for (const infection of infections) {
                 for (const otherId of this.props.otherIds) {
                     if (otherId.id === infection.id) {
-                        this.props.addExposure(otherId.id, otherId.timestamp)
+                        this.props.logExposure(otherId.id, otherId.timestamp)
                         this.props.deleteOtherId(otherId.id)
-                        this.incrementBadgeNumber()
                         break
                     }
                 }
@@ -68,9 +67,8 @@ class Splash extends React.Component {
                 for (const infection of infections) {
                     for (const otherId of this.props.otherIds) {
                         if (otherId.id === infection.id) {
-                            this.props.addExposure(otherId.id, otherId.timestamp)
+                            this.props.logExposure(otherId.id, otherId.timestamp)
                             this.props.deleteOtherId(otherId.id)
-                            this.incrementBadgeNumber()
                             this.pushExposureNotif()
                             break
                         }
@@ -82,12 +80,6 @@ class Splash extends React.Component {
             BackgroundFetch.finish(taskId)
         }, (err) => {
             console.log('[js] RNBackgroundFetch failed to start')
-        })
-    }
-
-    incrementBadgeNumber() {
-        PushNotificationIOS.getApplicationIconBadgeNumber((badgeNum) => {
-            PushNotificationIOS.setApplicationIconBadgeNumber(badgeNum + 1)
         })
     }
 

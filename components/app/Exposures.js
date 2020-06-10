@@ -2,15 +2,25 @@ import React from 'react'
 import {connect} from 'react-redux'
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
 import {FlatList, Text, View} from 'react-native'
+import {clearBadges} from '../../redux/ActionCreators'
 
 const mapStateToProps = (state) => ({
     exposures: state.exposures
 })
 
+const mapDispatchToProps = (dispatch) => ({
+    clearBadges: () => dispatch(clearBadges())
+})
+
 class Exposures extends React.Component {
-    constructor(props) {
-        super(props)
-        PushNotificationIOS.setApplicationIconBadgeNumber(0)
+    componentDidMount() {
+        this.tabListener = this.props.navigation.addListener('focus', () => {
+            this.props.clearBadges()
+        })
+    }
+
+    componentWillUnmount() {
+        this.tabListener.remove()
     }
 
     renderExposure({item}) {
@@ -74,4 +84,4 @@ class Exposures extends React.Component {
     }
 }
 
-export default connect(mapStateToProps)(Exposures)
+export default connect(mapStateToProps, mapDispatchToProps)(Exposures)

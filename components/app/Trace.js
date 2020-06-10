@@ -1,7 +1,8 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Audio} from 'expo-av'
-import {StatusBar} from 'react-native'
+import PushNotificationIOS from '@react-native-community/push-notification-ios'
+import {StatusBar, Text, View} from 'react-native'
 import {MaterialCommunityIcons} from '@expo/vector-icons'
 import {NavigationContainer} from '@react-navigation/native'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
@@ -14,6 +15,7 @@ import {styles} from '../../styles'
 const Tab = createBottomTabNavigator()
 
 const mapStateToProps = (state) => ({
+    badgeNum: state.exposures.badgeNum,
     initialRouteName: state.launch.initialRouteName
 })
 
@@ -26,9 +28,6 @@ class Trace extends React.Component {
         .catch((err) => console.log(err))
 
         // PushNotificationIOS.requestPermissions()
-        // PushNotificationIOS.getApplicationIconBadgeNumber((badgeNum) => {
-        //     PushNotificationIOS.setApplicationIconBadgeNumber(badgeNum + 1)
-        // })
     }
 
     // async obtainNotificationPermission() {
@@ -73,7 +72,16 @@ class Trace extends React.Component {
                                     )
                                 } else if (route.name === 'Exposures') {
                                     return (
-                                        <MaterialCommunityIcons name={'format-list-bulleted'} color={color} size={size} />
+                                        <>
+                                            <MaterialCommunityIcons name={'format-list-bulleted'} color={color} size={size} />
+                                            {this.props.badgeNum > 0 && (
+                                                <View style={styles.tabBadge}>
+                                                    <Text style={styles.tabBadgeText}>
+                                                        {this.props.badgeNum}
+                                                    </Text>
+                                                </View>
+                                            )}
+                                        </>
                                     )
                                 } else if (route.name === 'Self-Report') {
                                     return (
