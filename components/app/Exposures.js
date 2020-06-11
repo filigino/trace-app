@@ -23,16 +23,6 @@ class Exposures extends React.Component {
         this.tabListener()
     }
 
-    renderExposure({item}) {
-        const date = new Date(item.timestamp)
-        return (
-            <View style={{borderTopWidth: 1, borderColor: 'lightgray', paddingHorizontal: 20, paddingVertical: 5}}>
-                <Text style={{fontSize: 14, fontWeight: 'bold'}}>Possible Exposure</Text>
-                <Text style={{color: 'gray'}}>{this.formatDate(date)}</Text>
-            </View>
-        )
-    }
-
     formatTimeLastChecked(timeLastChecked) {
         const today = new Date()
 
@@ -65,31 +55,44 @@ class Exposures extends React.Component {
         return hrs + ':' + mins + (pm ? ' PM' : ' AM')
     }
 
+    renderExposure({item}) {
+        const date = new Date(item.timestamp)
+        return (
+            <View style={{
+                borderBottomWidth: 1,
+                borderColor: 'lightgray',
+                paddingHorizontal: 20,
+                paddingVertical: 5
+            }}>
+                <Text style={{fontWeight: 'bold'}}>Possible Exposure</Text>
+                <Text style={{color: 'gray'}}>{this.formatDate(date)}</Text>
+            </View>
+        )
+    }
+
     render() {
         const {exposures} = this.props.exposures
         const timeLastChecked = this.formatTimeLastChecked(new Date(this.props.exposures.timeLastChecked))
         const {styles} = this.props.route.params
         return (
             <View style={{flex: 1, paddingTop: 40}}>
-                <View style={{flex: 1}}>
-                    <View style={{alignItems: 'center', paddingBottom: 20}}>
-                        <Text style={{color: 'gray'}}>Exposure last checked:</Text>
-                        <Text style={{color: 'gray'}}>{timeLastChecked}</Text>
-                    </View>
-                    <View>
-                        <Text style={{
-                            color: 'gray',
-                            fontSize: 13,
-                            fontWeight: 'bold',
-                            paddingHorizontal: 20
-                        }}>
-                            EXPOSURES IN PAST 14 DAYS
-                        </Text>
-                    </View>
+                <View style={{alignItems: 'center', marginBottom: 20}}>
+                    <Text style={{color: 'gray'}}>Exposure last checked:</Text>
+                    <Text style={{color: 'gray'}}>{timeLastChecked}</Text>
+                </View>
+                <View style={{paddingBottom: 5}}>
+                    <Text style={{
+                        color: 'gray',
+                        fontSize: 13,
+                        fontWeight: 'bold',
+                        paddingHorizontal: 20
+                    }}>
+                        EXPOSURES IN PAST 14 DAYS
+                    </Text>
                 </View>
                 <View style={{flex: 5}}>
                     {exposures.length > 0 ? (
-                        <View style={{backgroundColor: 'white', borderBottomWidth: 1, borderColor: 'lightgray'}}>
+                        <View style={{backgroundColor: 'white', borderColor: 'lightgray', borderTopWidth: 1}}>
                             <FlatList
                                 data={exposures}
                                 renderItem={(item) => this.renderExposure(item)}
@@ -97,8 +100,12 @@ class Exposures extends React.Component {
                             />
                         </View>
                     ) : (
-                        <View style={{alignItems: 'center', justifyContent: 'center'}}>
-                            <Text>No exposures!</Text>
+                        <View style={{
+                            alignItems: 'center',
+                            flex: 1,
+                            justifyContent: 'center'
+                        }}>
+                            <Text>No exposures</Text>
                         </View>
                     )}
                 </View>
