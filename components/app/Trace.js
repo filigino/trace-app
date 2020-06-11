@@ -9,13 +9,13 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import Exposures from './Exposures'
 import Home from './Home'
 import SelfReport from './SelfReport'
-import Debug from './Debug' // debug
+import Debug from './Debug' // REMOVE ME
 import {styles} from '../../styles'
 
 const Tab = createBottomTabNavigator()
 
 const mapStateToProps = (state) => ({
-    badgeNum: state.exposures.badgeNum,
+    numberUnopened: state.exposures.numberUnopened,
     initialRouteName: state.launch.initialRouteName
 })
 
@@ -74,10 +74,10 @@ class Trace extends React.Component {
                                     return (
                                         <>
                                             <Icon name={'format-list-bulleted'} color={color} size={size} />
-                                            {this.props.badgeNum > 0 && (
+                                            {this.props.numberUnopened > 0 && (
                                                 <View style={styles.tabBadge}>
                                                     <Text style={styles.tabBadgeText}>
-                                                        {this.props.badgeNum}
+                                                        {this.props.numberUnopened}
                                                     </Text>
                                                 </View>
                                             )}

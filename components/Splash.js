@@ -7,7 +7,7 @@ import {Image, StatusBar, View} from 'react-native'
 import {url} from '../url'
 import {
     clearOldIds, deleteOtherId, hideSplash, launchExposures, logExposure,
-    updateLastCheckTime
+    updateTimeLastChecked
 } from '../redux/ActionCreators'
 
 const mapStateToProps = (state) => ({
@@ -20,12 +20,14 @@ const mapDispatchToProps = (dispatch) => ({
     hideSplash: () => dispatch(hideSplash()),
     launchExposures: () => dispatch(launchExposures()),
     logExposure: (id, timestamp) => dispatch(logExposure(id, timestamp)),
-    updateLastCheckTime: (time) => dispatch(updateLastCheckTime(time))
+    updateTimeLastChecked: (time) => dispatch(updateTimeLastChecked(time))
 })
 
 class Splash extends React.Component {
     componentDidMount() {
         this.props.clearOldIds()
+
+        this.configureBackgroundFetch()
 
         fetch(url + 'infections', {
             method: 'GET'
@@ -41,7 +43,7 @@ class Splash extends React.Component {
                     }
                 }
             }
-            this.props.updateLastCheckTime(Date.now())
+            this.props.updateTimeLastChecked(Date.now())
         })
         .then(() => PushNotificationIOS.getInitialNotification())
         .then((promise) => {
@@ -69,24 +71,16 @@ class Splash extends React.Component {
                         if (otherId.id === infection.id) {
                             this.props.logExposure(otherId.id, otherId.timestamp)
                             this.props.deleteOtherId(otherId.id)
-                            this.pushExposureNotif()
                             break
                         }
                     }
                 }
-                this.props.updateLastCheckTime(Date.now())
+                this.props.updateTimeLastChecked(Date.now())
             })
             .catch((err) => console.log(err))
             BackgroundFetch.finish(taskId)
         }, (err) => {
             console.log('[js] RNBackgroundFetch failed to start')
-        })
-    }
-
-    pushExposureNotif() {
-        PushNotificationIOS.presentLocalNotification({
-            alertTitle: 'Potential COVID-19 Exposure',
-            alertBody: 'Someone you were near recently has tested positive for COVID-19. Tap for more info.'
         })
     }
 

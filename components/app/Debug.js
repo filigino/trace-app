@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {FlatList, Text, TouchableOpacity, View} from 'react-native'
-import {clearExposures, clearOldIds, clearAllIds, logExposure, setSelfReportStatus} from '../../redux/ActionCreators'
+import {clearOldExposures, clearAllExposures, clearOldIds, clearAllIds, logExposure, setSelfReportStatus} from '../../redux/ActionCreators'
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
 
 const mapStateToProps = (state) => ({
@@ -10,7 +10,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    clearExposures: () => dispatch(clearExposures()),
+    clearOldExposures: () => dispatch(clearOldExposures()),
+    clearAllExposures: () => dispatch(clearAllExposures()),
     clearOldIds: () => dispatch(clearOldIds()),
     clearAllIds: () => dispatch(clearAllIds()),
     logExposure: () => dispatch(logExposure(Date.now().toString(), Date.now())),
@@ -44,11 +45,30 @@ const Debug = (props) => {
             </TouchableOpacity>
             <TouchableOpacity
                 onPress={() => {
-                    props.clearExposures()
+                    props.clearOldExposures()
+                }}
+                style={styles.squaredButton}
+            >
+                <Text style={{color: 'white'}}>Clear old exposures</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => {
+                    props.clearAllExposures()
                 }}
                 style={styles.squaredButton}
             >
                 <Text style={{color: 'white'}}>Clear exposures</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => {
+                    PushNotificationIOS.presentLocalNotification({
+                        alertTitle: 'Potential COVID-19 Exposure',
+                        alertBody: 'Someone you were near recently has tested positive for COVID-19. Tap for more info.'
+                    })
+                }}
+                style={styles.squaredButton}
+            >
+                <Text style={{color: 'white'}}>Push notif</Text>
             </TouchableOpacity>
             <Text>My Ids</Text>
             <FlatList

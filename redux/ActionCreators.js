@@ -1,15 +1,19 @@
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
 
 export const logExposure = (id, timestamp) => (dispatch) => {
+    dispatch(addExposure(id, timestamp))
+    PushNotificationIOS.presentLocalNotification({
+        alertTitle: 'Potential COVID-19 Exposure',
+        alertBody: 'Someone you were near recently has tested positive for COVID-19. Tap for more info.'
+    })
     PushNotificationIOS.getApplicationIconBadgeNumber((badgeNum) => {
         PushNotificationIOS.setApplicationIconBadgeNumber(badgeNum + 1)
     })
-    dispatch(addExposure(id, timestamp))
 }
 
 export const clearBadges = () => (dispatch) => {
+    dispatch(resetNumberUnopened())
     PushNotificationIOS.setApplicationIconBadgeNumber(0)
-    dispatch(resetBadge())
 }
 
 export const addExposure = (id, timestamp) => ({
@@ -18,25 +22,21 @@ export const addExposure = (id, timestamp) => ({
     timestamp
 })
 
-export const clearExposures = () => ({
-    type: 'CLEAR_EXPOSURES'
+export const clearOldExposures = () => ({
+    type: 'CLEAR_OLD_EXPOSURES'
 })
 
-export const updateLastCheckTime = (time) => ({
-    type: 'UPDATE_LAST_CHECK_TIME',
+export const clearAllExposures = () => ({
+    type: 'CLEAR_ALL_EXPOSURES'
+})
+
+export const updateTimeLastChecked = (time) => ({
+    type: 'UPDATE_TIME_LAST_CHECKED',
     time
 })
 
-export const resetBadge = () => ({
-    type: 'RESET_BADGE'
-})
-
-export const hideSplash = () => ({
-    type: 'HIDE_SPLASH'
-})
-
-export const launchExposures = () => ({
-    type: 'LAUNCH_EXPOSURES'
+export const resetNumberUnopened = () => ({
+    type: 'RESET_NUMBER_UNOPENED'
 })
 
 export const addMyId = (id) => ({
@@ -58,9 +58,16 @@ export const clearOldIds = () => ({
     type: 'CLEAR_OLD_IDS'
 })
 
-// debug
 export const clearAllIds = () => ({
     type: 'CLEAR_ALL_IDS'
+})
+
+export const hideSplash = () => ({
+    type: 'HIDE_SPLASH'
+})
+
+export const launchExposures = () => ({
+    type: 'LAUNCH_EXPOSURES'
 })
 
 export const setTracingStatus = (status) => ({

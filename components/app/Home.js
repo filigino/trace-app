@@ -59,7 +59,7 @@ class Home extends React.Component {
                     </View>
                     <View style={{flex: 1/2, justifyContent: 'space-evenly'}}>
                         <Text style={{fontSize: 20, marginLeft: 20}}>
-                            {this.props.tracingIsEnabled ? 'Contact tracing is ON' : 'Contact tracing is OFF'}
+                            {this.props.tracingIsEnabled ? 'Contact Tracing is ON' : 'Contact Tracing is OFF'}
                         </Text>
                         <View style={{alignSelf: 'center'}}>
                             <Switch

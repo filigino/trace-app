@@ -26,19 +26,20 @@ class Exposures extends React.Component {
     renderExposure({item}) {
         const date = new Date(item.timestamp)
         return (
-            <View style={{alignItems: 'center'}}>
-                <Text>{this.formatDate(date)}</Text>
+            <View style={{borderTopWidth: 1, borderColor: 'lightgray', paddingHorizontal: 20, paddingVertical: 5}}>
+                <Text style={{fontSize: 14, fontWeight: 'bold'}}>Possible Exposure</Text>
+                <Text style={{color: 'gray'}}>{this.formatDate(date)}</Text>
             </View>
         )
     }
 
-    formatLastCheckTime(lastCheckTime) {
+    formatTimeLastChecked(timeLastChecked) {
         const today = new Date()
 
-        const date = (lastCheckTime.toDateString() !== today.toDateString()) ? 'Today' : this.formatDate(lastCheckTime)
-        const time = this.formatTime(lastCheckTime)
+        const formattedDate = (timeLastChecked.toDateString() === today.toDateString()) ? 'Today' : this.formatDate(timeLastChecked)
+        const formattedTime = this.formatTime(timeLastChecked)
 
-        return date + ' at ' + time
+        return formattedDate + ' at ' + formattedTime
     }
 
     formatDate(dateObj) {
@@ -66,18 +67,40 @@ class Exposures extends React.Component {
 
     render() {
         const {exposures} = this.props.exposures
-        const lastCheckTime = this.formatLastCheckTime(new Date(this.props.exposures.lastCheckTime))
+        const timeLastChecked = this.formatTimeLastChecked(new Date(this.props.exposures.timeLastChecked))
         const {styles} = this.props.route.params
         return (
-            <View style={styles.container}>
-                <View style={{flex: 1, alignItems: 'center'}}>
-                    <Text>Exposures last checked:</Text>
-                    <Text>{lastCheckTime}</Text>
-                    <FlatList
-                        data={exposures}
-                        renderItem={(item) => this.renderExposure(item)}
-                        keyExtractor={(item) => item.id}
-                    />
+            <View style={{flex: 1, paddingTop: 40}}>
+                <View style={{flex: 1}}>
+                    <View style={{alignItems: 'center', paddingBottom: 20}}>
+                        <Text style={{color: 'gray'}}>Exposure last checked:</Text>
+                        <Text style={{color: 'gray'}}>{timeLastChecked}</Text>
+                    </View>
+                    <View>
+                        <Text style={{
+                            color: 'gray',
+                            fontSize: 13,
+                            fontWeight: 'bold',
+                            paddingHorizontal: 20
+                        }}>
+                            EXPOSURES IN PAST 14 DAYS
+                        </Text>
+                    </View>
+                </View>
+                <View style={{flex: 5}}>
+                    {exposures.length > 0 ? (
+                        <View style={{backgroundColor: 'white', borderBottomWidth: 1, borderColor: 'lightgray'}}>
+                            <FlatList
+                                data={exposures}
+                                renderItem={(item) => this.renderExposure(item)}
+                                keyExtractor={(item) => item.id}
+                            />
+                        </View>
+                    ) : (
+                        <View style={{alignItems: 'center', justifyContent: 'center'}}>
+                            <Text>No exposures!</Text>
+                        </View>
+                    )}
                 </View>
             </View>
         )
