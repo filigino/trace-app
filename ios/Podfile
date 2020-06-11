@@ -36,6 +36,7 @@ target 'Trace' do
   pod 'glog', :podspec => "#{rnPrefix}/third-party-podspecs/glog.podspec"
   pod 'Folly', :podspec => "#{rnPrefix}/third-party-podspecs/Folly.podspec"
   pod "TCNClient", :git => 'https://github.com/TCNCoalition/tcn-client-ios.git', :commit => '4d1aedb'
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
   # Other native modules
 

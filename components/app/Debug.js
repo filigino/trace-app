@@ -13,7 +13,7 @@ const mapDispatchToProps = (dispatch) => ({
     clearExposures: () => dispatch(clearExposures()),
     clearOldIds: () => dispatch(clearOldIds()),
     clearAllIds: () => dispatch(clearAllIds()),
-    logExposure: () => dispatch(logExposure(Date.now(), Date.now())),
+    logExposure: () => dispatch(logExposure(Date.now().toString(), Date.now())),
     setSelfReportStatus: (status) => dispatch(setSelfReportStatus(status))
 })
 

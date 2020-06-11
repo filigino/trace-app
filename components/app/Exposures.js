@@ -20,7 +20,7 @@ class Exposures extends React.Component {
     }
 
     componentWillUnmount() {
-        this.tabListener.remove()
+        this.tabListener()
     }
 
     renderExposure({item}) {

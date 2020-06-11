@@ -60,7 +60,7 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Allow Trace to access your microphone</string>
 	<key>NSMotionUsageDescription</key>
-	<string>Allow Trace to access your device's accelerometer</string>
+	<string>Allow Trace to access your device&apos;s accelerometer</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Give Trace periences permission to save photos</string>
 	<key>NSPhotoLibraryUsageDescription</key>
@@ -88,5 +88,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>MaterialCommunityIcons.ttf</string>
+	</array>
 </dict>
 </plist>

@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import ContactTracing from 'react-native-contact-tracing'
 import {NativeEventEmitter, NativeModules, Switch, Text, View} from 'react-native'
-import {MaterialCommunityIcons} from '@expo/vector-icons'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import {addMyId, addOtherId, setTracingStatus} from '../../redux/ActionCreators'
 
 const mapStateToProps = (state) => ({
@@ -55,7 +55,7 @@ class Home extends React.Component {
                         flex: 1/2, justifyContent: 'center', alignItems: 'center',
                         marginLeft: this.props.tracingIsEnabled ? 50 : 0
                     }}>
-                        <MaterialCommunityIcons name={icon} size={150} color={'black'} onPress={() => console.log('WHOA')}/>
+                        <Icon name={icon} size={150} color={'black'} />
                     </View>
                     <View style={{flex: 1/2, justifyContent: 'space-evenly'}}>
                         <Text style={{fontSize: 20, marginLeft: 20}}>

@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {Audio} from 'expo-av'
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
 import {StatusBar, Text, View} from 'react-native'
-import {MaterialCommunityIcons} from '@expo/vector-icons'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import {NavigationContainer} from '@react-navigation/native'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import Exposures from './Exposures'
@@ -68,12 +68,12 @@ class Trace extends React.Component {
                             tabBarIcon: ({color, size}) => {
                                 if (route.name ==='Home') {
                                     return (
-                                        <MaterialCommunityIcons name={'home'} color={color} size={size} />
+                                        <Icon name={'home'} color={color} size={size} />
                                     )
                                 } else if (route.name === 'Exposures') {
                                     return (
                                         <>
-                                            <MaterialCommunityIcons name={'format-list-bulleted'} color={color} size={size} />
+                                            <Icon name={'format-list-bulleted'} color={color} size={size} />
                                             {this.props.badgeNum > 0 && (
                                                 <View style={styles.tabBadge}>
                                                     <Text style={styles.tabBadgeText}>
@@ -85,7 +85,7 @@ class Trace extends React.Component {
                                     )
                                 } else if (route.name === 'Self-Report') {
                                     return (
-                                        <MaterialCommunityIcons name={'comment-alert'} color={color} size={size} />
+                                        <Icon name={'comment-alert'} color={color} size={size} />
                                     )
                                 }
                             }
