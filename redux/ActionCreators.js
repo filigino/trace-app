@@ -54,8 +54,12 @@ export const deleteOtherId = (id) => ({
     id
 })
 
-export const clearOldIds = () => ({
-    type: 'CLEAR_OLD_IDS'
+export const clearOldMyIds = () => ({
+    type: 'CLEAR_OLD_MY_IDS'
+})
+
+export const clearAllOldIds = () => ({
+    type: 'CLEAR_ALL_OLD_IDS'
 })
 
 export const clearAllIds = () => ({

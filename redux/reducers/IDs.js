@@ -1,4 +1,5 @@
 const buffer = 1209600000 // 14 days in milliseconds
+let now
 
 const ids = (state = {myIds: [], otherIds: []}, action) => {
     switch (action.type) {
@@ -14,8 +15,13 @@ const ids = (state = {myIds: [], otherIds: []}, action) => {
             return {...state,
                 otherIds: state.otherIds.filter((otherId) => (otherId.id !== action.id))
             }
-        case 'CLEAR_OLD_IDS':
-            const now = Date.now()
+        case 'CLEAR_OLD_MY_IDS':
+            now = Date.now()
+            return {...state,
+                myIds: state.myIds.filter((myId) => (now - myId.timestamp < buffer))
+            }
+        case 'CLEAR_ALL_OLD_IDS':
+            now = Date.now()
             return {
                 myIds: state.myIds.filter((myId) => (now - myId.timestamp < buffer)),
                 otherIds: state.otherIds.filter((otherId) => (now - otherId.timestamp < buffer))

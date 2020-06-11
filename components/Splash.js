@@ -6,7 +6,7 @@ import PushNotificationIOS from '@react-native-community/push-notification-ios'
 import {Image, StatusBar, View} from 'react-native'
 import {url} from '../url'
 import {
-    clearOldIds, deleteOtherId, hideSplash, launchExposures, logExposure,
+    clearAllOldIds, deleteOtherId, hideSplash, launchExposures, logExposure,
     updateTimeLastChecked
 } from '../redux/ActionCreators'
 
@@ -15,7 +15,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    clearOldIds: () => dispatch(clearOldIds()),
+    clearAllOldIds: () => dispatch(clearAllOldIds()),
     deleteOtherId: (id) => dispatch(deleteOtherId(id)),
     hideSplash: () => dispatch(hideSplash()),
     launchExposures: () => dispatch(launchExposures()),
@@ -25,7 +25,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 class Splash extends React.Component {
     componentDidMount() {
-        this.props.clearOldIds()
+        this.props.clearAllOldIds()
 
         this.configureBackgroundFetch()
 

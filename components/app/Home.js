@@ -49,35 +49,33 @@ class Home extends React.Component {
         let icon = this.props.tracingIsEnabled ? 'cellphone-wireless' : 'cellphone-off'
         const {styles} = this.props.route.params
         return (
-            <View style={styles.container}>
+            <View style={[styles.container, {justifyContent: 'space-evenly'}]}>
+                <View style={{
+                    alignItems: 'center', flex: 1, justifyContent: 'center',
+                    marginLeft: this.props.tracingIsEnabled ? 50 : 0
+                }}>
+                    <Icon name={icon} size={150} color={'black'} />
+                </View>
                 <View style={{flex: 1, justifyContent: 'space-evenly'}}>
-                    <View style={{
-                        flex: 1/2, justifyContent: 'center', alignItems: 'center',
-                        marginLeft: this.props.tracingIsEnabled ? 50 : 0
-                    }}>
-                        <Icon name={icon} size={150} color={'black'} />
-                    </View>
-                    <View style={{flex: 1/2, justifyContent: 'space-evenly'}}>
-                        <Text style={{fontSize: 20, marginLeft: 20}}>
-                            {this.props.tracingIsEnabled ? 'Contact Tracing is ON' : 'Contact Tracing is OFF'}
-                        </Text>
-                        <View style={{alignSelf: 'center'}}>
-                            <Switch
-                                value={this.props.tracingIsEnabled}
-                                onValueChange={() => {
-                                    ContactTracing.isEnabled()
-                                    .then((isEnabled) => {
-                                        if (isEnabled) {
-                                            this.stopTracing()
-                                        } else {
-                                            this.startTracing()
-                                        }
-                                        this.props.setTracingStatus(!this.props.tracingIsEnabled)
-                                    })
-                                    .catch((err) => console.log(err))
-                                }}
-                            />
-                        </View>
+                    <Text style={{fontSize: 20, marginLeft: 20}}>
+                        {this.props.tracingIsEnabled ? 'Contact Tracing is ON' : 'Contact Tracing is OFF'}
+                    </Text>
+                    <View style={{alignSelf: 'center'}}>
+                        <Switch
+                            value={this.props.tracingIsEnabled}
+                            onValueChange={() => {
+                                ContactTracing.isEnabled()
+                                .then((isEnabled) => {
+                                    if (isEnabled) {
+                                        this.stopTracing()
+                                    } else {
+                                        this.startTracing()
+                                    }
+                                    this.props.setTracingStatus(!this.props.tracingIsEnabled)
+                                })
+                                .catch((err) => console.log(err))
+                            }}
+                        />
                     </View>
                 </View>
             </View>

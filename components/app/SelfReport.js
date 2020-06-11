@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {Alert, Switch, Text, TouchableOpacity, View} from 'react-native'
 import {url} from '../../url'
-import {clearOldIds, setSelfReportStatus} from '../../redux/ActionCreators'
+import {clearOldMyIds, setSelfReportStatus} from '../../redux/ActionCreators'
 
 const mapStateToProps = (state) => ({
     myIds: state.ids.myIds,
@@ -10,16 +10,13 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    clearOldIds: () => dispatch(clearOldIds()),
+    clearOldMyIds: () => dispatch(clearOldMyIds()),
     setSelfReportStatus: (status) => dispatch(setSelfReportStatus(status))
 })
 
 class SelfReport extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            selfReportingIsEnabled: false
-        }
+    state = {
+        selfReportingIsEnabled: false
     }
 
     confirmAlert() {
@@ -42,7 +39,7 @@ class SelfReport extends React.Component {
 
     selfReport() {
         const ids = this.props.myIds
-        this.props.clearOldIds()
+        this.props.clearOldMyIds()
         fetch(url + 'infections', {
             method: 'POST',
             headers: {
@@ -75,24 +72,22 @@ class SelfReport extends React.Component {
     render() {
         const {styles} = this.props.route.params
         return (
-            <View style={styles.container}>
-                <View style={{flex: 1, justifyContent: 'space-evenly'}}>
-                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                        <Text>Enable self-reporting</Text>
-                        <Switch
-                            value={this.state.selfReportingIsEnabled}
-                            disabled={this.props.selfReported}
-                            onValueChange={() => this.setState({selfReportingIsEnabled: !this.state.selfReportingIsEnabled})}
-                        />
-                    </View>
-                    <TouchableOpacity
-                        onPress={() => this.confirmAlert()}
-                        activeOpacity={this.state.selfReportingIsEnabled ? 0.2 : 1}
-                        style={[styles.squaredButton, {backgroundColor: this.state.selfReportingIsEnabled ? 'red' : 'gray'}]}
-                    >
-                        <Text style={{color: 'white'}}>I have COVID-19</Text>
-                    </TouchableOpacity>
+            <View style={[styles.container, {justifyContent: 'space-evenly'}]}>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                    <Text>Enable self-reporting</Text>
+                    <Switch
+                        value={this.state.selfReportingIsEnabled}
+                        disabled={this.props.selfReported}
+                        onValueChange={() => this.setState({selfReportingIsEnabled: !this.state.selfReportingIsEnabled})}
+                    />
                 </View>
+                <TouchableOpacity
+                    onPress={() => this.confirmAlert()}
+                    activeOpacity={this.state.selfReportingIsEnabled ? 0.2 : 1}
+                    style={[styles.squaredButton, {backgroundColor: this.state.selfReportingIsEnabled ? 'red' : 'gray'}]}
+                >
+                    <Text style={{color: 'white'}}>I have COVID-19</Text>
+                </TouchableOpacity>
             </View>
         )
     }
