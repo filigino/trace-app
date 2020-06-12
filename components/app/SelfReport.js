@@ -21,16 +21,16 @@ class SelfReport extends React.Component {
 
     confirmAlert() {
         if (this.state.selfReportingIsEnabled) {
-            Alert.alert(
+            Alert.prompt(
                 'Confirm',
-                'I confirm I have tested positive for COVID-19 and would like to notify my Public Health Authority.\n\n(This cannot be undone)',
+                'I confirm I have tested positive for COVID-19 and would like to notify my Public Health Authority.\n\n(This cannot be undone)\n\nEnter \'confirm\' if you agree',
                 [{
                     text: 'Cancel',
                     onPress: () => this.setState({selfReportingIsEnabled: false}),
                     style: 'cancel',
                 }, {
                     text: 'Confirm',
-                    onPress: () => this.selfReport(),
+                    onPress: (text) => (text === 'confirm' ? this.selfReport() : this.setState({selfReportingIsEnabled: false})),
                     style: 'destructive'
                 }]
             )

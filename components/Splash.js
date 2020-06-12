@@ -26,10 +26,9 @@ const mapDispatchToProps = (dispatch) => ({
 class Splash extends React.Component {
     componentDidMount() {
         PushNotificationIOS.requestPermissions()
-        
-        this.props.clearAllOldIds()
-
         this.configureBackgroundFetch()
+
+        this.props.clearAllOldIds()
 
         fetch(url + 'infections', {
             method: 'GET'
