@@ -3,7 +3,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import BackgroundFetch from 'react-native-background-fetch'
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
-import {Image, StatusBar, View} from 'react-native'
+import {Alert, Image, Linking, StatusBar, View} from 'react-native'
 import {url} from '../url'
 import {
     clearAllOldIds, deleteOtherId, hideSplash, launchExposures, logExposure,
@@ -25,6 +25,8 @@ const mapDispatchToProps = (dispatch) => ({
 
 class Splash extends React.Component {
     componentDidMount() {
+        PushNotificationIOS.requestPermissions()
+        
         this.props.clearAllOldIds()
 
         this.configureBackgroundFetch()
@@ -80,7 +82,14 @@ class Splash extends React.Component {
             .catch((err) => console.log(err))
             BackgroundFetch.finish(taskId)
         }, (err) => {
-            console.log('[js] RNBackgroundFetch failed to start')
+            Alert.alert(
+                'Background App Refresh is Off',
+                'Please enable Background App Refresh and Notifications so Trace can alert you of any possible exposures to COVID-19.\n\nAfter enabling, please close and reopen Trace.',
+                [{
+                    text: 'Open Settings',
+                    onPress: () => Linking.openSettings()
+                }]
+            )
         })
     }
 

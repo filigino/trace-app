@@ -79,6 +79,31 @@ const Debug = (props) => {
             >
                 <Text style={{color: 'white'}}>Reset Self-Report Status</Text>
             </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => {
+                    PushNotificationIOS.requestPermissions()
+                    .then((permissions) => console.log(permissions))
+                }}
+                style={styles.squaredButton}
+            >
+                <Text style={{color: 'white'}}>Subscribe</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => {
+                    PushNotificationIOS.abandonPermissions()
+                }}
+                style={styles.squaredButton}
+            >
+                <Text style={{color: 'white'}}>Unsubscribe</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => {
+                    PushNotificationIOS.checkPermissions((permissions) => console.log(permissions))
+                }}
+                style={styles.squaredButton}
+            >
+                <Text style={{color: 'white'}}>Log subscription settings</Text>
+            </TouchableOpacity>
             <Text>My Ids</Text>
             <FlatList
                 data={myIds}
