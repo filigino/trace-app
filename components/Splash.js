@@ -43,8 +43,8 @@ class Splash extends React.Component {
                 )
             }
         })
-        .then(() => this.props.clearAllOldIds())
         .then(() => {
+            this.props.clearAllOldIds()
             this.props.clearOldExposures()
             fetch(url + 'infections', {method: 'GET'})
             .then((res) => res.json())
@@ -77,6 +77,7 @@ class Splash extends React.Component {
         BackgroundFetch.configure({
             minimumFetchInterval: 60 // minutes
         }, async (taskId) => {
+            this.props.clearAllOldIds()
             this.props.clearOldExposures()
             fetch(url + 'infections', {method: 'GET'})
             .then((res) => res.json())
