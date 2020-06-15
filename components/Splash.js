@@ -26,36 +26,49 @@ const mapDispatchToProps = (dispatch) => ({
 class Splash extends React.Component {
     componentDidMount() {
         PushNotificationIOS.requestPermissions()
-        this.configureBackgroundFetch()
-
-        this.props.clearAllOldIds()
-
-        fetch(url + 'infections', {
-            method: 'GET'
+        .then((permissions) => {
+            this.configureBackgroundFetch()
+            return permissions
         })
-        .then((res) => res.json())
-        .then((infections) => {
-            for (const infection of infections) {
-                for (const otherId of this.props.otherIds) {
-                    if (otherId.id === infection.id) {
-                        this.props.logExposure(otherId.id, otherId.timestamp)
-                        this.props.deleteOtherId(otherId.id)
-                        break
+        .then((permissions) => {
+            if (!permissions.alert && !permissions.badge && !permissions.sound) {
+                Alert.alert(
+                    'Notifications are Off',
+                    'Please enable Notifications so Trace can alert you of any possible exposures to COVID-19.',
+                    [{
+                        text: 'Open Settings',
+                        onPress: () => Linking.openSettings()
+                    }]
+                )
+            }
+        })
+        .then(() => this.props.clearAllOldIds())
+        .then(() => {
+            fetch(url + 'infections', {method: 'GET'})
+            .then((res) => res.json())
+            .then((infections) => {
+                for (const infection of infections) {
+                    for (const otherId of this.props.otherIds) {
+                        if (otherId.id === infection.id) {
+                            this.props.logExposure(otherId.id, otherId.timestamp)
+                            this.props.deleteOtherId(otherId.id)
+                            break
+                        }
                     }
                 }
-            }
-            this.props.updateTimeLastChecked(Date.now())
+                this.props.updateTimeLastChecked(Date.now())
+            })
+            .then(() => PushNotificationIOS.getInitialNotification())
+            .then((promise) => {
+                if (promise !== null) {
+                    this.props.launchExposures()
+                }
+            })
+            .then(() => {
+                setTimeout(() => this.props.hideSplash(), 1000) // milliseconds
+            })
+            .catch((err) => console.log(err))
         })
-        .then(() => PushNotificationIOS.getInitialNotification())
-        .then((promise) => {
-            if (promise !== null) {
-                this.props.launchExposures()
-            }
-        })
-        .then(() => {
-            setTimeout(() => this.props.hideSplash(), 1000) // milliseconds
-        })
-        .catch((err) => console.log(err))
     }
 
     configureBackgroundFetch() {
@@ -81,14 +94,25 @@ class Splash extends React.Component {
             .catch((err) => console.log(err))
             BackgroundFetch.finish(taskId)
         }, (err) => {
-            Alert.alert(
-                'Background App Refresh is Off',
-                'Please enable Background App Refresh and Notifications so Trace can alert you of any possible exposures to COVID-19.\n\nAfter enabling, please close and reopen Trace.',
-                [{
-                    text: 'Open Settings',
-                    onPress: () => Linking.openSettings()
-                }]
-            )
+            let title
+            let message
+            PushNotificationIOS.checkPermissions((permissions) => {
+                if (!permissions.alert && !permissions.badge && !permissions.sound) {
+                    title = 'Notifications and Background App Refresh are Off'
+                    message = 'Please enable Notifications and Background App Refresh so Trace can alert you of any possible exposures to COVID-19.\n\nAfter enabling, please close and reopen Trace.'
+                } else {
+                    title = 'Background App Refresh is Off'
+                    message = 'Please enable Background App Refresh so Trace can alert you of any possible exposures to COVID-19.\n\nAfter enabling, please close and reopen Trace.'
+                }
+                Alert.alert(
+                    title,
+                    message,
+                    [{
+                        text: 'Open Settings',
+                        onPress: () => Linking.openSettings()
+                    }]
+                )
+            })
         })
     }
 
