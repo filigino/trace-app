@@ -1,4 +1,5 @@
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
+import {Audio} from 'expo-av'
 
 export const logExposure = (id, timestamp) => (dispatch) => {
     dispatch(addExposure(id, timestamp))
@@ -6,6 +7,11 @@ export const logExposure = (id, timestamp) => (dispatch) => {
         alertTitle: 'Potential COVID-19 Exposure',
         alertBody: 'Someone you were near recently has tested positive for COVID-19. Tap for more info.'
     })
+    const soundObject = new Audio.Sound()
+    soundObject.loadAsync(require('../assets/sounds/CORONAVIRUS.mp3'))
+    .then(() => soundObject.setVolumeAsync(0.2))
+    .then(() => soundObject.playAsync())
+    .catch((err) => console.log(err))
     PushNotificationIOS.getApplicationIconBadgeNumber((badgeNum) => {
         PushNotificationIOS.setApplicationIconBadgeNumber(badgeNum + 1)
     })

@@ -6,8 +6,8 @@ import PushNotificationIOS from '@react-native-community/push-notification-ios'
 import {Alert, Image, Linking, StatusBar, View} from 'react-native'
 import {url} from '../url'
 import {
-    clearAllOldIds, deleteOtherId, hideSplash, launchExposures, logExposure,
-    updateTimeLastChecked
+    clearAllOldIds, clearOldExposures, deleteOtherId, hideSplash,
+    launchExposures, logExposure, updateTimeLastChecked
 } from '../redux/ActionCreators'
 
 const mapStateToProps = (state) => ({
@@ -16,6 +16,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     clearAllOldIds: () => dispatch(clearAllOldIds()),
+    clearOldExposures: () => dispatch(clearOldExposures()),
     deleteOtherId: (id) => dispatch(deleteOtherId(id)),
     hideSplash: () => dispatch(hideSplash()),
     launchExposures: () => dispatch(launchExposures()),
@@ -44,6 +45,7 @@ class Splash extends React.Component {
         })
         .then(() => this.props.clearAllOldIds())
         .then(() => {
+            this.props.clearOldExposures()
             fetch(url + 'infections', {method: 'GET'})
             .then((res) => res.json())
             .then((infections) => {
@@ -75,9 +77,8 @@ class Splash extends React.Component {
         BackgroundFetch.configure({
             minimumFetchInterval: 60 // minutes
         }, async (taskId) => {
-            fetch(url + 'infections', {
-                method: 'GET'
-            })
+            this.props.clearOldExposures()
+            fetch(url + 'infections', {method: 'GET'})
             .then((res) => res.json())
             .then((infections) => {
                 for (const infection of infections) {
