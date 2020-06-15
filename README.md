@@ -13,10 +13,13 @@ for Bluetooth contact tracing
 
 ## Features
 
-- Uses Bluetooth to detect phones of other people the user has come into contact with
+- Uses Bluetooth to detect phones of other people the user has come into
+contact with
 - Supports Push Notifications on confirmed Exposures to others that have
 tested positive for COVID-19
 - Supports Background App Fetch to check for new Exposures every hour
+- Uses a decentralised architecture so no user information is stored at the
+server (only unique IDs) and most processing is done locally on the app itself
 - Does not implement Apple/Google's Exposures API
 
 ## How It Works
