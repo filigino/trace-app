@@ -1,5 +1,5 @@
 # Trace
-Contact tracing app for iOS 13
+COVID-19 Contact Tracing app for iOS 13
 
 ## Development
 
@@ -52,20 +52,28 @@ Periodically, each phone running Trace downloads the list of IDs that
 corresponds to users that have tested positive for COVID-19 in the last 14
 days. Each phone will then compare its list of `otherIds` (IDs of phones of
 others users the user has come into contact with) to the infected list and
-notify the user of any matches (i.e. potential exposures).
+notify the user of any matches (i.e., potential exposures).
 
 Note: No user information is ever stored by Trace or at the server. Only IDs
 consisting of randomly generated numbers and letters are communicated and
 contain no information pertaining to a user's name, email address, location,
 etc.
 
-### Periodic Events
+### Data Storage Handling
 All IDs (`myIds` and `otherIds`) and exposures older than 14 days are deleted:
 - Every hour
 - Every time Trace is launched
 
 `myIds` older than 14 days are also deleted:
-- When a user self-reports
+- Right before a user self-reports their positive case of COVID-19 (to ensure
+only IDs from the last 14 days are sent)
+
+`otherIds` are also deleted:
+- Upon Exposures confirmed by a match between `otherIds` and the list of
+infected IDs (to prevent duplicates)
+
+IDs corresponding to users that have self-reported are deleted from the server:
+- 14 days after they were initially reported
 
 ## Demo
 
