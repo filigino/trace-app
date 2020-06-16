@@ -107,3 +107,10 @@ that positive result through the app
 - Minimal delay between a positive test result for COVID-19 and self-isolation
 (should not come into contact with any other users from then on)
 - All IDs generated exchanged between phones must truly be unique
+
+## Next Steps
+
+- Add Offline mode so app is functional without internet/server connection
+- Configure permissions alerts for Bluetooth usage
+- Add modal for details of each Exposure
+- Connect to an HTTPS server through SSL
