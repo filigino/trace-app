@@ -19,8 +19,8 @@ contact with
 - Supports Push Notifications on confirmed Exposures to other users that have
 tested positive for COVID-19
 - Supports Background App Fetch to check for new Exposures every hour
-- Uses a decentralized architecture with most data storage and processing done
-locally on the phones to protect users' privacy\
+- Uses a decentralized network architecture with most data storage and
+processing done locally on the phones to protect users privacy\
 Note: Does not implement Apple/Google's Exposures API
 
 ## How It Works
