@@ -1,9 +1,10 @@
 {
   "expo": {
-    "name": "Blank Template",
-    "slug": "my-app",
+    "name": "Trace",
+    "icon": "./assets/app-icon.png",
+    "slug": "trace-app",
     "privacy": "public",
-    "sdkVersion": "36.0.0",
+    "sdkVersion": "37.0.0",
     "platforms": [
       "ios",
       "android",
@@ -18,7 +19,12 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
-    }
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ginosalayo.trace"
+    },
+    "android": {
+      "package": "com.ginosalayo.trace"
+    },
+    "entryPoint": "node_modules/expo/AppEntry.js"
   }
 }

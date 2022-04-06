@@ -1,44 +1,24 @@
 import {StyleSheet} from 'react-native'
 
 export const styles = StyleSheet.create({
-    buttonContainer: {
-        flexDirection: 'row',
-        justifyContent: 'center'
-    },
     container: {
         backgroundColor: 'white',
         flex: 1,
-        padding: 40,
-        paddingTop: 80
-    },
-    heading: {
-        fontSize: 20,
-        textAlign: 'center'
-    },
-    nextButtonPosition: {
-        alignItems: 'flex-end',
-        marginBottom: 40,
-        marginRight: 40
-    },
-    roundButton: {
-        alignItems: 'center',
-        backgroundColor: '#624480',
-        borderColor: 'rgba(0,0,0,0.2)',
-        borderRadius: 35,
-        borderWidth: 1,
-        height: 70,
-        justifyContent: 'center',
-        width: 70
+        padding: 40
     },
     splash: {
         alignItems: 'center',
-        backgroundColor: 'rebeccapurple',
+        backgroundColor: 'dodgerblue',
         flex: 1,
         justifyContent: 'center'
     },
+    splashImage: {
+        height: 200,
+        width: 200
+    },
     squaredButton: {
         alignItems: 'center',
-        backgroundColor: '#624480',
+        backgroundColor: 'dodgerblue',
         borderColor: 'rgba(0,0,0,0.2)',
         borderRadius: 15,
         borderWidth: 1,
@@ -47,21 +27,20 @@ export const styles = StyleSheet.create({
         margin: 5,
         paddingHorizontal: 10
     },
-    textbox: {
-        borderBottomWidth: 2,
-        borderColor: 'lightgray',
-        height: 44,
-        margin: 5,
-        paddingHorizontal: 5
-    },
-    textboxIconPositionA: {
-        bottom: 15,
+    tabBadge: {
+        alignItems: 'center',
+        backgroundColor: 'red',
+        borderRadius: 11,
+        height: 22,
+        justifyContent: 'center',
         position: 'absolute',
-        right: 12
+        right: 5,
+        top: 2,
+        width: 22
     },
-    textboxIconPositionB: {
-        bottom: 15,
-        position: 'absolute',
-        right: 45
+    tabBadgeText: {
+         color: 'white',
+         fontSize: 10,
+         fontWeight: 'bold' 
     }
 })

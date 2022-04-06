@@ -2,22 +2,17 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {styles} from '../styles'
 import Splash from './Splash'
-import Auth from './auth/Auth'
 import Trace from './app/Trace'
 
 const mapStateToProps = (state) => ({
-    auth: state.auth
+    launch: state.launch
 })
 
 const Main = (props) => {
-    if (props.auth.isLoading) {
+    if (props.launch.isLoading) {
         return <Splash styles={styles} />
     } else {
-        if (props.auth.token === null) {
-            return <Auth styles={styles} />
-        } else {
-            return <Trace styles={styles} />
-        }
+        return <Trace styles={styles} />
     }
 }
 
